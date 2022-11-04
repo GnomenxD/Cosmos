@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceWar.WindowsDX", "SpaceWar.WindowsDX\SpaceWar.WindowsDX.csproj", "{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosEngine", "..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj", "{1299859D-D052-4407-8CBE-97AC4FFFCBD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceWar.Core", "SpaceWar.Core\SpaceWar.Core.csproj", "{957505A1-B778-4967-A67F-7284C6DCED08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Editor|Any CPU = Editor|Any CPU
+		Editor|x64 = Editor|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Editor|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Editor|Any CPU.Build.0 = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Editor|x64.ActiveCfg = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Editor|x64.Build.0 = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D5CA6A1-A2C6-4495-AD97-B5A91E492644}.Release|x64.Build.0 = Release|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Debug|x64.ActiveCfg = Debug|x64
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Debug|x64.Build.0 = Debug|x64
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Editor|Any CPU.Build.0 = Editor|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Editor|x64.ActiveCfg = Editor|x64
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Editor|x64.Build.0 = Editor|x64
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Release|x64.ActiveCfg = Release|x64
+		{1299859D-D052-4407-8CBE-97AC4FFFCBD7}.Release|x64.Build.0 = Release|x64
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Debug|x64.Build.0 = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Editor|Any CPU.ActiveCfg = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Editor|Any CPU.Build.0 = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Editor|x64.ActiveCfg = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Editor|x64.Build.0 = Debug|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Release|x64.ActiveCfg = Release|Any CPU
+		{957505A1-B778-4967-A67F-7284C6DCED08}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {426427C6-D2BA-476A-AF24-E5B01DC4F865}
+	EndGlobalSection
+EndGlobal
