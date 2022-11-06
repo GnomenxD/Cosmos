@@ -1,7 +1,7 @@
 ﻿namespace CosmosEngine.Async
 {
 	/// <summary>
-	/// Used to suspend a coroutine execution for the given amount of seconds using <see cref="CosmosEngine.Time.UnscaledDeltaTime"/>.
+	/// Used to suspend a  <see cref="CosmosEngine.Coroutine"/> execution for the given amount of seconds using <see cref="CosmosEngine.Time.UnscaledDeltaTime"/>.
 	/// </summary>
 	public sealed class WaitForSecondsUnscaled : YieldInstruction
 	{
