@@ -1,4 +1,5 @@
-﻿namespace CosmosEngine
+﻿
+namespace CosmosEngine
 {
 	public enum Space
 	{
