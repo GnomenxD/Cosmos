@@ -25,7 +25,7 @@ To create your own component with custom functionality, create a new class and i
 ## To Do
 There is a lot missing, most things I never got to incorporate into the Cosmos framework. Here I have compiled a list of missing functionality that I personally would have loved to introduce into the framework. It will also be things that does exist but are either held together with scutchtape and glue or just outdated.
 
-Some of the things listed I'm currently working on, but might take a long time, since this is longer a focus area for me.
+Some of the things listed is something I already have ideas and plans on creating, but unexpected delivery date.
 - **Audio System**
 - **New ContentManager**
     - This will be done using an external tool I'm currently working on called the *Asset Library Builder*, instead of uploading the assets in the ContentManager, they just need to be placed into the project folder and marked with either **Copy if newer** or **Copy always**. This will then generate reference that can be accessed through scripts.
