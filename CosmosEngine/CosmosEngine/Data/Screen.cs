@@ -21,7 +21,7 @@ namespace CosmosEngine
 		public static int Width
 		{
 			get => Core.ViewportSize.X;
-			set => Core.Instance.SetResolution(value, Height, FullScreenMode);
+			set => Core.Instance.SetResolution(value, Height, IsFullScreen);
 		}
 
 
@@ -31,7 +31,7 @@ namespace CosmosEngine
 		public static int Height
 		{
 			get => Core.ViewportSize.Y;
-			set => Core.Instance.SetResolution(Width, value, FullScreenMode);
+			set => Core.Instance.SetResolution(Width, value, IsFullScreen);
 		}
 		/// <summary>
 		/// Returns the pixel centre of the screen.
@@ -53,18 +53,21 @@ namespace CosmosEngine
 		public static Vector2Int Resolution
 		{
 			get => new Vector2Int(Width, Height);
-			set => Core.Instance.SetResolution(value.X, value.Y, FullScreenMode);
+			set => Core.Instance.SetResolution(value.X, value.Y, IsFullScreen);
 		}
-		public static bool FullScreenMode
+		public static bool IsFullScreen
 		{
 			get => Core.IsFullScreen;
 			set => Core.Instance.SetResolution(Width, Height, value);
 		}
+		/// <summary>
+		/// Changes fullscreen mode
+		/// </summary>
 		public static void ChangeFullScreenMode()
 		{
 			previousWidth = Width;
 			previousHeight = Height;
-			if (FullScreenMode)
+			if (IsFullScreen)
 			{
 				SetResolution(previousWidth, previousHeight, false);
 			}
@@ -73,9 +76,13 @@ namespace CosmosEngine
 				SetResolution(DisplayWidth, DisplayHeight, true);
 			}
 		}
-		public static void SetResolution(int width, int height, bool fullScreen)
-		{
-			Core.Instance.SetResolution(width, height, fullScreen);
-		}
+		/// <summary>
+		/// Sets the resolution of the game window to the <paramref name="width"/> and <paramref name="height"/>.
+		/// </summary>
+		public static void SetResolution(int width, int height, bool fullscreen = true) => Core.Instance.SetResolution(width, height, fullscreen);
+		/// <summary>
+		/// Sets the resolution of the game window to the 16:9 predetermined resolution.
+		/// </summary>
+		public static void SetResolution(ScreenResolution resolution, bool fullscreen = true) => Core.Instance.SetResolution(resolution, fullscreen);
 	}
 }

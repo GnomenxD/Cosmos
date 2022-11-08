@@ -2,7 +2,6 @@
 using CosmosEngine.InputModule;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -51,9 +50,7 @@ namespace CosmosEngine.CoreModule
 
 		protected override void Initialize()
 		{
-			graphics.PreferredBackBufferWidth = 854; // Screen.Width;
-			graphics.PreferredBackBufferHeight = 480; // Screen.Height;
-			graphics.IsFullScreen = false;
+			SetResolution(gameController.ResolutionWidth, gameController.ResolutionHeight, gameController.Fullscreen);
 
 			IsFixedTimeStep = false;
 			graphics.SynchronizeWithVerticalRetrace = true;
@@ -142,13 +139,15 @@ namespace CosmosEngine.CoreModule
 
 		#region Application
 
-		internal void SetResolution(int width, int height, bool fullScreenMode)
+		internal void SetResolution(int width, int height, bool fullscreenMode)
 		{
 			graphics.PreferredBackBufferWidth = width; // Screen.Width;
 			graphics.PreferredBackBufferHeight = height; // Screen.Height;
-			graphics.IsFullScreen = fullScreenMode;
+			graphics.IsFullScreen = fullscreenMode;
 			graphics.ApplyChanges();
 		}
+
+		internal void SetResolution(ScreenResolution resolution, bool fullscreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullscreenMode);
 
 		private void WindowClientSizeChanged(object sender, EventArgs e)
 		{

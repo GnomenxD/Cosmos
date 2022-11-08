@@ -2,6 +2,9 @@
 
 namespace CosmosEngine.Async
 {
+	/// <summary>
+	/// Used to suspend a <see cref="CosmosEngine.Coroutine"/> execution <see langword="while"/> the given condition is <see langword="true"/>.
+	/// </summary>
 	public class WaitWhile : YieldInstruction
 	{
 		internal Func<bool> predicate;
