@@ -40,6 +40,7 @@ Some of the things listed is something I already have ideas and plans on creatin
     - The desired Input System already exists in the project, but it has to be rewritten for the new Modules system that was developed. For now use InputManager instead for quick controls.
 - **More Input Support**
     - Support for Controller and Touch.
+- **Prefab and Instantiation**
 - **Scene Management**
 
 More could and properly is going to added to the list.
