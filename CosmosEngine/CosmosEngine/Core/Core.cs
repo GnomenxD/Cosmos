@@ -50,7 +50,7 @@ namespace CosmosEngine.CoreModule
 
 		protected override void Initialize()
 		{
-			SetResolution(gameController.ResolutionWidth, gameController.ResolutionHeight, gameController.FullScreen);
+			SetResolution(gameController.ResolutionWidth, gameController.ResolutionHeight, gameController.Fullscreen);
 
 			IsFixedTimeStep = false;
 			graphics.SynchronizeWithVerticalRetrace = true;
@@ -139,15 +139,15 @@ namespace CosmosEngine.CoreModule
 
 		#region Application
 
-		internal void SetResolution(int width, int height, bool fullScreenMode)
+		internal void SetResolution(int width, int height, bool fullscreenMode)
 		{
 			graphics.PreferredBackBufferWidth = width; // Screen.Width;
 			graphics.PreferredBackBufferHeight = height; // Screen.Height;
-			graphics.IsFullScreen = fullScreenMode;
+			graphics.IsFullScreen = fullscreenMode;
 			graphics.ApplyChanges();
 		}
 
-		internal void SetResolution(ScreenResolution resolution, bool fullScreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullScreenMode);
+		internal void SetResolution(ScreenResolution resolution, bool fullscreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullscreenMode);
 
 		private void WindowClientSizeChanged(object sender, EventArgs e)
 		{

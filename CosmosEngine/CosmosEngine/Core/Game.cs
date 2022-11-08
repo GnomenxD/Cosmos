@@ -14,13 +14,13 @@ namespace CosmosEngine.CoreModule
 
 		private int screenResolutionWidth;
 		private int screenResolutionHeight;
-		private bool fullScreen;
+		private bool fullscreen;
 
 		internal List<IModule> GameModules => gameModules;
 		public Colour BackgroundColour { get => backgroundColour; set => backgroundColour = value; }
 		public int ResolutionWidth => screenResolutionWidth;
 		public int ResolutionHeight => screenResolutionHeight;
-		public bool FullScreen => fullScreen;
+		public bool Fullscreen => fullscreen;
 
 		/// <summary>
 		/// Initialize is invoked only once, before the first frame and before start. Instantiation should not occur within Initialize, use Start instead.
@@ -149,19 +149,19 @@ namespace CosmosEngine.CoreModule
 			return this;
 		}
 
-		public Game Resolution(int width, int height, bool fullScreen)
+		public Game Resolution(int width, int height, bool fullscreen)
 		{
 			this.screenResolutionWidth = width;
 			this.screenResolutionHeight = height;
-			this.fullScreen = fullScreen;
+			this.fullscreen = fullscreen;
 			return this;
 		}
 
-		public Game Resolution(ScreenResolution resolution, bool fullScreen)
+		public Game Resolution(ScreenResolution resolution, bool fullscreen)
 		{
 			this.screenResolutionWidth = resolution.Width();
 			this.screenResolutionHeight = resolution.Height();
-			this.fullScreen = fullScreen;
+			this.fullscreen = fullscreen;
 			return this;
 		}
 
