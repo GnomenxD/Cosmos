@@ -1,5 +1,6 @@
 ﻿
 using CosmosEngine.Modules;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 
@@ -7,19 +8,25 @@ namespace CosmosEngine.CoreModule
 {
 	public abstract class Game : GameModule<Game>, IStartModule, IUpdateModule
 	{
-		private static Game game = null;
+		private static Game game;
 		private static readonly List<IModule> gameModules = new List<IModule>();
 		private Colour backgroundColour = Colour.CornflowerBlue;
 
+		private int screenResolutionWidth;
+		private int screenResolutionHeight;
+		private bool fullScreen;
+
 		internal List<IModule> GameModules => gameModules;
 		public Colour BackgroundColour { get => backgroundColour; set => backgroundColour = value; }
-		public static Microsoft.Xna.Framework.Content.ContentManager ContentManager => Core.ContentManager;
+		public int ResolutionWidth => screenResolutionWidth;
+		public int ResolutionHeight => screenResolutionHeight;
+		public bool FullScreen => fullScreen;
 
 		/// <summary>
 		/// Initialize is invoked only once, before the first frame and before start. Instantiation should not occur within Initialize, use Start instead.
 		/// </summary>
 		public override abstract void Initialize();
-		[System.Obsolete("The Load Content method is obsolete as content should be implemented using Eager Loading pattern. The method is still required for the Game to work but might be replaced in a further version.", false)]
+		[System.Obsolete("The Load Content method is obsolete as content should be implemented without using the Content Manager. The method is still required for the Game to work but will be removed in a further version.", false)]
 		/// <summary>
 		/// Use AddContentLoader(IContentLoader) to load content files in this method.
 		/// </summary>
@@ -46,9 +53,9 @@ namespace CosmosEngine.CoreModule
 			gameModules.Clear();
 			game = new T();
 
+			game.Resolution(ScreenResolution.m_720p, false);
 			game.AddDefault();
 			game.AddEssential();
-			gameModules.Add(game);
 #if EDITOR
 			game.AddEditor();
 #endif
@@ -142,6 +149,22 @@ namespace CosmosEngine.CoreModule
 			return this;
 		}
 
+		public Game Resolution(int width, int height, bool fullScreen)
+		{
+			this.screenResolutionWidth = width;
+			this.screenResolutionHeight = height;
+			this.fullScreen = fullScreen;
+			return this;
+		}
+
+		public Game Resolution(ScreenResolution resolution, bool fullScreen)
+		{
+			this.screenResolutionWidth = resolution.Width();
+			this.screenResolutionHeight = resolution.Height();
+			this.fullScreen = fullScreen;
+			return this;
+		}
+
 		/// <summary>
 		/// Launches the <see cref="CosmosEngine.CoreModule.Game"/>.
 		/// </summary>
@@ -158,6 +181,7 @@ namespace CosmosEngine.CoreModule
 		/// </summary>
 		public void LaunchApplication()
 		{
+			gameModules.Add(game);
 			StartApplication();
 		}
 

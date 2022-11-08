@@ -73,9 +73,7 @@ namespace CosmosEngine
 				SetResolution(DisplayWidth, DisplayHeight, true);
 			}
 		}
-		public static void SetResolution(int width, int height, bool fullScreen)
-		{
-			Core.Instance.SetResolution(width, height, fullScreen);
-		}
+		public static void SetResolution(int width, int height, bool fullScreen = true) => Core.Instance.SetResolution(width, height, fullScreen);
+		public static void SetResolution(ScreenResolution resolution, bool fullScreen = true) => Core.Instance.SetResolution(resolution, fullScreen);
 	}
 }

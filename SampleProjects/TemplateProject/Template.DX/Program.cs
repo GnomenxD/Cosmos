@@ -2,5 +2,4 @@
 using Template;
 
 Game.Create<GameWorld>()
-	.AddDefault()
 	.LaunchApplication();
