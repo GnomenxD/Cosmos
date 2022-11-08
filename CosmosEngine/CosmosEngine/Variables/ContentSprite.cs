@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CosmosEngine.CoreModule;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,12 +7,14 @@ using System.IO;
 
 namespace CosmosEngine.Variables
 {
-	public class ContentSprite
+	public class ContentSprite : Resource
 	{
 		private Texture2D mainTexture;
 		private string path;
 
 		public Texture2D Texture => mainTexture ??= Load();
+
+		~ContentSprite() => mainTexture?.Dispose();
 
 		public ContentSprite(string path)
 		{

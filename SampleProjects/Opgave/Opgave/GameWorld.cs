@@ -11,8 +11,9 @@ namespace Opgave
 
 		public override void Initialize()
 		{
-			shipSprite = new ContentSprite("Edlow_Blue");
-			m_sprite = new Sprite("Edlow_Blue");
+			BackgroundColour = Colour.DesaturatedBlue;
+			shipSprite = new ContentSprite("log_complete");
+			m_sprite = new Sprite("log_complete");
 		}
 
 		public override void Start()

@@ -309,7 +309,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded, active and enabled objects of a type.
+		/// Returns a collection of all loaded, active and enabled objects of a type.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
@@ -319,7 +319,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded objects of a type, can include inactive (not enabled).
+		/// Returns a collection of all loaded objects of a type, can include inactive (not enabled).
 		/// </summary>
 		/// <returns></returns>
 		public static T[] FindObjectsOfType<T>(bool includeInactive) where T : Object
@@ -328,7 +328,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded, active and enbaled objects.
+		/// Returns a collection of all loaded, active and enbaled objects.
 		/// </summary>
 		/// <returns></returns>
 		public static Object[] FindObjectsOfAll()
