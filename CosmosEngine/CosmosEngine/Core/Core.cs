@@ -93,7 +93,7 @@ namespace CosmosEngine.CoreModule
 		{
 #if EDITOR
 			updateThreadSW.Restart();
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+			if (InputState.Pressed(Keys.Escape))
 				CloseApplication();
 #endif
 			GameTime = gameTime;

@@ -1,4 +1,5 @@
-﻿using CosmosEngine.CoreModule;
+﻿using CosmosEngine;
+using CosmosEngine.CoreModule;
 
 namespace Opgave
 {
@@ -11,7 +12,9 @@ namespace Opgave
 
 		public override void Start()
 		{
+			MinMaxInt i = new MinMaxInt(10, 100);
 
+			i.For((int v) => Debug.Log(v));
 		}
 
 		public override void Update()

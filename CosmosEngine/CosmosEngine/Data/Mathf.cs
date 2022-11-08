@@ -300,7 +300,7 @@ namespace CosmosEngine
 		/// <summary>
 		/// Clamps <paramref name="value"/> between <paramref name="min"/> and <paramref name="max"/> and returns the value on a scale from 0 to 1.
 		/// </summary>
-		/// <returns>The returend value can be above 1 or below 0.</returns>
+		/// <returns>Returned value can be above 1 and below 0. Use Clamp01 to restrict the returned value.</returns>
 		public static float Clamp(float value, float min, float max)
 		{
 			return (min + value) / max;
@@ -316,7 +316,7 @@ namespace CosmosEngine
 				return low;
 			if (value >= max)
 				return high;
-			return Lerp(low, high, Clamp(value, min, max));
+			return Lerp(low, high, Clamp01(value, min, max));
 		}
 
 		/// <summary>
@@ -341,14 +341,15 @@ namespace CosmosEngine
 			else
 				return value;
 		}
+
 		/// <summary>
 		/// Clamps <paramref name="value"/> between <paramref name="min"/> and <paramref name="max"/> and returns the value on a scale from 0 to 1.
 		/// </summary>
-		/// <param name="value"></param>
-		/// <param name="min"></param>
-		/// <param name="max"></param>
-		/// <returns>The returend value can be above 1 or below 0.</returns>
-		public static float Clamp01(float value, float min, float max) => Clamp(value, min, max);
+		/// <returns></returns>
+		public static float Clamp01(float value, float min, float max)
+		{
+			return Clamp01((min + value) / max);
+		}
 		#endregion
 
 		#region Lerp
