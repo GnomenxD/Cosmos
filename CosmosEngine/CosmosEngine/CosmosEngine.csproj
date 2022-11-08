@@ -27,9 +27,31 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\" />
     <Folder Include="Rendering\SpriteBatch\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\DefaultGeometry\spr_circle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DefaultGeometry\spr_pixel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DefaultGeometry\spr_square.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Editor\log_alert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Editor\log_complete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Editor\log_error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Editor\log_warning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Fonts\inter.TTF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

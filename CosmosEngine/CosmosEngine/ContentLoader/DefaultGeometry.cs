@@ -1,4 +1,6 @@
-﻿namespace CosmosEngine
+﻿using CosmosEngine.Variables;
+
+namespace CosmosEngine
 {
 	public static class DefaultGeometry
 	{
@@ -6,8 +8,8 @@
 		private static Sprite circle;
 		private static Sprite pixel;
 
-		public static Sprite Square => square ??= new Sprite("DefaultGeometry/spr_square");
-		public static Sprite Circle => circle ??= new Sprite("DefaultGeometry/spr_circle");
-		public static Sprite Pixel => pixel ??= new Sprite("DefaultGeometry/spr_pixel");
+		public static Sprite Square => square ??= (Sprite)new ContentSprite("DefaultGeometry/spr_square");
+		public static Sprite Circle => circle ??= (Sprite)new ContentSprite("DefaultGeometry/spr_circle");
+		public static Sprite Pixel => pixel ??= (Sprite)new ContentSprite("DefaultGeometry/spr_pixel");
 	}
 }
