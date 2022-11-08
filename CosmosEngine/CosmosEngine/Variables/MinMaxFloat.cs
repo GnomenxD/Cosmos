@@ -20,10 +20,5 @@ namespace CosmosEngine
 				this.max = min + 1;
 			}
 		}
-
-		public float RandomInRange()
-		{
-			return Random.Range(min, Max);
-		}
 	}
 }

@@ -21,10 +21,12 @@ namespace Opgave
 			GameObject go = new GameObject();
 			go.Transform.Position = new Vector2(2, 0);
 			go.AddComponent<SpriteRenderer>().Sprite = (Sprite)shipSprite;
+			MinMaxInt i = new MinMaxInt(10, 100);
 
 			go = new GameObject();
 			go.Transform.Position = new Vector2(-2, 0);
 			go.AddComponent<SpriteRenderer>().Sprite = m_sprite;
+			i.For((int v) => Debug.Log(v));
 		}
 
 		public override void Update()
