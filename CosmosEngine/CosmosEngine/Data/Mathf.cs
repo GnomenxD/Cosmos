@@ -11,11 +11,17 @@ namespace CosmosEngine
 	public static class Mathf
 	{
 		#region Fields
+		/// <summary>
+		/// <inheritdoc cref="System.MathF.E"/>
+		/// </summary>
 		public const float E = MathF.E;
 		/// <summary>
-		/// The ratio of the circumference of a circle to its diameter. PI = 3.14159265358979
+		/// <inheritdoc cref="System.MathF.PI"/>
 		/// </summary>
 		public const float PI = MathF.PI;
+		/// <summary>
+		/// <inheritdoc cref="float.MaxValue"/>
+		/// </summary>
 		public const float Infinity = float.MaxValue;
 		/// <summary>
 		/// Degrees-to-radians conversion constant.
@@ -47,7 +53,7 @@ namespace CosmosEngine
 			return (float)MathF.Abs(value);
 		}
 		/// <summary>
-		/// <inheritdoc cref="System.MathF.Abs(int)"/>
+		/// Returns the absolute value of an integer number.
 		/// </summary>
 		public static int Abs(int value)
 		{
@@ -109,6 +115,9 @@ namespace CosmosEngine
 		/// <inheritdoc cref="System.MathF.Sqrt(float)"/>
 		/// </summary>
 		public static float Sqrt(float f) => (float)MathF.Sqrt(f);
+		/// <summary>
+		/// Returns the total sum of a collection of numbers.
+		/// </summary>
 		public static float Sum(params float[] values)
 		{
 			float sum = 0;
@@ -240,13 +249,13 @@ namespace CosmosEngine
 
 		#region Round
 		/// <summary>
-		/// <inheritdoc cref="System.MathF.Floor(float)"/>
+		/// <inheritdoc cref="System.MathF.Ceiling(float)"/>
 		/// </summary>
-		public static float Ceil(float f) => (float)Math.Floor(f);
+		public static float Ceil(float f) => (float)MathF.Ceiling(f);
 		/// <summary>
 		/// <inheritdoc cref="System.MathF.Floor(float)"/>
 		/// </summary>
-		public static float Floor(float f) => (float)Math.Floor(f);
+		public static float Floor(float f) => (float)MathF.Floor(f);
 		/// <summary>
 		/// <inheritdoc cref="System.MathF.Round(float)"/>
 		/// </summary>
@@ -329,7 +338,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Clamps <paramref name="value"/> between 0 and 1.
+		/// Clamps <paramref name="value"/> to 0 or 1.
 		/// </summary>
 		/// <returns></returns>
 		public static int Clamp01(int value)
@@ -427,7 +436,7 @@ namespace CosmosEngine
 
 		#endregion
 
-		#region Mathf
+		#region Cosmos
 		/// <summary>
 		/// 
 		/// </summary>
