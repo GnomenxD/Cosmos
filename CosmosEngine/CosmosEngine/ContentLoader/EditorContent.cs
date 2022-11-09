@@ -1,6 +1,4 @@
-﻿using CosmosEngine.Variables;
-
-namespace CosmosEngine.Editor
+﻿namespace CosmosEngine.Editor
 {
 	public static class EditorContent
 	{
@@ -9,9 +7,9 @@ namespace CosmosEngine.Editor
 		private static Sprite logWarning;
 		private static Sprite logError;
 
-		public static Sprite LogMessage => logMessage ??= (Sprite)new ContentSprite("Editor/log_alert");
-		public static Sprite LogComplete => logComplete ??= (Sprite)new ContentSprite("Editor/log_complete");
-		public static Sprite LogWarning => logWarning ??= (Sprite)new ContentSprite("Editor/log_warning");
-		public static Sprite LogError => logError ??= (Sprite)new ContentSprite("Editor/log_error");
+		public static Sprite LogMessage => logMessage ??= (Sprite)new ContentSprite("Assets/Editor/log_alert.png");
+		public static Sprite LogComplete => logComplete ??= (Sprite)new ContentSprite("Assets/Editor/log_complete.png");
+		public static Sprite LogWarning => logWarning ??= (Sprite)new ContentSprite("Assets/Editor/log_warning.png");
+		public static Sprite LogError => logError ??= (Sprite)new ContentSprite("Assets/Editor/log_error.png");
 	}
 }

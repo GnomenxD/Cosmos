@@ -27,7 +27,6 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Sprites\" />
     <Folder Include="Content\" />
     <Folder Include="Rendering\SpriteBatch\" />
   </ItemGroup>
@@ -61,6 +60,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir)" />
+    <Exec Command="$(ProjectDir)\LibraryBuilder\AssetLibraryBuilder.exe" />
   </Target>
 </Project>

@@ -18,9 +18,9 @@ namespace CosmosEngine.CoreModule
 
 		internal List<IModule> GameModules => gameModules;
 		public Colour BackgroundColour { get => backgroundColour; set => backgroundColour = value; }
-		public int ResolutionWidth => screenResolutionWidth;
-		public int ResolutionHeight => screenResolutionHeight;
-		public bool Fullscreen => fullscreen;
+		internal int ResolutionWidth => screenResolutionWidth;
+		internal int ResolutionHeight => screenResolutionHeight;
+		internal bool Fullscreen => fullscreen;
 
 		/// <summary>
 		/// Initialize is invoked only once, before the first frame and before start. Instantiation should not occur within Initialize, use Start instead.

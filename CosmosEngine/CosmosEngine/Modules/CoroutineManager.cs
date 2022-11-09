@@ -9,7 +9,7 @@ namespace CosmosEngine.Modules
 	{
 		public static Coroutine StartCoroutine(IEnumerator routine)
 		{
-			if(!Exist)
+			if(!ActiveAndEnabled)
 			{
 				return null;
 			}

@@ -1,11 +1,10 @@
 ﻿using CosmosEngine.CoreModule;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 
-namespace CosmosEngine.Variables
+namespace CosmosEngine
 {
 	public class ContentSprite : Resource
 	{
@@ -24,7 +23,12 @@ namespace CosmosEngine.Variables
 		public Texture2D Load()
 		{
 			Texture2D texture;
-			using (FileStream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}/Assets/{path}.png", FileMode.Open))
+			if(!File.Exists(path))
+			{
+				Debug.LogError($"Trying to load Sprite from {path} but no such file exist. Remember to Copy to Output Directory");
+				return DefaultGeometry.Square.Texture;
+			}
+			using (FileStream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}/{path}", FileMode.Open))
 			{
 				texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, stream);
 			};

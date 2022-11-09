@@ -7,7 +7,13 @@ namespace CosmosEngine
 		private float min;
 		private float max;
 
+		/// <summary>
+		/// Minimum value.
+		/// </summary>
 		public float Min { get => min; set => min = value; }
+		/// <summary>
+		/// Maximum value.
+		/// </summary>
 		public float Max { get => max; set => max = value; }
 
 		public MinMaxFloat(float min, float max)
