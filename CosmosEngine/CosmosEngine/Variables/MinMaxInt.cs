@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace CosmosEngine
 {
 	[System.Serializable]
@@ -21,9 +23,12 @@ namespace CosmosEngine
 			}
 		}
 
-		public int RandomInRange()
+		public void For(Action<int> action)
 		{
-			return Random.Range(min, Max);
+			for(int i = min; i <= max; i++)
+			{
+				action.Invoke(i);
+			}
 		}
 	}
 }

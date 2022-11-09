@@ -73,7 +73,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Creates a new empty <see cref="CosmosEngine.GameObject"/> with a given name.
+		/// Creates a new empty <see cref="CosmosEngine.GameObject"/> with a given <paramref name="name"/>.
 		/// </summary>
 		/// <param name="name">The name that the <see cref="CosmosEngine.GameObject"/> is created with.</param>
 		public GameObject(string name) : this()
@@ -82,7 +82,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="CosmosEngine.GameObject"/> with a given name and a list of <see cref="CosmosEngine.Component"/> that will be added at instantiation.
+		/// Creates a new <see cref="CosmosEngine.GameObject"/> with a given <paramref name="name"/> and a list of <see cref="CosmosEngine.Component"/> that will be added at instantiation.
 		/// </summary>
 		/// <param name="name">The name that the <see cref="CosmosEngine.GameObject"/> is created with.</param>
 		/// <param name="components">A list of <see cref="CosmosEngine.Component"/> to add to the <see cref="CosmosEngine.GameObject"/> on creation.</param>
@@ -409,24 +409,6 @@ namespace CosmosEngine
 
 		#endregion
 
-		#region Find
-		/// <summary>
-		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.Find(string)"/>
-		/// </summary>
-		public static GameObject Find(string name) => ObjectManager.Find(name);
-		/// <summary>
-		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.FindGameObjectWithTag(string)"/>
-		/// </summary>
-		public static GameObject FindGameObjectWithTag(string tag) => ObjectManager.FindGameObjectWithTag(tag);
-		/// <summary>
-		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.FindGameObjectsWithTag(string)"/>
-		/// </summary>
-		public static GameObject[] FindGameObjectsWithTag(string tag) => ObjectManager.FindGameObjectsWithTag(tag);
-		/// <summary>
-		/// Returns true if this <see cref="CosmosEngine.GameObject"/> is tagged with <paramref name="tag"/>.
-		/// </summary>
-		/// <param name="tag"></param>
-		/// <returns></returns>
 		public bool CompareTag(string tag)
 		{
 			foreach(string t in this.tag)
@@ -451,8 +433,6 @@ namespace CosmosEngine
 				return;
 				this.tag.Remove(tag);
 		}
-
-		#endregion
 
 		/// <summary>
 		/// <inheritdoc cref="CosmosEngine.GameObject.SendMessage(string, SendMessageOption, object[])"/>
@@ -504,6 +484,44 @@ namespace CosmosEngine
 			sb.Append("}");
 			return sb.ToString();
 		}
+		#endregion
+
+		#region Static Methods
+
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.GameObject.GameObject"/>
+		/// </summary>
+		public static GameObject Create() => Create("", null);
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.GameObject.GameObject(string)"/>
+		/// </summary>
+		public static GameObject Create(string name) => Create(name, null);
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.GameObject.GameObject(string, Type[])"/>
+		/// </summary>
+		public static GameObject Create(string name, params Type[] components) => new GameObject(name, components);
+
+		#region Find
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.Find(string)"/>
+		/// </summary>
+		public static GameObject Find(string name) => ObjectManager.Find(name);
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.FindGameObjectWithTag(string)"/>
+		/// </summary>
+		public static GameObject FindGameObjectWithTag(string tag) => ObjectManager.FindGameObjectWithTag(tag);
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Modules.ObjectManager.FindGameObjectsWithTag(string)"/>
+		/// </summary>
+		public static GameObject[] FindGameObjectsWithTag(string tag) => ObjectManager.FindGameObjectsWithTag(tag);
+		/// <summary>
+		/// Returns true if this <see cref="CosmosEngine.GameObject"/> is tagged with <paramref name="tag"/>.
+		/// </summary>
+		/// <param name="tag"></param>
+		/// <returns></returns>
+
+		#endregion
+
 		#endregion
 
 		public static Component operator +(GameObject go, Type type)
