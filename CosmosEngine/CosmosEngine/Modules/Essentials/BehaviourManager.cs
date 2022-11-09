@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace CosmosEngine.Modules
 {
+	/// <summary>
+	/// <see cref="CosmosEngine.Modules.BehaviourManager"/> is responsible for for invoking methods: Start, Update and LateUpdate on <see cref="CosmosEngine.CoreModule.Behaviour"/> classes. When a <see cref="CosmosEngine.CoreModule.Behaviour"/> is instantiated it will be seperated into collections that handle invoking the methods, if a <see cref="CosmosEngine.CoreModule.Behaviour"/> is instantiated without using any of the methods, it will be ignored in the game loop, wasting as little resources as necessary.
+	/// </summary>
 	public sealed class BehaviourManager : ObserverManager<Behaviour, BehaviourManager>
 	{
 		private const string UpdateMethod = "Update";

@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace CosmosEngine.Modules
 {
+	/// <summary>
+	/// <see cref="CosmosEngine.Modules.RenderManager"/> handles all <see cref="IRenderWorld"/> and <see cref="IRenderUI"/> and render calls. <see cref="CosmosEngine.Modules.RenderManager"/> runs on a different <see cref="System.Threading.Thread"/> to handle culling and passing the <see cref="CosmosEngine.CoreModule.IRenderer"/> to the Render/Draw method.
+	/// </summary>
 	public sealed class RenderManager : ObserverManager<IRenderer, RenderManager>, IRenderModule, IStartModule
 	{
 		private readonly DirtyList<IRenderWorld> renderComponents = new DirtyList<IRenderWorld>();
