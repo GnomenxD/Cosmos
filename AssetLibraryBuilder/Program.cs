@@ -92,7 +92,7 @@ internal class Program
 		}
 
 		stringBuilder.Append($"\tpublic static Sprite {assetName}");
-		stringBuilder.Append(" { get; } = new Sprite");
+		stringBuilder.Append(" { get; } = \n\t\tnew Sprite");
 		stringBuilder.Append($"(\"{finalPath + assetPathName}\");");
 
 		Console.WriteLine($"Building asset link: {assetPathName}");
