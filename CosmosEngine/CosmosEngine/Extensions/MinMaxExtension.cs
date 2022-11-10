@@ -21,11 +21,11 @@
 		public static float RandomInRange(this MinMaxFloat minMax) => Random.Range(minMax.Min, minMax.Max);
 
 		/// <summary>
-		/// Returns true is <paramref name="value"/> is between min and max.
+		/// Returns true if <paramref name="value"/> is between min and max.
 		/// </summary>
 		public static bool IsInRange(this MinMaxInt minMax, int value) => value >= minMax.Min && value <= minMax.Max;
 		/// <summary>
-		/// Returns true is <paramref name="value"/> is between min and max.
+		/// Returns true if <paramref name="value"/> is between min and max.
 		/// </summary>
 		public static bool IsInRange(this MinMaxFloat minMax, float value) => value >= minMax.Min && value <= minMax.Max;
 

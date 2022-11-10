@@ -32,7 +32,7 @@ namespace CosmosEngine
 		/// The current mouse scroll delta.
 		/// </summary>
 		public static float MouseScrollDelta => InputState.MouseScrollWheelDelta.Y;
-		public static bool ActiveAndReady => (CoreModule.Core.WindowInFocus && Exist);
+		public static bool ActiveAndReady => (CoreModule.Core.WindowInFocus && ActiveAndEnabled);
 
 		public override void Initialize()
 		{
@@ -110,42 +110,42 @@ namespace CosmosEngine
 
 		public static void CreateButton(string name, Keys button)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateButton(string name, MouseButton button)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateButton(string name, GamepadButton button)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateAxis(string name, Keys positive, Keys negative)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), new Keys[] { positive }, new Keys[] { negative }));
 		}
 
 		public static void CreateAxis(string name, MouseButton positive, MouseButton negative)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), new MouseButton[] { positive }, new MouseButton[] { negative }));
 		}
 
 		public static void CreateAxis(string name, GamepadButton positive, GamepadButton negative)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 			Instance.AddInputButton(new InputButton(name.ToLower(), new GamepadButton[] { positive }, new GamepadButton[] { negative }));
 		}

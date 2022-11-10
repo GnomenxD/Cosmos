@@ -65,18 +65,25 @@ namespace CosmosEngine.CoreModule
 			//Add desired Game Manager Systems
 			List<IModule> modules = new List<IModule>();
 			modules.AddRange(gameController.GameModules);
-			modules.Sort((a, b) => b.ExecutionOrder.CompareTo(a.ExecutionOrder));
+			modules.Sort((a, b) => a.ExecutionOrder.CompareTo(b.ExecutionOrder));
 			foreach(IModule module in modules)
 			{
 				AddGameSystem(module);
 			}
 			applicationIsRunning = true;
 			SystemsInitialization();
+
+			Debug.LogTable<IModule>($"Game Modules [{modules.Count}]", modules, Print);
 #if EDITOR
 			updateThreadSW = Stopwatch.StartNew();
 			renderThreadSW = Stopwatch.StartNew();
 #endif
 			base.Initialize();
+		}
+
+		private string Print(IModule module)
+		{
+			return $"{module.GetType().FullName} | {module.ExecutionOrder}";
 		}
 
 		public void AddGameSystem<T>(T manager) where T : IModule => gameModules.Add(manager);
@@ -103,9 +110,9 @@ namespace CosmosEngine.CoreModule
 			updateThreadSW.Stop();
 			MainThreadTime = updateThreadSW.Elapsed.TotalMilliseconds;
 #endif
+
 			base.Update(gameTime);
 		}
-
 		protected override void Draw(GameTime gameTime)
 		{
 #if EDITOR

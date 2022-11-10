@@ -354,7 +354,7 @@ namespace CosmosEngine
 
 		#region Lerp
 		/// <summary>
-		/// Linearly interpolates between <paramref name="min"/> and <paramref name="max"/> by <paramref name="t"/>, while clamping the interpolant between 0 and 1.
+		/// Linearly interpolates between <paramref name="min"/> and <paramref name="max"/> by <paramref name="t"/>, clamping the interpolant between 0 and 1.
 		/// </summary>
 		/// <param name="t">The parameter t is clamped to the range [0, 1].</param>
 		public static float Lerp(float min, float max, float t) => LerpUnclamped(min, max, Clamp01(t));
