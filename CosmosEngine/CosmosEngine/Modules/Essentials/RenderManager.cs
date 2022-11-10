@@ -46,13 +46,13 @@ namespace CosmosEngine.Modules
 					Camera mainCamera = Camera.Main;
 					foreach (IRenderWorld render in renderComponents)
 					{
+						visibleRenderObjets.Add(render);
 						if (render.Transform == null)
 							continue;
 						if (!render.Enabled)
 							continue;
 						if (mainCamera.InsideViewFrustrum(render.Transform.Position * 100))
 						{
-							visibleRenderObjets.Add(render);
 						}
 					}
 					waitingForRenderQueue = true;

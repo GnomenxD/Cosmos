@@ -6,6 +6,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.EntitySql;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -200,14 +201,9 @@ namespace CosmosEngine
 
 		public static void QuickLog(object message, LogFormat format) => Log(message, format, DefaultOption | LogOption.CompareInitialCallOnly | LogOption.IgnoreCallCount);
 
-		public static void LogTable(IEnumerable context)
-		{
-			LogTable(string.Empty, context);
-		}
-		public static void LogTable(object message, IEnumerable context)
-		{
-			LogTable(message, context, LogFormat.Message);
-		}
+		public static void LogTable(IEnumerable context) => LogTable($"{context.GetType().Name}", context);
+		public static void LogTable(object message, IEnumerable context) => LogTable(message, context, LogFormat.Message);
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -225,6 +221,30 @@ namespace CosmosEngine
 			if (message == null || (message is string && string.IsNullOrEmpty((string)message)))
 				message = $"{context.GetType().Name}";
 			Log(message, format, context, DefaultOption | LogOption.IgnoreCallCount | LogOption.Collection | LogOption.NoStacktrace);
+		}
+
+		public static void LogTable<T>(IEnumerable context, Func<T, string> result) => LogTable<T>($"{context.GetType().Name}", context, result);
+
+		public static void LogTable<T>(object message, IEnumerable context, Func<T, string> result) => LogTable<T>(message, context, result, LogFormat.Message);
+
+		[Conditional("EDITOR")]
+		public static void LogTable<T>(object message, IEnumerable context, Func<T, string> result, LogFormat format)
+		{
+			if (context == null)
+			{
+				Debug.Log($"Can't log a null table.", LogFormat.Warning);
+				return;
+			}
+			if (message == null || (message is string && string.IsNullOrEmpty((string)message)))
+				message = $"{context.GetType().Name}";
+
+			List<string> contextLog = new List<string>();
+			foreach(T item in context)
+			{
+				contextLog.Add(result.Invoke(item));
+			}
+
+			Log(message, format, contextLog, DefaultOption | LogOption.IgnoreCallCount | LogOption.Collection | LogOption.NoStacktrace);
 		}
 
 		[Conditional("EDITOR")]

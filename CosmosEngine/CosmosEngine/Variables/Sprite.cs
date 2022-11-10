@@ -1,144 +1,114 @@
-﻿
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using CosmosEngine.CoreModule;
 using System.IO;
+using System;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace CosmosEngine
 {
 	public class Sprite : Resource
 	{
-		private string texturePath;
-		private Vector2 pivot;
-		private Vector2Int origin;
-		private Texture2D texture;
-		private Vector2 spriteSize;
-		private readonly SpriteMode spriteMode;
-		private readonly WrapMode wrapMode;
-		private readonly FilterMode filterMode;
-		private int pixelsPerUnit;
+		private static readonly string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
+		private string contentPath;
+		private Texture2D mainTexture;
+		private Vector2 size;
+		private int pixelsPerUnit = 100;
+		private event Action spriteContentModifiedEvent;
 
-		private static ContentManager ContentManager => Core.Instance.Content;
-
-		/// <summary>
-		/// Get the reference to the used texture.
-		/// </summary>
+		public string Name => (mainTexture != null ? mainTexture.Name : string.IsNullOrWhiteSpace(contentPath) ? "null" : contentPath);
 		public Texture2D Texture
 		{
 			get
 			{
-				if (texture == null)
+				if(mainTexture == null)
+					Load();
+				return mainTexture;
+			}
+		}
+		public Vector2 Size
+		{
+			get
+			{
+				if (mainTexture == null)
+					Load();
+				return size;
+			}
+		}
+		public int Width => (int)Size.X;
+		public int Height => (int)Size.Y;
+		public int PixelsPerUnit => pixelsPerUnit;
+		public Action SpriteContentModified { get => spriteContentModifiedEvent; set => spriteContentModifiedEvent = value; }
+
+
+		public Sprite(string contentPath)
+		{
+			this.contentPath = contentPath;
+		}
+
+
+		public Sprite(Texture2D mainTexture)
+		{
+			this.mainTexture = mainTexture;
+		}
+
+		public void Load() => Load(contentPath);
+
+		public void Load(string path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				Debug.LogWarning($"Trying to load Texture2D from empty path.");
+				return;
+			}
+			if (!File.Exists($"{rootDirectory}/{path}"))
+			{
+				Debug.LogWarning($"Attempting to load Texture2D from {path}, but no such file exist. Remember to copy files to output directory.");
+				return;
+			}
+
+			Texture2D texture = null;
+			using (FileStream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}/{path}", FileMode.Open))
+			{
+				texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, stream);
+			};
+
+			if(texture != null)
+			{
+				Color[] buffer = new Color[texture.Width * texture.Height];
+				texture.GetData(buffer);
+				for (int i = 0; i < buffer.Length; i++)
 				{
-					Debug.Log($"Texture for {texturePath} is null - loading.");
-					if (!string.IsNullOrEmpty(texturePath))
-					{
-						Texture2D texture = Texture2D.FromFile(Core.GraphicsDeviceManager.GraphicsDevice, texturePath); // ContentManager.Load<Texture2D>(path);
-						if (texture != null)
-						{
-							this.texture = texture;
-							this.spriteSize = new Vector2(texture.Width, texture.Height);
-							this.Pivot = new Vector2(0.5f, 0.5f);
-							Debug.Log($"Loaded texture correctly {texturePath}");
-						}
-					}
+					buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
 				}
-				return texture;
+				texture.SetData(buffer);
+
+				texture.Name = path;
+				AssignTexture(texture);
+				Debug.Log($"Loaded Texture2D: {texture.Name}", LogFormat.Complete);
 			}
 		}
-		public Vector2 Pivot 
-		{ 
-			get => pivot;
-			set
-			{
-				pivot = value;
-				origin = new Vector2Int(Mathf.RoundToInt(Width * pivot.X), Mathf.RoundToInt(Height * pivot.Y));
-			}
-		}
-		public Vector2 Origin => (Vector2)origin;
-		/// <summary>
-		/// Sprite texture import mode.
-		/// </summary>
-		public SpriteMode SpriteMode => spriteMode;
-		/// <summary>
-		/// Texture coordinate wrapping mode.
-		/// </summary>
-		public WrapMode WrapMode => wrapMode;
-		/// <summary>
-		/// Filtering mode of the Texture.
-		/// </summary>
-		public FilterMode FilterMode => filterMode;
-		/// <summary>
-		/// The number of pixels in the sprite that correspond to one unit in world space.
-		/// </summary>
-		public int PixelsPerUnit { get => pixelsPerUnit; set => pixelsPerUnit = value; }
-		public Vector2Int Size => (Vector2Int)spriteSize;
-		public int Width => Size.X;
-		public int Height => Size.Y;
 
-		/// <summary>
-		/// Generate an empty sprite.
-		/// </summary>
-		public Sprite() : this(string.Empty, SpriteMode.Single, WrapMode.Clamped, FilterMode.Linear, 100)
+		private void AssignTexture(Texture2D texture)
 		{
+			mainTexture = texture;
+			size = new Vector2(texture.Width, texture.Height);
+			SpriteContentModified?.Invoke();
 		}
 
-		/// <summary>
-		/// Generate a sprite, loading the texture at the given path.
-		/// </summary>
-		public Sprite(string path) : this(path, SpriteMode.Single, WrapMode.Clamped, FilterMode.Linear, 100)
+		public Rect GetSpriteRect()
 		{
-		}
-
-		/// <summary>
-		/// Generate a sprite with a given texture.
-		/// </summary>
-		public Sprite(Texture2D texture) : this(texture, SpriteMode.Single, WrapMode.Clamped, FilterMode.Linear, 100)
-		{
-		}
-
-		/// <summary>
-		/// Generate a sprite, loading the texture at the given path.
-		/// </summary>
-		public Sprite(string path, SpriteMode spriteMode = SpriteMode.Single, WrapMode wrapMode = WrapMode.Clamped, FilterMode filterMode = FilterMode.Linear, int pixelsPerUnit = 100)
-		{
-			if (!string.IsNullOrEmpty(path))
-			{
-				texturePath = path;
-				//Texture2D texture = Texture2D.FromFile(Core.GraphicsDeviceManager.GraphicsDevice, path); // ContentManager.Load<Texture2D>(path);
-				//if (texture != null)
-				//{
-				//	this.texture = texture;
-				//	this.spriteSize = new Vector2(texture.Width, texture.Height);
-				//	this.Pivot = new Vector2(0.5f, 0.5f);
-				//}
-			}
-			this.spriteMode = spriteMode;
-			this.wrapMode = wrapMode;
-			this.filterMode = filterMode;
-			this.pixelsPerUnit = pixelsPerUnit;
-		}
-
-		/// <summary>
-		/// Generate a sprite with a given texture.
-		/// </summary>
-		public Sprite(Texture2D texture, SpriteMode spriteMode = SpriteMode.Single, WrapMode wrapMode = WrapMode.Clamped, FilterMode filterMode = FilterMode.Linear, int pixelsPerUnit = 100)
-		{
-			this.texture = texture;
-			this.spriteSize = new Vector2(texture.Width, texture.Height);
-			this.Pivot = new Vector2(0.5f, 0.5f);
-			this.spriteMode = spriteMode;
-			this.wrapMode = wrapMode;
-			this.filterMode = filterMode;
-			this.pixelsPerUnit = pixelsPerUnit;
+			return new Rect(0, 0, Width, Height);
 		}
 
 		protected override void Dispose(bool disposing)
 		{
 			if(!IsDisposed && disposing)
 			{
-				texture.Dispose();
+				mainTexture.Dispose();
 			}
 			base.Dispose(disposing);
 		}
+
+		public override string ToString() => $"Sprite({Name})";
 	}
 }
