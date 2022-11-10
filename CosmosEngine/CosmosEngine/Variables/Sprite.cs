@@ -110,8 +110,9 @@ namespace CosmosEngine
 			this.pixelsPerUnit = pixelsPerUnit;
 		}
 
-		public Texture2D Load()
+		public Texture2D? Load()
 		{
+			Debug.Log("LOAD " + path + $"My texture: {(mainTexture == null ? "null" : mainTexture)}");
 			Texture2D texture;
 			if (!File.Exists(path))
 			{
@@ -134,22 +135,28 @@ namespace CosmosEngine
 
 				textureSize = new Vector2(texture.Width, texture.Height);
 				Pivot = new Vector2(0.5f, 0.5f);
+				Debug.Log($"Loaded Texture {path} -- {textureSize}");
 			}
 			return texture;
 		}
 
 		public Texture2D LoadThroughContentManager()
 		{
-			if (!string.IsNullOrEmpty(path))
+			if (string.IsNullOrEmpty(path))
 			{
 				return null;
 			}
 			Texture2D texture = ContentManager.Load<Texture2D>(path);
 
-			this.mainTexture = texture;
-			this.textureSize = new Vector2(texture.Width, texture.Height);
-			this.Pivot = new Vector2(0.5f, 0.5f);
+			if (texture != null)
+			{
+				this.mainTexture = texture;
+				this.textureSize = new Vector2(texture.Width, texture.Height);
+				this.Pivot = new Vector2(0.5f, 0.5f);
+			}
 
+			Debug.Log($"Size: {textureSize}");
+			Debug.Log($"Loaded Texture {path} through the ContentManager");
 			return texture;
 		}
 

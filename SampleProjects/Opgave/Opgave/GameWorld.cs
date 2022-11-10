@@ -12,18 +12,20 @@ namespace Opgave
 		{
 			BackgroundColour = Colour.DesaturatedBlue;
 			//shipSprite = new ContentSprite("log_complete");
-			//m_sprite = new Sprite("log_complete");
+			m_sprite = new Sprite("Edlow_Blue");
+			m_sprite.LoadThroughContentManager();
 		}
 
 		public override void Start()
 		{
-			GameObject go = new GameObject();
-			go.Transform.Position = new Vector2(2, 0);
-			go.AddComponent<SpriteRenderer>().Sprite = (Sprite)Assets.PlayerShip1Green;
+			//GameObject go = new GameObject();
+			//go.Transform.Position = new Vector2(2, 0);
+			//go.AddComponent<SpriteRenderer>().Sprite = (Sprite)Assets.PlayerShip1Green;
 
-			//go = new GameObject();
-			//go.Transform.Position = new Vector2(-2, 0);
-			//go.AddComponent<SpriteRenderer>().Sprite = m_sprite;
+			GameObject go = new GameObject();
+			go.Transform.Position = new Vector2(-2, 0);
+			go.AddComponent<SpriteRenderer>().Sprite = m_sprite;
+
 		}
 
 		private void Iterate(int i)
@@ -33,7 +35,12 @@ namespace Opgave
 
 		public override void Update()
 		{
-
+			if(InputManager.GetKeyDown(CosmosEngine.InputModule.Keys.Space))
+			{
+				GameObject go = new GameObject();
+				go.Transform.Position = new Vector2(2, 0);
+				go.AddComponent<SpriteRenderer>().Sprite = Assets.PlayerShip1Green;
+			}
 		}
 	}
 }
