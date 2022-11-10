@@ -91,8 +91,8 @@ internal class Program
 				finalPath = folderSplit[i] + "/";
 		}
 
-		stringBuilder.Append($"\tpublic static ContentSprite {assetName}");
-		stringBuilder.Append(" { get; } = new ContentSprite");
+		stringBuilder.Append($"\tpublic static Sprite {assetName}");
+		stringBuilder.Append(" { get; } = new Sprite");
 		stringBuilder.Append($"(\"{finalPath + assetPathName}\");");
 
 		Console.WriteLine($"Building asset link: {assetPathName}");
