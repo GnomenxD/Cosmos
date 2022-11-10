@@ -10,7 +10,7 @@ namespace CosmosEngine.CoreModule
 	{
 		private static Game game;
 		private static readonly List<IModule> gameModules = new List<IModule>();
-		private Colour backgroundColour = Colour.CornflowerBlue;
+		private Colour backgroundColour = Colour.EditorBlue;
 
 		private int screenResolutionWidth;
 		private int screenResolutionHeight;
