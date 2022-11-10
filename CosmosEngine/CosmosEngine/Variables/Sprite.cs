@@ -105,58 +105,6 @@ namespace CosmosEngine
 			return new Rect(0, 0, Width, Height);
 		}
 
-		public Texture2D? Load()
-		{
-			Debug.Log("LOAD " + path + $"My texture: {(mainTexture == null ? "null" : mainTexture)}");
-			Texture2D texture;
-			if (!File.Exists(path))
-			{
-				Debug.LogError($"Trying to load Sprite from {path} but no such file exist. Remember to Copy to Output Directory");
-				return DefaultGeometry.Square.Texture;
-			}
-			using (FileStream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}/{path}", FileMode.Open))
-			{
-				texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, stream);
-			};
-			if (texture != null)
-			{
-				Color[] buffer = new Color[texture.Width * texture.Height];
-				texture.GetData(buffer);
-				for (int i = 0; i < buffer.Length; i++)
-				{
-					buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
-				}
-				texture.SetData(buffer);
-
-				textureSize = new Vector2(texture.Width, texture.Height);
-				Pivot = new Vector2(0.5f, 0.5f);
-				Debug.Log($"Loaded Texture {path} -- {textureSize}");
-			}
-			return texture;
-		}
-
-		public Texture2D LoadThroughContentManager()
-		{
-			if (string.IsNullOrEmpty(path))
-			{
-				return null;
-			}
-			Texture2D texture = ContentManager.Load<Texture2D>(path);
-
-			if (texture != null)
-			{
-				this.mainTexture = texture;
-				this.textureSize = new Vector2(texture.Width, texture.Height);
-				this.Pivot = new Vector2(0.5f, 0.5f);
-			}
-
-			Debug.Log($"Size: {textureSize}");
-			Debug.Log($"Loaded Texture {path} through the ContentManager");
-			return texture;
-		}
-
-		public void Clear() => mainTexture = null;
-
 		protected override void Dispose(bool disposing)
 		{
 			if(!IsDisposed && disposing)
