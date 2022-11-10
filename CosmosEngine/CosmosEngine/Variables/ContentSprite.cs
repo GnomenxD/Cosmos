@@ -6,6 +6,7 @@ using System.IO;
 
 namespace CosmosEngine
 {
+	[System.Obsolete("ContentSprite was used as a test class for content loading, it's deprecated and should not be used anymore", false)]
 	public class ContentSprite : Resource
 	{
 		private Texture2D mainTexture;
