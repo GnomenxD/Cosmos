@@ -153,6 +153,15 @@ namespace CosmosEngine
 		/// Desaturated Blue (R: 25, G: 40, B: 59)
 		/// </summary>
 		public static Colour DesaturatedBlue { get; private set; } = new Colour(25, 40, 59);
+		/// <summary>
+		/// Desaturated Purple (R: 35, G: 23: B: 39)
+		/// </summary>
+		public static Colour DesaturatedPurple { get; private set; } = new Colour(35, 23, 39);
+
+		/// <summary>
+		/// Editor Blue (R: 13, G: 37, B: 69)
+		/// </summary>
+		public static Colour EditorBlue { get; private set; } = new Colour(13, 37, 69);
 
 		/// <summary>
 		/// Desaturated Blue (R: 0, G: 0, B: 0, A: 0)

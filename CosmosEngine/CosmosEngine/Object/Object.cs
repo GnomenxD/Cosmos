@@ -28,7 +28,7 @@ namespace CosmosEngine.CoreModule
 		/// </summary>
 		internal bool IsAwake => awake;
 		/// <summary>
-		/// The enabled state of this object. Disabling an object will suppress a lot of functionality like Start() and Update(). Methods like OnEnable and OnDisable are invoked when the object goes from one state to another.
+		/// The enabled state of this object. Disabling an object will suppress functionality like Start() and Update(), etc. Methods like OnEnable and OnDisable are invoked when the object goes from one state to another.
 		/// </summary>
 		public virtual bool Enabled
 		{
@@ -52,11 +52,11 @@ namespace CosmosEngine.CoreModule
 			}
 		}
 		/// <summary>
-		/// The local enabled state of the object.
+		/// The local enabled state of the object. 
 		/// </summary>
 		public virtual bool ActiveSelf => enabled;
 		/// <summary>
-		/// Returns the alive / dead state of any Object, if the object has expired it means it's no longer part of the game loop and all references should be nullified when possible, to allow for Garbage Collection. An Object can only be remove by using <see cref="CosmosEngine.CoreModule.Object.Destroy(Object)"/> or <see cref="CosmosEngine.CoreModule.Object.Destroy(Object, float)"/> for a delayed destruction.
+		/// Returns the state of an Object, if the object has expired it means it's no longer part of the game loop and all references should be nullified when possible, to allow for Garbage Collection. An Object can only be remove by using <see cref="CosmosEngine.CoreModule.Object.Destroy(Object)"/> or <see cref="CosmosEngine.CoreModule.Object.Destroy(Object, float)"/> for a delayed destruction.
 		/// </summary>
 		public bool Expired { get => expired; private set => expired = value; }
 		/// <summary>
@@ -67,6 +67,9 @@ namespace CosmosEngine.CoreModule
 		/// This <see cref="CosmosEngine.CoreModule.Object"/> has been marked for destruction using <see cref="CosmosEngine.CoreModule.Object.Destroy(Object)"/> and should be removed from the game loop and the end of the frame as long as <see cref="CosmosEngine.CoreModule.Object.TimeToDestroy"/> is equals or less than 0f.
 		/// </summary>
 		internal bool MarkedForDestruction => markedForDestruction;
+		/// <summary>
+		/// If the <see cref="CosmosEngine.GameObject"/> should be desroyed when clearing all objects i.e. between scene loads.
+		/// </summary>
 		public virtual bool DestroyOnLoad { get => destroyOnLoad; set => destroyOnLoad = value; }
 		#endregion
 
@@ -118,7 +121,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Destroying an Object will disable it before destroing it. If the Object is enabled, OnDisable will be invoked before OnDestroy.
+		/// Destroying an Object will disable it before it is destroyed. If the Object is enabled, OnDisable will be invoked before OnDestroy.
 		/// </summary>
 		protected virtual void OnDestroy()
 		{
@@ -156,14 +159,14 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Invokes the method <paramref name="methodName"/>.
+		/// Invokes the method <paramref name="methodName"/> on this object.
 		/// </summary>
 		/// <param name="methodName"></param>
 		public bool Invoke(string methodName) => Invoke(methodName, System.Array.Empty<object>());
 
 #nullable enable
 		/// <summary>
-		/// Invokes the method <paramref name="methodName"/> with <paramref name="parameter"/>.
+		/// Invokes the method <paramref name="methodName"/> on this object, with <paramref name="parameter"/>.
 		/// </summary>
 		/// <param name="methodName"></param>
 		/// <param name="parameter"></param>
@@ -242,7 +245,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// The <see cref="CosmosEngine.CoreModule.Object"/> not to destroy when clearing all objects.
+		/// Marks the <see cref="CosmosEngine.CoreModule.Object"/> not to destroy when clearing all objects.
 		/// </summary>
 		/// <param name="target"></param>
 		public static void DontDestroyOnLoad(Object target)
@@ -306,7 +309,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded, active and enabled objects of a type.
+		/// Returns a collection of all loaded, active and enabled objects of a type.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
@@ -316,7 +319,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded objects of a type, can include inactive (not enabled).
+		/// Returns a collection of all loaded objects of a type, can include inactive (not enabled).
 		/// </summary>
 		/// <returns></returns>
 		public static T[] FindObjectsOfType<T>(bool includeInactive) where T : Object
@@ -325,7 +328,7 @@ namespace CosmosEngine.CoreModule
 		}
 
 		/// <summary>
-		/// Returns a list of all loaded, active and enbaled objects.
+		/// Returns a collection of all loaded, active and enbaled objects.
 		/// </summary>
 		/// <returns></returns>
 		public static Object[] FindObjectsOfAll()

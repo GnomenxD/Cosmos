@@ -2,7 +2,6 @@
 using CosmosEngine.InputModule;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -51,9 +50,7 @@ namespace CosmosEngine.CoreModule
 
 		protected override void Initialize()
 		{
-			graphics.PreferredBackBufferWidth = 854; // Screen.Width;
-			graphics.PreferredBackBufferHeight = 480; // Screen.Height;
-			graphics.IsFullScreen = false;
+			SetResolution(gameController.ResolutionWidth, gameController.ResolutionHeight, gameController.Fullscreen);
 
 			IsFixedTimeStep = false;
 			graphics.SynchronizeWithVerticalRetrace = true;
@@ -68,18 +65,25 @@ namespace CosmosEngine.CoreModule
 			//Add desired Game Manager Systems
 			List<IModule> modules = new List<IModule>();
 			modules.AddRange(gameController.GameModules);
-			modules.Sort((a, b) => b.ExecutionOrder.CompareTo(a.ExecutionOrder));
+			modules.Sort((a, b) => a.ExecutionOrder.CompareTo(b.ExecutionOrder));
 			foreach(IModule module in modules)
 			{
 				AddGameSystem(module);
 			}
 			applicationIsRunning = true;
 			SystemsInitialization();
+
+			Debug.LogTable<IModule>($"Game Modules [{modules.Count}]", modules, Print);
 #if EDITOR
 			updateThreadSW = Stopwatch.StartNew();
 			renderThreadSW = Stopwatch.StartNew();
 #endif
 			base.Initialize();
+		}
+
+		private string Print(IModule module)
+		{
+			return $"{module.GetType().FullName} | {module.ExecutionOrder}";
 		}
 
 		public void AddGameSystem<T>(T manager) where T : IModule => gameModules.Add(manager);
@@ -96,7 +100,7 @@ namespace CosmosEngine.CoreModule
 		{
 #if EDITOR
 			updateThreadSW.Restart();
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+			if (InputState.Pressed(Keys.Escape))
 				CloseApplication();
 #endif
 			GameTime = gameTime;
@@ -106,9 +110,9 @@ namespace CosmosEngine.CoreModule
 			updateThreadSW.Stop();
 			MainThreadTime = updateThreadSW.Elapsed.TotalMilliseconds;
 #endif
+
 			base.Update(gameTime);
 		}
-
 		protected override void Draw(GameTime gameTime)
 		{
 #if EDITOR
@@ -142,13 +146,15 @@ namespace CosmosEngine.CoreModule
 
 		#region Application
 
-		internal void SetResolution(int width, int height, bool fullScreenMode)
+		internal void SetResolution(int width, int height, bool fullscreenMode)
 		{
 			graphics.PreferredBackBufferWidth = width; // Screen.Width;
 			graphics.PreferredBackBufferHeight = height; // Screen.Height;
-			graphics.IsFullScreen = fullScreenMode;
+			graphics.IsFullScreen = fullscreenMode;
 			graphics.ApplyChanges();
 		}
+
+		internal void SetResolution(ScreenResolution resolution, bool fullscreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullscreenMode);
 
 		private void WindowClientSizeChanged(object sender, EventArgs e)
 		{

@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace CosmosEngine
 {
 	[System.Serializable]
@@ -7,7 +9,13 @@ namespace CosmosEngine
 		private int min;
 		private int max;
 
+		/// <summary>
+		/// Minimum value.
+		/// </summary>
 		public int Min { get => min; set => min = value; }
+		/// <summary>
+		/// Maximum value.
+		/// </summary>
 		public int Max { get => max; set => max = value; }
 
 		public MinMaxInt(int min, int max)
@@ -21,9 +29,21 @@ namespace CosmosEngine
 			}
 		}
 
-		public int RandomInRange()
+		/// <summary>
+		/// Iterates from the <see cref="CosmosEngine.MinMaxInt"/> min value to max value, performing given <paramref name="action"/> each iteration.
+		/// </summary>
+		public void For(Action<int> action, bool inclusive = false)
 		{
-			return Random.Range(min, Max);
+			if (inclusive)
+			{
+				for (int i = min; i <= max; i++)
+					action.Invoke(i);
+			}
+			else
+			{
+				for (int i = min; i < max; i++)
+					action.Invoke(i);
+			}
 		}
 	}
 }

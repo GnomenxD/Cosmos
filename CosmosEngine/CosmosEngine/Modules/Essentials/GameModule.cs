@@ -9,7 +9,7 @@ namespace CosmosEngine.Modules
 	{
 		private static TModule instance;
 		public static TModule Instance => instance;
-		internal static bool Exist => Instance != null && Instance.SystemExist() && !instance.IsDisposed;
+		internal static bool ActiveAndEnabled => Instance != null && Instance.SystemExist() && !instance.IsDisposed;
 		public override void Initialize() 
 		{
 			if(instance != null)

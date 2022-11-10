@@ -27,6 +27,9 @@ namespace CosmosEngine
 
 		}
 
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Async.WaitForSeconds"/>
+		/// </summary>
 		public static WaitForSeconds ForSeconds(float seconds)
 		{
 			WaitForSeconds t = ScriptableObject.Instance<WaitForSecondsPool>().Request();
@@ -34,6 +37,9 @@ namespace CosmosEngine
 			return t;
 		}
 
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Async.WaitForSecondsUnscaled"/>
+		/// </summary>
 		public static WaitForSecondsUnscaled ForSecondsUnscaled(float seconds)
 		{
 			WaitForSecondsUnscaled t = ScriptableObject.Instance<WaitForSecondsUnscaledPool>().Request();
@@ -41,6 +47,9 @@ namespace CosmosEngine
 			return t;
 		}
 
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Async.WaitWhile"/>
+		/// </summary>
 		public static WaitWhile While(Func<bool> predicate)
 		{
 			WaitWhile t = ScriptableObject.Instance<WaitWhilePool>().Request();
@@ -48,6 +57,9 @@ namespace CosmosEngine
 			return t;
 		}
 
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Async.WaitUntil"/>
+		/// </summary>
 		public static WaitUntil Until(Func<bool> predicate)
 		{
 			WaitUntil t = ScriptableObject.Instance<WaitUntilPool>().Request();

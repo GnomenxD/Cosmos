@@ -1,8 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CosmosEngine.Modules
 {
+	/// <summary>
+	/// Objecgt Delegation referes to functionality that allows for <see cref="CosmosEngine.CoreModule.Object"/> that are instantiated to automatically be referenced towards another class. To start use the method <see cref="CosmosEngine.Modules.ObjectDelegater.CreateNewDelegation{T}(System.Action{T})"/>, then whenever an <see cref="CosmosEngine.CoreModule.Object"/> is instantiated of type T it will be passed to the <see cref="System.Action{T}"/>.
+	/// </summary>
 	public static class ObjectDelegater
 	{
 		private static readonly List<IDelegation> objectDelegations = new List<IDelegation>();

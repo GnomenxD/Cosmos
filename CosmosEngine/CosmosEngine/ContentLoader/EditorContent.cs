@@ -7,9 +7,9 @@
 		private static Sprite logWarning;
 		private static Sprite logError;
 
-		public static Sprite LogMessage => logMessage ??= new Sprite("Editor/log_alert");
-		public static Sprite LogComplete => logComplete ??= new Sprite("Editor/log_complete");
-		public static Sprite LogWarning => logWarning ??= new Sprite("Editor/log_warning");
-		public static Sprite LogError => logError ??= new Sprite("Editor/log_error");
+		public static Sprite LogMessage => logMessage ??= new Sprite("Assets/Editor/log_alert.png");
+		public static Sprite LogComplete => logComplete ??= new Sprite("Assets/Editor/log_complete.png");
+		public static Sprite LogWarning => logWarning ??= new Sprite("Assets/Editor/log_warning.png");
+		public static Sprite LogError => logError ??= new Sprite("Assets/Editor/log_error.png");
 	}
 }

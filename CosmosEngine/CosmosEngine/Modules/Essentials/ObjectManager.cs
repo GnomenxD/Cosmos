@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace CosmosEngine.Modules
 {
+	/// <summary>
+	/// <see cref="CosmosEngine.Modules.ObjectManager"/> holds references to all <see cref="CosmosEngine.CoreModule.Object"/> which have been instantiated. This is useful for looking for any references that currently exist at runtime. It is responsible for invoking the Awake method.
+	/// </summary>
 	public sealed class ObjectManager : ObserverManager<Object, ObjectManager>
 	{
 		private readonly DirtyList<GameObject> gameObjects = new DirtyList<GameObject>();

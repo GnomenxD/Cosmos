@@ -1,5 +1,6 @@
 ﻿
 using CosmosEngine.Modules;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 
@@ -7,19 +8,25 @@ namespace CosmosEngine.CoreModule
 {
 	public abstract class Game : GameModule<Game>, IStartModule, IUpdateModule
 	{
-		private static Game game = null;
+		private static Game game;
 		private static readonly List<IModule> gameModules = new List<IModule>();
-		private Colour backgroundColour = Colour.CornflowerBlue;
+		private Colour backgroundColour = Colour.EditorBlue;
+
+		private int screenResolutionWidth;
+		private int screenResolutionHeight;
+		private bool fullscreen;
 
 		internal List<IModule> GameModules => gameModules;
 		public Colour BackgroundColour { get => backgroundColour; set => backgroundColour = value; }
-		public static Microsoft.Xna.Framework.Content.ContentManager ContentManager => Core.ContentManager;
+		internal int ResolutionWidth => screenResolutionWidth;
+		internal int ResolutionHeight => screenResolutionHeight;
+		internal bool Fullscreen => fullscreen;
 
 		/// <summary>
 		/// Initialize is invoked only once, before the first frame and before start. Instantiation should not occur within Initialize, use Start instead.
 		/// </summary>
 		public override abstract void Initialize();
-		[System.Obsolete("The Load Content method is obsolete as content should be implemented using Eager Loading pattern. The method is still required for the Game to work but might be replaced in a further version.", false)]
+		[System.Obsolete("The Load Content method is obsolete as content should be implemented without using the Content Manager. The method is still required for the Game to work but will be removed in a further version.", false)]
 		/// <summary>
 		/// Use AddContentLoader(IContentLoader) to load content files in this method.
 		/// </summary>
@@ -45,10 +52,11 @@ namespace CosmosEngine.CoreModule
 		{
 			gameModules.Clear();
 			game = new T();
+			game.ExecutionOrder = -2;
 
+			game.Resolution(ScreenResolution.m_720p, false);
 			game.AddDefault();
 			game.AddEssential();
-			gameModules.Add(game);
 #if EDITOR
 			game.AddEditor();
 #endif
@@ -57,9 +65,10 @@ namespace CosmosEngine.CoreModule
 
 		private Game AddEssential()
 		{
-			game.AddModule<ObjectManager>();
-			game.AddModule<BehaviourManager>();
-			game.AddModule<RenderManager>();
+			game.AddModule<ObjectManager>(-1);
+			game.AddModule<BehaviourManager>(0);
+			game.AddModule<RenderManager>(-1000);
+
 			return this;
 		}
 
@@ -69,21 +78,21 @@ namespace CosmosEngine.CoreModule
 		/// <returns></returns>
 		public Game AddDefault()
 		{
-			AddModule<CoroutineManager>();
-			AddModule<InputManager>();
-			AddModule<InputSystem>();
+			AddModule<CoroutineManager>(1);
+			AddModule<InputManager>(-800);
+			AddModule<InputSystem>(-800);
 			AddModule<EventManager>();
-			AddModule<AudioSystem>();
+			AddModule<AudioSystem>(1);
 
 			return this;
 		}
 
 		public Game AddEditor()
 		{
-			game.AddModule<Debug>();
-			game.AddModule<GizmosModule>();
-			game.AddModule<EditorGrid>();
-			game.AddModule<EditorStats>();
+			game.AddModule<Debug>(-900);
+			game.AddModule<GizmosModule>(-900);
+			game.AddModule<EditorGrid>(-900);
+			game.AddModule<EditorStats>(-900);
 
 			return this;
 		}
@@ -93,7 +102,7 @@ namespace CosmosEngine.CoreModule
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public Game AddModule<T>() where T : IModule => AddModule(Activator.CreateInstance<T>());
+		public Game AddModule<T>(int executionOrder = 0) where T : IModule => AddModule(Activator.CreateInstance<T>(), executionOrder);
 
 		/// <summary>
 		/// Adds an instance of a <see cref="CosmosEngine.Modules.GameModule"/> to the game, will check for duplicates.
@@ -101,19 +110,21 @@ namespace CosmosEngine.CoreModule
 		/// <typeparam name="T"></typeparam>
 		/// <param name="module"></param>
 		/// <returns></returns>
-		internal Game AddModule<T>(T module) where T : IModule
+		internal Game AddModule<T>(T module, int executionOrder = 0) where T : IModule
 		{
 			if (Core.ApplicationIsRunning)
 			{
-				//Debug.Log($"Not possible to add game modules once the game has been launched, make sure to add all required modules before running Game.LaunchApplication().", LogFormat.Error);
+				Debug.Log($"Not possible to add game modules once the game has been launched, make sure to add all required modules before running Game.LaunchApplication().", LogFormat.Error);
 				return this;
 			}
 			if (gameModules.Exists(item => item.GetType() == typeof(T)))
 			{
-				//Debug.Log($"Not possible to add multiple game modules of the same type ({typeof(T).Name}).", LogFormat.Warning);
+				Debug.Log($"Not possible to add multiple game modules of the same type ({typeof(T).Name}).", LogFormat.Warning);
 			}
 			else
 			{
+				//Console.WriteLine($"Setting execution order of {module.GetType().FullName} to {executionOrder}");
+				module.ExecutionOrder = executionOrder;
 				gameModules.Add(module);
 			}
 			return this;
@@ -142,6 +153,22 @@ namespace CosmosEngine.CoreModule
 			return this;
 		}
 
+		public Game Resolution(int width, int height, bool fullscreen)
+		{
+			this.screenResolutionWidth = width;
+			this.screenResolutionHeight = height;
+			this.fullscreen = fullscreen;
+			return this;
+		}
+
+		public Game Resolution(ScreenResolution resolution, bool fullscreen)
+		{
+			this.screenResolutionWidth = resolution.Width();
+			this.screenResolutionHeight = resolution.Height();
+			this.fullscreen = fullscreen;
+			return this;
+		}
+
 		/// <summary>
 		/// Launches the <see cref="CosmosEngine.CoreModule.Game"/>.
 		/// </summary>
@@ -158,6 +185,7 @@ namespace CosmosEngine.CoreModule
 		/// </summary>
 		public void LaunchApplication()
 		{
+			gameModules.Add(game);
 			StartApplication();
 		}
 
