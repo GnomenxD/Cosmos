@@ -61,6 +61,7 @@ namespace CosmosEngine.CoreModule
 			graphics.ApplyChanges();
 			Window.AllowUserResizing = true;
 			Window.ClientSizeChanged += new EventHandler<EventArgs>(WindowClientSizeChanged);
+			Window.TextInput += new EventHandler<TextInputEventArgs>(ActualKeyboardInput);
 
 			//Add desired Game Manager Systems
 			List<IModule> modules = new List<IModule>();
@@ -81,6 +82,15 @@ namespace CosmosEngine.CoreModule
 			base.Initialize();
 		}
 
+		private string input;
+
+		private void ActualKeyboardInput(object sender, TextInputEventArgs args)
+		{
+			Debug.Log(args.Character);
+
+			input += args.Character;
+		}
+
 		private string Print(IModule module)
 		{
 			return $"{module.GetType().FullName} | {module.ExecutionOrder}";
@@ -98,6 +108,7 @@ namespace CosmosEngine.CoreModule
 
 		protected override void Update(GameTime gameTime)
 		{
+			Debug.Log(input);
 #if EDITOR
 			updateThreadSW.Restart();
 			if (InputState.Pressed(Keys.Escape))
