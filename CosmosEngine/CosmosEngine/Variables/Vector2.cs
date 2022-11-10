@@ -11,7 +11,7 @@ namespace CosmosEngine
 	/// <summary>
 	/// <see cref="CosmosEngine.Vector2"/> are scaled in unit space, unlike <see cref="Microsoft.Xna.Framework.Vector2"/> which uses pixel space.
 	/// </summary>
-	public struct Vector2
+	public struct Vector2 : IEquatable<Vector2>
 	{
 		#region Static Fields
 		private static readonly Vector2 zero = new Vector2(0.0f, 0.0f);
@@ -112,6 +112,12 @@ namespace CosmosEngine
 
 		#region Constructors
 
+		public Vector2(float value) : this()
+		{
+			this.x = value;
+			this.y = value;
+		}
+
 		public Vector2(float x, float y) : this()
 		{
 			this.x = x;
@@ -134,6 +140,13 @@ namespace CosmosEngine
 			Vector2 other = (Vector2)obj;
 			return this.X.Equals(other.X) && this.Y.Equals(other.Y);
 		}
+
+		/// <summary>
+		/// <inheritdoc cref="CosmosEngine.Vector2.Equals(object)"/>
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public bool Equals(Vector2 other) => this.X.Equals(other.X) && this.Y.Equals(other.Y);
 
 		public override int GetHashCode()
 		{
@@ -221,7 +234,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Adds two vectors together.
+		/// Adds the x and y component of <paramref name="value"/> to the x and y component of the <see cref="CosmosEngine.Vector2"/>.
 		/// </summary>
 		public Vector2 Add(Vector2 value)
 		{
@@ -230,7 +243,7 @@ namespace CosmosEngine
 			return this;
 		}
 		/// <summary>
-		/// Adds <paramref name="value"/> to the <see cref="CosmosEngine.Vector2"/> x and y component.
+		/// Adds <paramref name="value"/> to the x and y component of the <see cref="CosmosEngine.Vector2"/>.
 		/// </summary>
 		public Vector2 Add(float value)
 		{
@@ -240,7 +253,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Subtracts two vectors from eachother.
+		/// Subtracts the x and y component of <paramref name="value"/> from the x and y component of the <see cref="CosmosEngine.Vector2"/>.
 		/// </summary>
 		public Vector2 Subtract(Vector2 value)
 		{
@@ -249,7 +262,7 @@ namespace CosmosEngine
 			return this;
 		}
 		/// <summary>
-		/// Subtracts <paramref name="value"/> from the <see cref="CosmosEngine.Vector2"/> x and y component.
+		/// Subtracts <paramref name="value"/> from the x and y component of a the <see cref="CosmosEngine.Vector2"/>.
 		/// </summary>
 		public Vector2 Subtract(float value)
 		{
@@ -259,7 +272,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Multiplies two vectors together.
+		/// Multiplies the x and y component of the <see cref="CosmosEngine.Vector2"/> with the x and y component of <paramref name="value"/>.
 		/// </summary>
 		public Vector2 Multiply(Vector2 value)
 		{
@@ -278,7 +291,7 @@ namespace CosmosEngine
 		}
 				
 		/// <summary>
-		/// Divides two vectors from eachother.
+		/// Divides the x and y component of the <see cref="CosmosEngine.Vector2"/> with the x and y component of <paramref name="value"/>
 		/// </summary>
 		public Vector2 Divide(Vector2 value)
 		{
@@ -298,6 +311,10 @@ namespace CosmosEngine
 
 		#endregion
 
+		/// <summary>
+		/// Returns the vector formatted as a string.
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString() => $"({X.ToString("F2", Mathf.NumberFormat)}, {Y.ToString("F2", Mathf.NumberFormat)})";
 		#endregion
 
@@ -333,6 +350,13 @@ namespace CosmosEngine
 			return (a - b).SqrMagnitude;
 		}
 
+		/// <summary>
+		/// Moves the <paramref name="current"/> towards <paramref name="target"/>, ensures that the distance moved never exceeds <paramref name="maxDistanceDelta"/>.
+		/// </summary>
+		/// <param name="current"></param>
+		/// <param name="target"></param>
+		/// <param name="maxDistanceDelta"></param>
+		/// <returns></returns>
 		public static Vector2 MoveTowards(Vector2 current, Vector2 target, float maxDistanceDelta)
 		{
 			Vector2 a = target - current;
@@ -404,7 +428,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns the 2D vector perpendicular to this 2D vector. The result is always rotated 90-degrees in a counter-clockwise direction for a 2D coordinate system where the positive Y axis goes up.
+		/// Returns a <see cref="CosmosEngine.Vector2"/> perpendicular to the <paramref name="inDirection"/>. The result is always rotated 90-degrees in a counter-clockwise direction for a 2D coordinate system where the positive Y axis goes up.
 		/// </summary>
 		/// <param name="inDirection">The input direction.</param>
 		/// <returns>The perpendicular direction.</returns>
@@ -414,7 +438,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns a vector that is made from the smallest components of two vectors.
+		/// Returns a <see cref="CosmosEngine.Vector2"/> that is made from the smallest components of two vectors.
 		/// </summary>
 		/// <param name="lhs"></param>
 		/// <param name="rhs"></param>
@@ -425,7 +449,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns a vector that is made from the largest components of two vectors.
+		/// Returns a <see cref="CosmosEngine.Vector2"/> that is made from the largest components of two vectors.
 		/// </summary>
 		/// <param name="lhs"></param>
 		/// <param name="rhs"></param>
@@ -436,7 +460,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns a vector2 that is rounded to nearest integer.
+		/// Returns a <see cref="CosmosEngine.Vector2"/> which components are rounded to nearest integer.
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
@@ -548,7 +572,7 @@ namespace CosmosEngine
 			return (lhs - rhs).SqrMagnitude <= Mathf.kEpsilon;
 		}
 		/// <summary>
-		/// Returns <see langword="false"/> if two vectors are approximately equal. To allow for floating point inaccuracies, the two vectors are considered equal if the magnitude of their difference is less than 1E-05f..
+		/// Returns <see langword="true"/> if two vectors are not approximately equal. To allow for floating point inaccuracies, the two vectors are considered equal if the magnitude of their difference is less than 1E-05f..
 		/// </summary>
 		/// <param name="lhs">Left hand side</param>
 		/// <param name="rhs">Right hand side</param>

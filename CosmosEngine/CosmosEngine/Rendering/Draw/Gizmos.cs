@@ -1,4 +1,5 @@
 ﻿
+using CosmosEngine.Modules;
 using CosmosEngine.Rendering;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,6 +16,10 @@ namespace CosmosEngine
 
 		public static bool IsValidOperation()
 		{
+			if(!GizmosModule.ActiveAndEnabled)
+			{
+				return false;
+			}
 			StackTrace trace = new StackTrace(2);
 			var frames = trace.GetFrames();
 			bool validOperation = false;

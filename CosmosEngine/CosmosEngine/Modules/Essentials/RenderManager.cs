@@ -145,13 +145,11 @@ namespace CosmosEngine.Modules
 			base.Update();
 			if (renderComponents.IsDirty)
 			{
-				renderComponents.RemoveAll(RemoveAllPredicate());
-				renderComponents.IsDirty = false;
+				renderComponents.DisposeAll(RemoveAllPredicate());
 			}
 			if (uiComponents.IsDirty)
 			{
-				uiComponents.RemoveAll(RemoveAllPredicate());
-				uiComponents.IsDirty = false;
+				uiComponents.DisposeAll(RemoveAllPredicate());
 			}
 		}
 		public override System.Predicate<IRenderer> RemoveAllPredicate() => item => item.Expired;
