@@ -12,6 +12,7 @@ namespace Example
 		{
 			GameObject gameObject = new GameObject("Name");
 			gameObject.AddComponent<Vector2Example>();
+			gameObject.Transform.Position = Vector2.Zero;
 		}
 
 		public override void Update()

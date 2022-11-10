@@ -5,9 +5,6 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
-		private ContentSprite shipSprite;
-		private Sprite m_sprite;
-
 		public override void Initialize()
 		{
 			BackgroundColour = Colour.DesaturatedBlue;
