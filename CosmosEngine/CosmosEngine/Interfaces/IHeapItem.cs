@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace CosmosEngine.Collection
+namespace CosmosEngine.Collections
 {
 	public interface IHeapItem<T> : IComparable<T>
 	{

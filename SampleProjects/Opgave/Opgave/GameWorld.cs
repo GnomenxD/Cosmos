@@ -1,4 +1,5 @@
 ﻿using CosmosEngine;
+using CosmosEngine.Collections;
 using CosmosEngine.CoreModule;
 using System.Collections;
 
@@ -6,6 +7,7 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
+		private RandomAssortment<int> randomAssortment;
 		private GameObject go;
 		private Sprite m_sprite;
 
@@ -16,46 +18,26 @@ namespace Opgave
 
 		public override void Start()
 		{
-			m_sprite = new Sprite("Assets/Sprites/playerShip1_green.png");
-		}
-
-		private void Iterate(int i)
-		{
-			Debug.Log($"Value: {i}");
+			randomAssortment = new RandomAssortment<int>();
+			randomAssortment.Fill(() =>
+			{
+				int value = Random.Range(0, 100);
+				return value;
+			}, 5000);
 		}
 
 		public override void Update()
 		{
-			if (InputState.Pressed(CosmosEngine.InputModule.Keys.H))
+			Debug.Log($"Random List [{randomAssortment.Span}] - ({randomAssortment.Count})");
+			if (InputManager.GetKeyDown(CosmosEngine.InputModule.Keys.Enter))
 			{
-				m_sprite.Load("Assets/Sprites/playerShip2_red.png");
+				int[] ints = randomAssortment.GetRange(300);
+				Debug.Log($"Returned: [{ints.Length}]");
 			}
-
-
-			if (InputState.Pressed(CosmosEngine.InputModule.Keys.J))
+			if(InputManager.GetKeyDown(CosmosEngine.InputModule.Keys.C))
 			{
-				if (m_sprite == null)
-				{
-				}
-				Debug.Log("Instantiate");
-				go = new GameObject();
-				go.Transform.Position = new Vector2(2, 0);
-				go.AddComponent<SpriteRenderer>().Sprite = m_sprite;
+				randomAssortment.Reset();
 			}
-
-			if(go != null)
-			{
-				//Debug.Log($"{go.Enabled} + {go.GetComponent<SpriteRenderer>().Enabled}");
-				//Debug.Log(go.GetComponent<SpriteRenderer>());
-				go.Transform.Translate(new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")) * 3f * Time.DeltaTime, Space.World);
-			}
-		}
-
-		private IEnumerator AddSprite(GameObject obj)
-		{
-			yield return null;
-			m_sprite.Load();
-			yield return null;
 		}
 	}
 }

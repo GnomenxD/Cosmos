@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CosmosEngine.Collection
+namespace CosmosEngine.Collections
 {
 	/// <summary>
 	/// A Bag is an un-ordered array of items with fast Add and Remove properties.
