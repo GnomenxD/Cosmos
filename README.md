@@ -27,8 +27,10 @@ There is a lot missing, most things I never got to incorporate into the Cosmos f
 
 Some of the things listed is something I already have ideas and plans on creating, but unexpected delivery date.
 - [ ] **Audio System**
-- [ ] **New ContentManager**
-    - This will be done using an external tool I'm currently working on called the *Asset Library Builder*, instead of uploading the assets in the ContentManager, they just need to be placed into the project folder and marked with either **Copy if newer** or **Copy always**. This will then generate reference that can be accessed through scripts.
+- [ ] **New Content Loading**
+    - [x] Sprites
+    - [ ] Audio
+    - This will be done using an external tool I'm working on, instead of uploading the assets in the ContentManager, they just need to be placed into the project folder and marked with either **Copy if newer** or **Copy always**. This will then generate reference that can be accessed through scripts.
 - [ ] **Netcode**
     - Netcode does exist already and it actually do "*work*" through UDP, but it's a mess that wasn't planned correctly, it needs to be updated and fixed to work properly if network ever needs to become a thing in the Cosmos framework.
 - [ ] **Physics and Colliders**
