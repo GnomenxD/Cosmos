@@ -26,22 +26,23 @@ To create your own component with custom functionality, create a new class and i
 There is a lot missing, most things I never got to incorporate into the Cosmos framework. Here I have compiled a list of missing functionality that I personally would have loved to introduce into the framework. It will also be things that does exist but are either held together with scutchtape and glue or just outdated.
 
 Some of the things listed is something I already have ideas and plans on creating, but unexpected delivery date.
-- **Audio System**
-- **New ContentManager**
+- [ ] **Audio System**
+- [ ] **New ContentManager**
     - This will be done using an external tool I'm currently working on called the *Asset Library Builder*, instead of uploading the assets in the ContentManager, they just need to be placed into the project folder and marked with either **Copy if newer** or **Copy always**. This will then generate reference that can be accessed through scripts.
-- **Netcode**
+- [ ] **Netcode**
     - Netcode does exist already and it actually do "*work*" through UDP, but it's a mess that wasn't planned correctly, it needs to be updated and fixed to work properly if network ever needs to become a thing in the Cosmos framework.
-- **Physics and Colliders**
-- **Spritesheets**
-- **Sprite Animations**
-- **Editor View**
+- [ ] **Physics and Colliders**
+- [ ] **Spritesheet Support**
+- [ ] **Sprite Animations**
+- [ ] **UI Overhault**
+- [ ] **Editor View**
     - An editor view with a scene hierarchy, inspector, debug console and more *editor* tools if nessecary. This should be excluded from the actual **release** build.
-- **Input System**
+- [ ] **Input System**
     - The desired Input System already exists in the project, but it has to be rewritten for the new Modules system that was developed. For now use InputManager instead for quick controls.
-- **More Input Support**
+- [ ] **More Input Support**
     - Support for Controller and Touch.
-- **Prefab and Instantiation**
-- **Scene Management**
+- [ ] **Prefab and Instantiation**
+- [ ] **Scene Management**
 
 More could and properly is going to added to the list.
 
