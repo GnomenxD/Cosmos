@@ -5,16 +5,30 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
+		private ContentSprite shipSprite;
+		private Sprite m_sprite;
+
 		public override void Initialize()
 		{
-
+			BackgroundColour = Colour.DesaturatedBlue;
+			//shipSprite = new ContentSprite("log_complete");
+			//m_sprite = new Sprite("log_complete");
 		}
 
 		public override void Start()
 		{
-			MinMaxInt i = new MinMaxInt(10, 100);
+			GameObject go = new GameObject();
+			go.Transform.Position = new Vector2(2, 0);
+			go.AddComponent<SpriteRenderer>().Sprite = (Sprite)Assets.PlayerShip1Green;
 
-			i.For((int v) => Debug.Log(v));
+			//go = new GameObject();
+			//go.Transform.Position = new Vector2(-2, 0);
+			//go.AddComponent<SpriteRenderer>().Sprite = m_sprite;
+		}
+
+		private void Iterate(int i)
+		{
+			Debug.Log($"Value: {i}");
 		}
 
 		public override void Update()

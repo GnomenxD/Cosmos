@@ -77,7 +77,7 @@ namespace CosmosEngine
 		[Conditional("EDITOR")]
 		public static void Log(object message, LogFormat format, object context, LogOption option)
 		{
-			if (!Exist)
+			if (!ActiveAndEnabled)
 				return;
 
 			string initial = "";

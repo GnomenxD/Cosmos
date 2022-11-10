@@ -78,7 +78,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns a random float between [min, max] (range is inclusive).
+		/// Returns a random float between [<paramref name="min"/>, <paramref name="max"/>] (range is inclusive).
 		/// </summary>
 		/// <param name="min"></param>
 		/// <param name="max"></param>
@@ -99,7 +99,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns a random int between [min, max] (range is exclusive)
+		/// Returns a random int between [<paramref name="min"/>, <paramref name="max"/>] (range is exclusive)
 		/// </summary>
 		/// <param name="min"></param>
 		/// <param name="max"></param>
