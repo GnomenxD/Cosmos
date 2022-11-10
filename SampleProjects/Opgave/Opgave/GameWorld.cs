@@ -17,9 +17,6 @@ namespace Opgave
 
 		public override void Start()
 		{
-			GameObject go = new GameObject();
-			go.Transform.Position = new Vector2(2, 0);
-			go.AddComponent<SpriteRenderer>().Sprite = (Sprite)Assets.PlayerShip1Green;
 
 			//go = new GameObject();
 			//go.Transform.Position = new Vector2(-2, 0);
@@ -33,7 +30,12 @@ namespace Opgave
 
 		public override void Update()
 		{
-
+			if (InputState.Pressed(CosmosEngine.InputModule.Keys.Space))
+			{
+				GameObject go = new GameObject();
+				go.Transform.Position = new Vector2(2, 0);
+				go.AddComponent<SpriteRenderer>().Sprite = new Sprite("Assets/Sprites/playerShip1_blue.png");
+			}
 		}
 	}
 }

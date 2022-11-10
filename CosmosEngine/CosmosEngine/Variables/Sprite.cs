@@ -2,15 +2,17 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using CosmosEngine.CoreModule;
+using System.IO;
 
 namespace CosmosEngine
 {
 	public class Sprite : Resource
 	{
+		private string texturePath;
 		private Vector2 pivot;
 		private Vector2Int origin;
-		private readonly Texture2D texture;
-		private readonly Vector2 spriteSize;
+		private Texture2D texture;
+		private Vector2 spriteSize;
 		private readonly SpriteMode spriteMode;
 		private readonly WrapMode wrapMode;
 		private readonly FilterMode filterMode;
@@ -21,7 +23,28 @@ namespace CosmosEngine
 		/// <summary>
 		/// Get the reference to the used texture.
 		/// </summary>
-		public Texture2D Texture => texture;
+		public Texture2D Texture
+		{
+			get
+			{
+				if (texture == null)
+				{
+					Debug.Log($"Texture for {texturePath} is null - loading.");
+					if (!string.IsNullOrEmpty(texturePath))
+					{
+						Texture2D texture = Texture2D.FromFile(Core.GraphicsDeviceManager.GraphicsDevice, texturePath); // ContentManager.Load<Texture2D>(path);
+						if (texture != null)
+						{
+							this.texture = texture;
+							this.spriteSize = new Vector2(texture.Width, texture.Height);
+							this.Pivot = new Vector2(0.5f, 0.5f);
+							Debug.Log($"Loaded texture correctly {texturePath}");
+						}
+					}
+				}
+				return texture;
+			}
+		}
 		public Vector2 Pivot 
 		{ 
 			get => pivot;
@@ -80,13 +103,14 @@ namespace CosmosEngine
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				Texture2D texture = ContentManager.Load<Texture2D>(path);
-				if (texture != null)
-				{
-					this.texture = texture;
-					this.spriteSize = new Vector2(texture.Width, texture.Height);
-					this.Pivot = new Vector2(0.5f, 0.5f);
-				}
+				texturePath = path;
+				//Texture2D texture = Texture2D.FromFile(Core.GraphicsDeviceManager.GraphicsDevice, path); // ContentManager.Load<Texture2D>(path);
+				//if (texture != null)
+				//{
+				//	this.texture = texture;
+				//	this.spriteSize = new Vector2(texture.Width, texture.Height);
+				//	this.Pivot = new Vector2(0.5f, 0.5f);
+				//}
 			}
 			this.spriteMode = spriteMode;
 			this.wrapMode = wrapMode;

@@ -103,8 +103,17 @@ namespace CosmosEngine.CoreModule
 			updateThreadSW.Stop();
 			MainThreadTime = updateThreadSW.Elapsed.TotalMilliseconds;
 #endif
+			if(InputState.Pressed(Keys.K))
+			{
+				display = true;
+				texture = Texture2D.FromFile(GraphicsDevice, "Assets/Sprites/playerShip1_blue.png");
+			}
+
 			base.Update(gameTime);
 		}
+
+		private Texture2D texture;
+		private bool display;
 
 		protected override void Draw(GameTime gameTime)
 		{
@@ -117,6 +126,12 @@ namespace CosmosEngine.CoreModule
 				Camera main = Camera.Main;
 				SpriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, blendState: BlendState.NonPremultiplied, samplerState: SamplerState.LinearClamp, transformMatrix: main.ViewMatrix);
 				GameSystemRender();
+
+				if (display && texture != null)
+				{
+					SpriteBatch.Draw(texture, new Vector2(0, 3).ToXna(), Colour.White);
+				}
+
 				SpriteBatch.End();
 			}
 			else

@@ -41,6 +41,7 @@ namespace CosmosEngine
 					buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
 				}
 				texture.SetData(buffer);
+				Debug.Log($"Texture \"{path}\" was loaded correctly");
 			}
 			return texture;
 		}
