@@ -52,6 +52,7 @@ namespace CosmosEngine.CoreModule
 		{
 			gameModules.Clear();
 			game = new T();
+			game.ExecutionOrder = -2;
 
 			game.Resolution(ScreenResolution.m_720p, false);
 			game.AddDefault();
@@ -64,9 +65,10 @@ namespace CosmosEngine.CoreModule
 
 		private Game AddEssential()
 		{
-			game.AddModule<ObjectManager>();
-			game.AddModule<BehaviourManager>();
-			game.AddModule<RenderManager>();
+			game.AddModule<ObjectManager>(-1);
+			game.AddModule<BehaviourManager>(0);
+			game.AddModule<RenderManager>(-1000);
+
 			return this;
 		}
 
@@ -76,21 +78,21 @@ namespace CosmosEngine.CoreModule
 		/// <returns></returns>
 		public Game AddDefault()
 		{
-			AddModule<CoroutineManager>();
-			AddModule<InputManager>();
-			AddModule<InputSystem>();
+			AddModule<CoroutineManager>(1);
+			AddModule<InputManager>(-800);
+			AddModule<InputSystem>(-800);
 			AddModule<EventManager>();
-			AddModule<AudioSystem>();
+			AddModule<AudioSystem>(1);
 
 			return this;
 		}
 
 		public Game AddEditor()
 		{
-			game.AddModule<Debug>();
-			game.AddModule<GizmosModule>();
-			game.AddModule<EditorGrid>();
-			game.AddModule<EditorStats>();
+			game.AddModule<Debug>(-900);
+			game.AddModule<GizmosModule>(-900);
+			game.AddModule<EditorGrid>(-900);
+			game.AddModule<EditorStats>(-900);
 
 			return this;
 		}
@@ -100,7 +102,7 @@ namespace CosmosEngine.CoreModule
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public Game AddModule<T>() where T : IModule => AddModule(Activator.CreateInstance<T>());
+		public Game AddModule<T>(int executionOrder = 0) where T : IModule => AddModule(Activator.CreateInstance<T>(), executionOrder);
 
 		/// <summary>
 		/// Adds an instance of a <see cref="CosmosEngine.Modules.GameModule"/> to the game, will check for duplicates.
@@ -108,19 +110,21 @@ namespace CosmosEngine.CoreModule
 		/// <typeparam name="T"></typeparam>
 		/// <param name="module"></param>
 		/// <returns></returns>
-		internal Game AddModule<T>(T module) where T : IModule
+		internal Game AddModule<T>(T module, int executionOrder = 0) where T : IModule
 		{
 			if (Core.ApplicationIsRunning)
 			{
-				//Debug.Log($"Not possible to add game modules once the game has been launched, make sure to add all required modules before running Game.LaunchApplication().", LogFormat.Error);
+				Debug.Log($"Not possible to add game modules once the game has been launched, make sure to add all required modules before running Game.LaunchApplication().", LogFormat.Error);
 				return this;
 			}
 			if (gameModules.Exists(item => item.GetType() == typeof(T)))
 			{
-				//Debug.Log($"Not possible to add multiple game modules of the same type ({typeof(T).Name}).", LogFormat.Warning);
+				Debug.Log($"Not possible to add multiple game modules of the same type ({typeof(T).Name}).", LogFormat.Warning);
 			}
 			else
 			{
+				//Console.WriteLine($"Setting execution order of {module.GetType().FullName} to {executionOrder}");
+				module.ExecutionOrder = executionOrder;
 				gameModules.Add(module);
 			}
 			return this;

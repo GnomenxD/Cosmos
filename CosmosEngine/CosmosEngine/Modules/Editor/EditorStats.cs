@@ -8,11 +8,6 @@ namespace CosmosEngine.Modules
 		private float delta;
 		private LogOption logOption;
 
-		public EditorStats()
-		{
-			ExecutionOrder = 100;
-		}
-
 		public override void Initialize()
 		{
 			base.Initialize();

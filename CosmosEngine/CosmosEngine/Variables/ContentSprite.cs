@@ -35,6 +35,7 @@ namespace CosmosEngine
 			};
 			if(texture != null)
 			{
+				texture.Name = path;
 				Color[] buffer = new Color[texture.Width * texture.Height];
 				texture.GetData(buffer);
 				for(int i = 0; i < buffer.Length; i++)
@@ -42,6 +43,7 @@ namespace CosmosEngine
 					buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
 				}
 				texture.SetData(buffer);
+				//Debug.Log($"Texture \"{path}\" was loaded correctly");
 			}
 			return texture;
 		}
