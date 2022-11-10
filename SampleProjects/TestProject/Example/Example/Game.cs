@@ -11,6 +11,7 @@ namespace Example
 		public override void Start()
 		{
 			GameObject gameObject = new GameObject("Name");
+			gameObject.AddComponent<Vector2Example>();
 		}
 
 		public override void Update()
