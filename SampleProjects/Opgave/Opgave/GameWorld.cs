@@ -1,43 +1,36 @@
 ﻿using CosmosEngine;
 using CosmosEngine.Collections;
 using CosmosEngine.CoreModule;
+using CosmosEngine.InputModule;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Opgave
 {
 	public class GameWorld : Game
 	{
-		private RandomAssortment<int> randomAssortment;
-		private GameObject go;
-		private Sprite m_sprite;
-
+		private KeyboardInput keyboardInput;
 		public override void Initialize()
 		{
-			m_sprite = new Sprite("Edlow_Blue");
+			keyboardInput = new KeyboardInput();
 		}
-
 		public override void Start()
 		{
-			randomAssortment = new RandomAssortment<int>();
-			randomAssortment.Fill(() =>
-			{
-				int value = Random.Range(0, 100);
-				return value;
-			}, 5000);
+			GameObject go = new GameObject();
+			go.AddComponent<Script>();
 		}
 
 		public override void Update()
 		{
-			Debug.Log($"Random List [{randomAssortment.Span}] - ({randomAssortment.Count})");
-			if (InputManager.GetKeyDown(CosmosEngine.InputModule.Keys.Enter))
-			{
-				int[] ints = randomAssortment.GetRange(300);
-				Debug.Log($"Returned: [{ints.Length}]");
-			}
-			if(InputManager.GetKeyDown(CosmosEngine.InputModule.Keys.C))
-			{
-				randomAssortment.Reset();
-			}
+			string s = keyboardInput.ToString();
+		}
+	}
+
+	public class Script : GameBehaviour
+	{
+		protected override void OnDrawGizmos()
+		{
+			Gizmos.DrawLine(Transform.Position, Camera.Main.ScreenToWorld(InputManager.MousePosition), Colour.Lime);
 		}
 	}
 }

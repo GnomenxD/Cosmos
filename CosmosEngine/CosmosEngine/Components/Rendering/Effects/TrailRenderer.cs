@@ -1,5 +1,5 @@
 ﻿
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 using CosmosEngine.CoreModule;
 using CosmosEngine.Rendering;
 

@@ -7,7 +7,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Threading;
 using CosmosEngine.Modules;
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 using SharpDX.Direct3D9;
 using System;
 

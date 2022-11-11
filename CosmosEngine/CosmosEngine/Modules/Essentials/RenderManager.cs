@@ -1,6 +1,6 @@
 ﻿
 using CosmosEngine.CoreModule;
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 using CosmosEngine.Rendering;
 using System.Threading;
 using System.Collections.Generic;
