@@ -26,5 +26,7 @@ namespace CosmosEngine
 				this.max = min + 1;
 			}
 		}
+
+		public float Evaluate(float value) => Mathf.Clamp01(1 - (value - max) / (min - max));
 	}
 }

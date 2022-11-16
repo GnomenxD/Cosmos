@@ -30,8 +30,29 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
+		/// Iterates from the min value to max value of the <see cref="CosmosEngine.MinMaxInt"/>, performing given <paramref name="action"/> each iteration.
+		/// </summary>
+		/// <param name="action">The performed action each iteration.</param>
+		/// <param name="inclusive">Wether the iteration is inclusive of the max value or exclusive of the max value.</param>
+		public void For(Action action, bool inclusive= false)
+		{
+			if (inclusive)
+			{
+				for (int i = min; i <= max; i++)
+					action.Invoke();
+			}
+			else
+			{
+				for (int i = min; i < max; i++)
+					action.Invoke();
+			}
+		}
+
+		/// <summary>
 		/// Iterates from the <see cref="CosmosEngine.MinMaxInt"/> min value to max value, performing given <paramref name="action"/> each iteration.
 		/// </summary>
+		/// <param name="action">The performed action each iteration, will pass the an index as parameter.</param>
+		/// <param name="inclusive">Wether the iteration is inclusive of the max value or exclusive of the max value.</param>
 		public void For(Action<int> action, bool inclusive = false)
 		{
 			if (inclusive)

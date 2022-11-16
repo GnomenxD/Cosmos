@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Globalization;
 
 namespace CosmosEngine
 {
 	/// <summary>
 	/// Provides constants and static methods for trigonometric, logarithmic, common mathematical functions, linear interpolation, clamping and other useful functionality to use within the <see cref="CosmosEngine"/>.
-	/// <para>It's an extension that is build on top of the <see cref="System.Math"/> library.</para>
+	/// <para>It's a static class, with the a lot of the same functionality found in <see cref="System.MathF"/>, but with some additional methods.</para>
 	/// </summary>
 	public static class Mathf
 	{
@@ -25,9 +24,15 @@ namespace CosmosEngine
 		/// Radians-to-degrees conversion constant.
 		/// </summary>
 		public const float Rad2Deg = 360 / (PI * 2);
+		/// <summary>
+		/// An arbitrary small number, used when comparing floating point to work with inaccuracies.
+		/// </summary>
 		public const float kEpsilon = 1E-05f;
 
 		private static NumberFormatInfo numberFormat;
+		/// <summary>
+		/// The <see cref="System.Globalization.NumberFormatInfo"/> which is commonly used in the Cosmos Framework.
+		/// </summary>
 		public static NumberFormatInfo NumberFormat => numberFormat;
 
 		#endregion
@@ -38,7 +43,7 @@ namespace CosmosEngine
 			numberFormat.NumberDecimalSeparator = ".";
 		}
 
-		#region Math
+		#region MathF
 		/// <summary>
 		/// <inheritdoc cref="System.MathF.Abs(float)"/>
 		/// </summary>
@@ -240,13 +245,13 @@ namespace CosmosEngine
 
 		#region Round
 		/// <summary>
-		/// <inheritdoc cref="System.MathF.Floor(float)"/>
+		/// <inheritdoc cref="System.MathF.Ceiling(float)"/>
 		/// </summary>
-		public static float Ceil(float f) => (float)Math.Floor(f);
+		public static float Ceil(float f) => (float)MathF.Ceiling(f);
 		/// <summary>
 		/// <inheritdoc cref="System.MathF.Floor(float)"/>
 		/// </summary>
-		public static float Floor(float f) => (float)Math.Floor(f);
+		public static float Floor(float f) => (float)MathF.Floor(f);
 		/// <summary>
 		/// <inheritdoc cref="System.MathF.Round(float)"/>
 		/// </summary>
@@ -266,15 +271,15 @@ namespace CosmosEngine
 		/// <summary>
 		/// <inheritdoc cref="Mathf.Ceil(float)"/>
 		/// </summary>
-		public static int CeilToInt(float f) => (int)Math.Ceiling(f);
+		public static int CeilToInt(float f) => (int)Mathf.Ceil(f);
 		/// <summary>
 		/// <inheritdoc cref="Mathf.Floor(float)"/>
 		/// </summary>
-		public static int FloorToInt(float f) => (int)Math.Floor(f);
+		public static int FloorToInt(float f) => (int)Mathf.Floor(f);
 		/// <summary>
 		/// <inheritdoc cref="Mathf.Round(float)(float)"/>
 		/// </summary>
-		public static int RoundToInt(float f) => (int)Math.Round(f);
+		public static int RoundToInt(float f) => (int)Mathf.Round(f);
 
 		#endregion
 
@@ -303,7 +308,7 @@ namespace CosmosEngine
 		/// <returns>Returned value can be above 1 and below 0. Use Clamp01 to restrict the returned value.</returns>
 		public static float Clamp(float value, float min, float max)
 		{
-			return (min + value) / max;
+			return 1 - (value - max) / (min - max); // (min + value) / max;
 		}
 
 		/// <summary>
@@ -316,7 +321,7 @@ namespace CosmosEngine
 				return low;
 			if (value >= max)
 				return high;
-			return Lerp(low, high, Clamp01(value, min, max));
+			return Lerp(low, high, Clamp(value, min, max));
 		}
 
 		/// <summary>
@@ -348,11 +353,11 @@ namespace CosmosEngine
 		/// <returns></returns>
 		public static float Clamp01(float value, float min, float max)
 		{
-			return Clamp01((min + value) / max);
+			return Clamp01(1 - (value - max) / (min - max));
 		}
 		#endregion
 
-		#region Lerp
+		#region Interpolation
 		/// <summary>
 		/// Linearly interpolates between <paramref name="min"/> and <paramref name="max"/> by <paramref name="t"/>, clamping the interpolant between 0 and 1.
 		/// </summary>
@@ -388,7 +393,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Moves a value <paramref name="current"/> towards <paramref name="target"/> by <paramref name="delta"/>.
+		/// Moves <paramref name="current"/> towards <paramref name="target"/> by <paramref name="delta"/>.
 		/// </summary>
 		public static float MoveTowards(float current, float target, float delta)
 		{
@@ -397,10 +402,22 @@ namespace CosmosEngine
 			return current + Math.Sign(target - current) * delta;
 		}
 
-		[System.Obsolete("Unsure what the reason for this method is...", false)]
-		public static bool MoveTowards(out float current, float target, float delta)
+		/// <summary>
+		/// Moves <paramref name="current"/> towards <paramref name="target"/> by <paramref name="delta"/>.
+		/// </summary>
+		/// <param name="current"></param>
+		/// <param name="target"></param>
+		/// <param name="delta"></param>
+		/// <returns>Wether current has reached its target or not.</returns>
+		public static bool MoveTowards(ref float current, float target, float delta)
 		{
-			throw new NotImplementedException();
+			if (Mathf.Abs(target - current) <= delta)
+			{
+				current = target;
+				return true;
+			}
+			current = MoveTowards(current, target, delta);
+			return false;
 		}
 
 		/// <summary>

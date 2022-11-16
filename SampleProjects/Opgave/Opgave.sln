@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opgave", "Opgave\Opgave.csproj", "{CD6BFBB5-487A-412E-A12D-D57C4C589616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opgave", "Opgave\Opgave.csproj", "{CD6BFBB5-487A-412E-A12D-D57C4C589616}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosEngine", "..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj", "{C739C583-AA78-4C0A-B5D4-8E059764040E}"
 EndProject
@@ -21,8 +21,8 @@ Global
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Debug|x64.Build.0 = Debug|Any CPU
-		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|Any CPU.Build.0 = Debug|Any CPU
+		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
+		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|Any CPU.Build.0 = Editor|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|x64.ActiveCfg = Debug|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Editor|x64.Build.0 = Debug|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Release|Any CPU.ActiveCfg = Release|Any CPU
