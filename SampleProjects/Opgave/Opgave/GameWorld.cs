@@ -1,6 +1,9 @@
 ﻿using CosmosEngine;
 using CosmosEngine.CoreModule;
+using System;
 using System.Collections;
+using System.IO;
+using System.Text;
 
 namespace Opgave
 {
@@ -11,12 +14,37 @@ namespace Opgave
 
 		public override void Initialize()
 		{
-			m_sprite = new Sprite("Edlow_Blue");
+			m_sprite = new Sprite("Assets/Sprites/playerShip1_green.png");
 		}
 
 		public override void Start()
 		{
-			m_sprite = new Sprite("Assets/Sprites/playerShip1_green.png");
+			string path = $"{AppDomain.CurrentDomain.BaseDirectory}Assets/Sprites/playerShip1_green.png";
+			Debug.Log($"Path: {path}");
+
+			byte[] bytes = File.ReadAllBytes(path);
+
+
+
+			StringBuilder sb = new StringBuilder();
+			using (StreamReader reader = new StreamReader(path))
+			{
+				int index = 0;
+				string line;
+				while((line = reader.ReadLine()) != null)
+				{
+					sb.AppendLine($"[{index}]: {line}");
+					index++;
+				}
+			}
+			Debug.Log(sb.ToString());
+
+			string s = string.Empty;
+			foreach(byte b in bytes)
+			{
+				s += b.ToString();
+			}
+			Debug.Log($"{bytes.Length}: {s}");
 		}
 
 		private void Iterate(int i)
@@ -49,13 +77,6 @@ namespace Opgave
 				//Debug.Log(go.GetComponent<SpriteRenderer>());
 				go.Transform.Translate(new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")) * 3f * Time.DeltaTime, Space.World);
 			}
-		}
-
-		private IEnumerator AddSprite(GameObject obj)
-		{
-			yield return null;
-			m_sprite.Load();
-			yield return null;
 		}
 	}
 }
