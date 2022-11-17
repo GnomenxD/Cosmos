@@ -1,4 +1,4 @@
-using CosmosEngine;
+using CosmosFramework;
 
 public static partial class Assets
 {
