@@ -42,34 +42,34 @@ namespace CosmosFramework
 		/// Logs a warning message to the debug console.
 		/// </summary>
 		/// <param name="message"></param>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogWarning(object message) => Log(message, LogFormat.Warning);
 		/// <summary>
 		/// Logs an error message to the debug console.
 		/// </summary>
 		/// <param name="message"></param>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogError(object message) => Log(message, LogFormat.Error);
 
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void Log(object message) => Log(message, LogFormat.Message);
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void Log(object message, LogFormat format) => Log(message, format, null);
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void Log(object message, LogFormat format, object context) => Log(message, format, context, DefaultOption);
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void Log(object message, LogFormat format, LogOption option) => Log(message, format, null, option);
 		/// <summary>
 		/// Logs a message to the debug console.
@@ -78,7 +78,7 @@ namespace CosmosFramework
 		/// <param name="format"></param>
 		/// <param name="context"></param>
 		/// <param name="option"></param>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void Log(object message, LogFormat format, object context, LogOption option)
 		{
 			if (!ActiveAndEnabled)
@@ -104,10 +104,17 @@ namespace CosmosFramework
 				{
 					if (declaringType.Namespace.Contains("Microsoft"))
 						continue;
-					if(!declaringType.Namespace.Contains("CosmosEngine"))
+#if EDITOR
+					if (declaringType.Namespace.Contains("CosmosFramework"))
 					{
-						lastValidIndex = stacktrace.Count;
+						lastValidIndex = stacktrace.Count - 1;
 					}
+#else
+					if (!declaringType.Namespace.Contains("CosmosFramework"))
+					{
+						lastValidIndex = stacktrace.Count - 1;
+					}
+#endif
 				}
 
 				string[] filePath = frame.GetFileName().Split('\\');
@@ -151,7 +158,7 @@ namespace CosmosFramework
 			Instance.AddLog(log);
 		}
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public void AddLog(LogMessage log)
 		{
 			if (updating)
@@ -179,10 +186,10 @@ namespace CosmosFramework
 			}
 		}
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void FormatLog(string message, params object[] args) => FormatLog(message, LogFormat.Message, args);
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void FormatLog(string message, LogFormat format, params object[] args)
 		{
 			string log = string.Format(message, args);
@@ -193,7 +200,7 @@ namespace CosmosFramework
 		/// <inheritdoc cref="CosmosFramework.Debug.QuickLog(object, LogFormat)"/>
 		/// </summary>
 		/// <param name="message"></param>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void QuickLog(object message) => QuickLog(message, LogFormat.Message);
 
 		/// <summary>
@@ -204,12 +211,12 @@ namespace CosmosFramework
 		/// <item><see cref="CosmosFramework.LogOption.IgnoreCallCount"/></item>
 		/// </list>
 		/// </summary>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void QuickLog(object message, LogFormat format) => Log(message, format, DefaultOption | LogOption.CompareInitialCallOnly | LogOption.IgnoreCallCount);
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable(IEnumerable context) => LogTable($"{context.GetType().Name}", context);
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable(object message, IEnumerable context) => LogTable(message, context, LogFormat.Message);
 
 		/// <summary>
@@ -218,7 +225,7 @@ namespace CosmosFramework
 		/// <param name="message"></param>
 		/// <param name="context"></param>
 		/// <param name="format"></param>
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable(object message, IEnumerable context, LogFormat format)
 		{
 			if (context == null)
@@ -231,13 +238,13 @@ namespace CosmosFramework
 			Log(message, format, context, DefaultOption | LogOption.IgnoreCallCount | LogOption.Collection | LogOption.NoStacktrace);
 		}
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable<T>(IEnumerable context, Func<T, string> result) => LogTable<T>($"{context.GetType().Name}", context, result);
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable<T>(object message, IEnumerable context, Func<T, string> result) => LogTable<T>(message, context, result, LogFormat.Message);
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void LogTable<T>(object message, IEnumerable context, Func<T, string> result, LogFormat format)
 		{
 			if (context == null)
@@ -257,7 +264,7 @@ namespace CosmosFramework
 			Log(message, format, contextLog, DefaultOption | LogOption.IgnoreCallCount | LogOption.Collection | LogOption.NoStacktrace);
 		}
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void TimeLog(Action method)
 		{
 			Stopwatch sw = Stopwatch.StartNew();
@@ -266,7 +273,7 @@ namespace CosmosFramework
 			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", LogFormat.Complete, DefaultOption);
 		}
 
-		[Conditional("EDITOR")]
+		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void TimeLog(Func<bool> method)
 		{
 			Stopwatch sw = Stopwatch.StartNew();
@@ -277,7 +284,7 @@ namespace CosmosFramework
 
 		public void Update()
 		{
-#if EDITOR
+#if EDITOR || DEBUG
 			if (!DisplayLogs)
 				return;
 
@@ -333,7 +340,7 @@ namespace CosmosFramework
 
 		public void RenderUI()
 		{
-#if EDITOR
+#if EDITOR || DEBUG
 			if (!DisplayLogs)
 				return;
 

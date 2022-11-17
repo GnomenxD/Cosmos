@@ -5,7 +5,6 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
-
 		public override void Initialize()
 		{
 

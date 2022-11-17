@@ -117,7 +117,9 @@ namespace CosmosFramework
 
 				texture.Name = path;
 				AssignTexture(texture);
+#if EDITOR
 				Debug.Log($"Loaded Texture2D: {texture.Name}", LogFormat.Complete);
+#endif
 			}
 			return texture;
 		}

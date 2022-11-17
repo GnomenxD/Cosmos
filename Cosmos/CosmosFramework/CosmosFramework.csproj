@@ -68,4 +68,7 @@
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />
   </Target>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir) $(ConfigurationName)" />
+  </Target>
 </Project>

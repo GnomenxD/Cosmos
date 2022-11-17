@@ -58,6 +58,8 @@ namespace CosmosFramework.CoreModule
 			game.AddEssential();
 #if EDITOR
 			game.AddEditor();
+#elif DEBUG
+			game.AddDebug();
 #endif
 			return game;
 		}
@@ -86,9 +88,15 @@ namespace CosmosFramework.CoreModule
 			return this;
 		}
 
-		public Game AddEditor()
+		public Game AddDebug()
 		{
 			game.AddModule<Debug>(-900);
+			return this;
+		}
+
+		public Game AddEditor()
+		{
+			AddDebug();
 			game.AddModule<GizmosModule>(-900);
 			game.AddModule<EditorGrid>(-900);
 			game.AddModule<EditorStats>(-900);

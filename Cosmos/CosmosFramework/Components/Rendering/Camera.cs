@@ -124,8 +124,6 @@ namespace CosmosFramework
 				lastOrthographicSize = orthographicSize;
 				UpdateCamera();
 			}
-
-			Debug.QuickLog(boundingBox);
 		}
 
 		public void UpdateCamera()

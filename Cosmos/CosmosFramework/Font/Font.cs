@@ -16,6 +16,7 @@ namespace CosmosFramework
 		private static Font montserrat;
 		private static Font trebuchet;
 		private static Font verdana;
+		public static Font Default => Inter;
 		public static Font Arial => arial ??= new Font("resources/fonts/arial");
 		public static Font Calibri => calibri ??= new Font("resources/fonts/calibri");
 		public static Font Inter => inter ??= new Font("resources/fonts/inter");

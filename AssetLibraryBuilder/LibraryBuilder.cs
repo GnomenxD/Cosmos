@@ -164,7 +164,7 @@ namespace AssetLibraryBuilder
 			StringBuilder sb = new StringBuilder();
 			using (StreamWriter writer = new StreamWriter($"{libraryPath}\\Assets.cs"))
 			{
-				sb.AppendLine("using CosmosEngine;\n");
+				sb.AppendLine("using CosmosFramework;\n");
 				sb.AppendLine("public static partial class Assets");
 				sb.AppendLine("{");
 
