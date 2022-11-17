@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CosmosEngine.Collection
+namespace CosmosEngine.Collections
 {
 	public class Heap<T> : IEnumerable<T> where T : IHeapItem<T>
 	{
