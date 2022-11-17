@@ -20,9 +20,6 @@ namespace CosmosEngine
 				}
 
 				sprite = value;
-				//Debug.Log($"1 Sprite Size: {sprite.Size} | {sprite.Texture}");
-				//sprite.Load();
-				//Debug.Log($"2 Sprite Size: {sprite.Size}");
 				if (sprite != null)
 				{
 					sourceRect = new Rect(Offset, sprite.Size);
@@ -50,11 +47,6 @@ namespace CosmosEngine
 		{
 			if (sprite == null)
 				return;
-
-			//Core.SpriteBatch.Draw(Sprite.Texture, Transform.Position.ToXna(), Colour);
-			//return;
-
-			Debug.Log($"Rect: {sourceRect} +++ {Sprite.Size}");
 
 			Draw.Sprite(Sprite, Transform.Position, Transform.Rotation, Transform.Scale, sourceRect, Vector2.Half, Colour, SortingValue);
 		}
