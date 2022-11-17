@@ -1,6 +1,4 @@
-﻿using CosmosEngine;
-using CosmosEngine.Modules;
-using Opgave;
+﻿using Opgave;
 
 GameWorld.Create<GameWorld>()
 	.Resolution(CosmosEngine.ScreenResolution.m_900p, false)

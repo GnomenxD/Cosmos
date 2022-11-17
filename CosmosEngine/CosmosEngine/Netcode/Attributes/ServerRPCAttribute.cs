@@ -1,5 +1,3 @@
-﻿using System;
-
-namespace CosmosEngine.Netcode
+﻿namespace CosmosEngine.Netcode
 {
 }

@@ -1,12 +1,5 @@
-﻿using CosmosEngine;
-using CosmosEngine.Collections;
-using CosmosEngine.CoreModule;
-using Microsoft.Xna.Framework.Graphics;
-using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using CosmosEngine.CoreModule;
+using System;
 
 namespace Opgave
 {

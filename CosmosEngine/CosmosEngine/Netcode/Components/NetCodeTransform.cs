@@ -1,6 +1,3 @@
-using CosmosEngine;
-using CosmosEngine.Netcode.Serialization;
-
 namespace CosmosEngine.Netcode
 {
 	public class NetcodeTransform : NetcodeBehaviour

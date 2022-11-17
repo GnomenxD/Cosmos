@@ -6,10 +6,12 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <UseWindowsForms>true</UseWindowsForms>
+    <Configurations>Debug;Release;Editor</Configurations>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
@@ -20,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Audio\" />
+    <Folder Include="Assets\Sprites\" />
     <Folder Include="ExistingFolder\" />
     <Folder Include="MyFolder\" />
   </ItemGroup>
