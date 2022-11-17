@@ -7,22 +7,21 @@ namespace AssetLibraryBuilder
 	{
 		private string? assetFolder;
 		private string? binFolder;
+		private string? outputDirectory;
 		private string rootDirectory;
-		private string outputDirectory;
 		private string configurationName;
 		private StringBuilder stringBuilder;
 
-		public LibraryBuilder(string rootDirectory, string outputDirectory, string configurationName)
+		public LibraryBuilder(string rootDirectory, string configurationName)
 		{
 			this.rootDirectory = rootDirectory;
-			this.outputDirectory = outputDirectory;
 			this.configurationName = configurationName;
 			stringBuilder = new StringBuilder();
 		}
 
 		public void CreateLibrary()
 		{
-			Console.WriteLine($"Creationg Asset Library.");
+			Console.WriteLine($"------ Creationg Asset Library.");
 			if (!LocateAssetDirectory())
 				return;
 			if (!LocateOutputDirectory())
@@ -33,7 +32,7 @@ namespace AssetLibraryBuilder
 
 			if (assetFolder == null)
 			{
-				Console.WriteLine($"Error code 035 - No asset folder exist, automatic asset builder cound not create a library.");
+				Console.WriteLine(ErrorCode.NoAssetDirectory(null));
 				return;
 			}
 			string libraryPath = CreateAssetLibraryFolder();
@@ -53,6 +52,13 @@ namespace AssetLibraryBuilder
 				(s) => s.Equals("bin", StringComparison.CurrentCultureIgnoreCase),
 				(s) => s.Equals("obj", StringComparison.CurrentCultureIgnoreCase),
 			});
+
+			if (assetFolder == null)
+			{
+				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
+				return false;
+			}
+
 			return true;
 		}
 
@@ -90,7 +96,6 @@ namespace AssetLibraryBuilder
 
 			//Last we need to find the actually output folder, the one which contains the .exe file.
 			//This is not optimal and should be 
-			Console.WriteLine($"config: {(configurationFolder == null ? "null" : configurationFolder)}");
 			string? outputFolder = null;
 			LocateFolder(configurationFolder, "runtimes", ref outputFolder, new Func<string, bool>[]
 			{
@@ -105,10 +110,9 @@ namespace AssetLibraryBuilder
 				return false;
 			}
 
-			Console.WriteLine($"output: {(outputFolder == null ? "null" : outputFolder)}");
 			if(outputFolder == null)
 			{
-				Console.WriteLine($"Error code 077 - Please Rebuild the Project.");
+				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
 				return false;
 			}
 
@@ -154,6 +158,11 @@ namespace AssetLibraryBuilder
 			List<SpriteAssetReference> spriteAssets = GenerateSpriteAssetReferences();
 			GenerateSharedAssets(spriteAssets);
 
+			if(!File.Exists($"{libraryPath}\\Assets.cs"))
+			{
+				Console.WriteLine(ErrorCode.AssetsFileMissing($"{libraryPath}\\Assets.cs"));
+			}
+
 			StringBuilder sb = new StringBuilder();
 			using (StreamWriter writer = new StreamWriter($"{libraryPath}\\Assets.cs"))
 			{
@@ -174,6 +183,7 @@ namespace AssetLibraryBuilder
 
 				writer.Write(sb.Normalize());
 			}
+			sb.Clear();
 			Console.WriteLine($"libraryPath: {libraryPath}");
 
 			GenerateSharedAssets(spriteAssets);
@@ -209,15 +219,13 @@ namespace AssetLibraryBuilder
 
 		sharedAssetCreation:
 			createdNewLibrary = false;
-			FileStream stream = File.Open($"{outputDirectory}\\sharedassets{library}.assets", FileMode.Create);
+			FileStream stream = File.Open($"{outputDirectory}\\shared{library}.assets", FileMode.Create);
 			StreamWriter writer = new StreamWriter(stream);
 			for (int i = assetIndex; i < spriteAssets.Count; i++)
 			{
 				assetIndex++;
 				SpriteAssetReference asset = spriteAssets[i];
-				Console.WriteLine($"{asset.Name} [{asset.Buffer.Length}]:[{offset}]");
 				writer.BaseStream.Write(asset.Buffer, 0, asset.Buffer.Length);
-				offset += asset.Buffer.Length;
 				if (offset + asset.Buffer.Length >= int.MaxValue - 1)
 				{
 					library++;
@@ -226,6 +234,7 @@ namespace AssetLibraryBuilder
 				}
 				asset.Library = library;
 				asset.Offset = offset;
+				offset += asset.Buffer.Length;
 				if (createdNewLibrary)
 				{
 					writer.Close();
@@ -235,7 +244,7 @@ namespace AssetLibraryBuilder
 			}
 			writer.Close();
 			stream.Close();
-			Console.WriteLine($"generated {library + 1} sharedasset file{(library >= 1 ? "s" : "")} at {outputDirectory}");
+			Console.WriteLine($"generated {library + 1} shared.assets file{(library >= 1 ? "s" : "")} at {outputDirectory}");
 			return library;
 		}
 
@@ -265,7 +274,7 @@ namespace AssetLibraryBuilder
 
 			if (buffer.Length == int.MaxValue)
 			{
-				Console.WriteLine($"asset {assetName} excessed maximum size, you need to reduce it import it manually.");
+				Console.WriteLine(ErrorCode.MaximumSizeOverflow(assetName));
 				return null;
 			}
 
@@ -302,7 +311,7 @@ namespace AssetLibraryBuilder
 			stringBuilder.Append(" { get; } = \n\t\t Sprite.Asset");
 			stringBuilder.Append($"(\"{asset.Name}\", {asset.Library}, {asset.Buffer.Length}, {asset.Offset});");
 
-			Console.WriteLine($"\tasset link {asset.FolderStructure}");
+			Console.WriteLine($"\tasset linked {asset.Library} {asset.FolderStructure}.{asset.Name} [{asset.Buffer.Length}, {asset.Offset}]");
 			return stringBuilder.Normalize();
 		}
 
@@ -406,7 +415,6 @@ namespace AssetLibraryBuilder
 						break;
 					}
 				}
-				Console.WriteLine($"looking for \"{target}\" === {folder} [{ignore}]");
 				if (ignore)
 					continue;
 				if (folderPath != null)
@@ -414,7 +422,6 @@ namespace AssetLibraryBuilder
 
 				if (folder.Equals(target, StringComparison.CurrentCultureIgnoreCase))
 				{
-					Console.WriteLine($"target {target} found: {directory}");
 					folderPath = directory;
 					return;
 				}

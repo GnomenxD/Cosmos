@@ -32,6 +32,7 @@
     <ProjectReference Include="..\..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AssetsLibrary\" />
     <Folder Include="Assets\Audio\" />
     <Folder Include="ExistingFolder\" />
     <Folder Include="MyFolder\" />

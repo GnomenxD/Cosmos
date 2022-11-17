@@ -11,6 +11,7 @@ namespace CosmosEngine
 	{
 		private static readonly string rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
 		private string contentPath;
+		private SharedAssetReference assetReference;
 		private Texture2D mainTexture;
 		private Vector2 size;
 		//Pivot
@@ -30,7 +31,12 @@ namespace CosmosEngine
 			get
 			{
 				if(mainTexture == null)
-					Load();
+				{
+					if (sharedAsset)
+						LoadFromSharedAsset();
+					else
+						Load();
+				}
 				return mainTexture;
 			}
 		}
@@ -53,9 +59,11 @@ namespace CosmosEngine
 
 		}
 
-		private Sprite(string name, int library, int buffer, int offset)
+		private Sprite(string name, int library, int bufferSize, int offset)
 		{
-
+			contentPath = name;
+			sharedAsset = true;
+			assetReference = new SharedAssetReference(library, bufferSize, offset);
 		}
 
 		public Sprite(string contentPath)
@@ -68,24 +76,27 @@ namespace CosmosEngine
 			this.mainTexture = mainTexture;
 		}
 
-		private void LoadFromSharedAsset()
+		public Texture2D Load()
 		{
-
+			if(sharedAsset)
+			{
+				LoadFromSharedAsset();
+				return null;
+			}
+			return Load(contentPath);
 		}
 
-		public void Load() => Load(contentPath);
-
-		public void Load(string path)
+		public Texture2D Load(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
 				Debug.LogWarning($"Trying to load Texture2D from empty path.");
-				return;
+				return null;
 			}
 			if (!File.Exists($"{path}"))
 			{
 				Debug.LogWarning($"Attempting to load Texture2D from {path}, but no such file exist. Remember to copy files to output directory.");
-				return;
+				return null;
 			}
 
 			Texture2D texture = null;
@@ -107,6 +118,29 @@ namespace CosmosEngine
 				texture.Name = path;
 				AssignTexture(texture);
 				Debug.Log($"Loaded Texture2D: {texture.Name}", LogFormat.Complete);
+			}
+			return texture;
+		}
+
+		private void LoadFromSharedAsset()
+		{
+			if (!sharedAsset)
+				return;
+			string sharedAssetPath = $"data/shared{assetReference.Library}.assets";
+			using (StreamReader sReader = new StreamReader(sharedAssetPath))
+			{
+				byte[] buffer = new byte[assetReference.BufferSize];
+				sReader.BaseStream.Position = assetReference.Offset;
+				sReader.BaseStream.Read(buffer, 0, buffer.Length);
+
+				using (TempFileCollection tempFile = new TempFileCollection())
+				{
+					string file = tempFile.AddExtension("png");
+					File.WriteAllBytes(file, buffer);
+					Console.WriteLine($"creating temporary file {file} for {ToString()}");
+					Texture2D tex = Load(file);
+					tex.Name = contentPath;
+				}
 			}
 		}
 
@@ -131,11 +165,17 @@ namespace CosmosEngine
 			base.Dispose(disposing);
 		}
 
-		public override string ToString() => $"Sprite({Name})";
-
-		public static Sprite Asset(string name, int library, int buffer, int offset)
+		public override string ToString()
 		{
-			Sprite sprite = new Sprite(name, library, buffer, offset);
+			if (sharedAsset)
+				return $"Sprite({assetReference.Library}.{contentPath} [{assetReference.BufferSize}],[{assetReference.Offset}])";
+			else
+				return $"Sprite({Name})";
+		}
+
+		public static Sprite Asset(string name, int library, int bufferSize, int offset)
+		{
+			Sprite sprite = new Sprite(name, library, bufferSize, offset);
 			sprite.sharedAsset = true;
 
 			return sprite;

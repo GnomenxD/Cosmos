@@ -23,39 +23,8 @@ namespace Opgave
 
 		public override void Start()
 		{
-			Debug.Log("Exists: " + File.Exists("sharedassets0.asset"));
-			StreamReader sReader = new StreamReader("sharedassets0.asset");
-
-			Sprite[] sprites = new Sprite[2];
-			int i = 0;
-
-			Debug.Log("shared assets total count: " + File.ReadAllBytes("sharedassets0.asset").Length);
-
-			using (var tempFile = new TempFileCollection())
-			{
-				int offset = 2698;
-				byte[] buffer = new byte[2708];
-				//sReader.BaseStream.Read(buffer, 0, 286506);
-				sReader.BaseStream.Position = 286506 + 2698;
-				//sReader.BaseStream.Read(buffer, 0, 2698);
-				sReader.BaseStream.Read(buffer, 0, buffer.Length);
-
-				string file = tempFile.AddExtension("png");
-				File.WriteAllBytes(file, buffer);
-				Debug.Log($"File: {file}");
-				sprites[i] = new Sprite();
-				sprites[i].Load(file);
-				Console.WriteLine(file);
-			}
-			sReader.Close();
-
 			GameObject go = new GameObject("Test Object", typeof(SpriteRenderer));
-			go.GetComponent<SpriteRenderer>().Sprite = sprites[0];
-		}
-
-		private void Iterate(int i)
-		{
-			Debug.Log($"Value: {i}");
+			go.GetComponent<SpriteRenderer>().Sprite = Assets.Planet01;
 		}
 
 		public override void Update()

@@ -7,21 +7,19 @@ internal class Program
 	{
 		if (args.Length <= 1)
 		{
-			Console.WriteLine("No solution and output directory was provided... Please check Pre-build event in the .csproj file.");
+			Console.WriteLine(ErrorCode.ArgumentOutOfRange(null));
 			return;
 		}
 
 		string rootDirectory = args[0];
-		string outputDirectory = args[1];
-		string configurationName = args[2];
-		string solution = args[3];
+		string configurationName = args[1];
 
-		for (int i = 0; i < args.Length; i++)
-		{
-			Console.WriteLine($"\t[{i}] = {args[i]}");
-		}
+		//for (int i = 0; i < args.Length; i++)
+		//{
+		//	Console.WriteLine($"\t[{i}] = {args[i]}");
+		//}
 
-		LibraryBuilder libraryBuilder = new LibraryBuilder(rootDirectory, outputDirectory, configurationName);
+		LibraryBuilder libraryBuilder = new LibraryBuilder(rootDirectory, configurationName);
 		libraryBuilder.CreateLibrary();
 
 		//Console.WriteLine($"Library: {library}");

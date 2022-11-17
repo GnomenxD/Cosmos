@@ -60,6 +60,6 @@
     </None>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir) $(OutDir) $(ConfigurationName) $(SolutionFileName)" />
+    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir) $(ConfigurationName)" />
   </Target>
 </Project>
