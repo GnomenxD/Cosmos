@@ -18,7 +18,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj" />
+    <ProjectReference Include="..\..\..\Cosmos\CosmosFramework\CosmosFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Audio\" />
