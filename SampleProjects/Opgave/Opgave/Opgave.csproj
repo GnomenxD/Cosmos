@@ -1,39 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <UseWindowsForms>true</UseWindowsForms>
-    <Configurations>Debug;Release;Editor</Configurations>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Assets\Sprites\.Ships\**" />
-    <Compile Remove="Assets\Sprites\Ships - Copy\**" />
-    <EmbeddedResource Remove="Assets\Sprites\.Ships\**" />
-    <EmbeddedResource Remove="Assets\Sprites\Ships - Copy\**" />
-    <None Remove="Assets\Sprites\.Ships\**" />
-    <None Remove="Assets\Sprites\Ships - Copy\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Sprites\Ships\.Enemy\enemyBlack1.png" />
-    <Content Include="Assets\Sprites\Ships\.Enemy\enemyBlue2.png" />
-    <Content Include="Assets\Sprites\Ships\.Enemy\enemyGreen4.png" />
-    <Content Include="Assets\Sprites\Ships\.Enemy\enemyRed3.png" />
-    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_blue.png" />
-    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_green.png" />
-    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_orange.png" />
-    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_red.png" />
-    <Content Include="Assets\Sprites\Ships\.UFO\ufoBlue.png" />
-    <Content Include="Assets\Sprites\Ships\.UFO\ufoGreen.png" />
-    <Content Include="Assets\Sprites\Ships\.UFO\ufoRed.png" />
-    <Content Include="Assets\Sprites\Ships\.UFO\ufoYellow.png" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
@@ -42,10 +19,59 @@
     <ProjectReference Include="..\..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AssetsLibrary\" />
     <Folder Include="Assets\Audio\" />
     <Folder Include="ExistingFolder\" />
     <Folder Include="MyFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Sprites\playerShip1_blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip1_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip1_orange.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip1_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip2_blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip2_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip2_orange.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip2_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip3_blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip3_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip3_orange.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\playerShip3_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\ufoBlue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\ufoGreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\ufoRed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sprites\ufoYellow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
