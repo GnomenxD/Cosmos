@@ -11,6 +11,7 @@ namespace CosmosEngine.Diagnostics
 		private readonly LogFormat format;
 		private readonly LogOption option;
 		private readonly string stackTrace;
+		private readonly int stackTraceLine;
 		private readonly string initialStackCall;
 		private IEnumerable table;
 		private string collectionTable;
@@ -35,7 +36,7 @@ namespace CosmosEngine.Diagnostics
 					System.Text.StringBuilder sb = new System.Text.StringBuilder();
 					foreach (var item in table)
 					{
-						sb.Append($"[{index}] ");
+						sb.Append($"<stacktrace>[{index}] ");
 						sb.AppendLine((item == null) ? "null" : item.ToString());
 						index++;
 					}
@@ -62,12 +63,13 @@ namespace CosmosEngine.Diagnostics
 			}
 		}
 
-		public LogMessage(string message, LogFormat format, LogOption option, string stackTrace, string initialStackCall)
+		public LogMessage(string message, LogFormat format, LogOption option, string stackTrace, int stackTraceLine, string initialStackCall)
 		{
 			this.message = message;
 			this.format = format;
 			this.option = option;
 			this.stackTrace = stackTrace;
+			this.stackTraceLine = stackTraceLine;
 			this.initialStackCall = initialStackCall;
 			this.count = 1;
 			this.Rect = new Rect(0, 0, 20, 20);
@@ -94,7 +96,9 @@ namespace CosmosEngine.Diagnostics
 			if (other == null)
 				return false;
 			if (ignoreMessage)
-				return InitialCall.Equals(other.InitialCall);
+			{
+				return InitialCall.Equals(other.InitialCall) && stackTraceLine.Equals(other.stackTraceLine);
+			}
 			else
 				return Equals(other);
 		}

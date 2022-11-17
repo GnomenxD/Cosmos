@@ -1,5 +1,5 @@
 using CosmosEngine;
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 using CosmosEngine.Netcode.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;

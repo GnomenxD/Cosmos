@@ -123,7 +123,6 @@ namespace CosmosEngine.CoreModule
 			}
 			else
 			{
-				//Console.WriteLine($"Setting execution order of {module.GetType().FullName} to {executionOrder}");
 				module.ExecutionOrder = executionOrder;
 				gameModules.Add(module);
 			}

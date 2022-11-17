@@ -16,12 +16,12 @@ namespace CosmosEngine
 		private static Font montserrat;
 		private static Font trebuchet;
 		private static Font verdana;
-		public static Font Arial => arial ??= new Font("Fonts/arial");
-		public static Font Calibri => calibri ??= new Font("Fonts/calibri");
-		public static Font Inter => inter ??= new Font("Fonts/inter");
-		public static Font Montserrat => montserrat ??= new Font("Fonts/montserrat");
-		public static Font TrebuchetMS => trebuchet ??= new Font("Fonts/trebuc");
-		public static Font Verdana => verdana ??= new Font("Fonts/verdana");
+		public static Font Arial => arial ??= new Font("Assets/Fonts/arial");
+		public static Font Calibri => calibri ??= new Font("Assets/Fonts/calibri");
+		public static Font Inter => inter ??= new Font("Assets/Fonts/inter");
+		public static Font Montserrat => montserrat ??= new Font("Assets/Fonts/montserrat");
+		public static Font TrebuchetMS => trebuchet ??= new Font("Assets/Fonts/trebuc");
+		public static Font Verdana => verdana ??= new Font("Assets/Fonts/verdana");
 		#endregion
 
 		internal const int FontBitmapWidth = 1024;
@@ -96,7 +96,7 @@ namespace CosmosEngine
 				int fontSize = Mathf.RoundToInt((float)size * 1.667f);
 				//Font size does not exist, we have to create a new size.
 				TtfFont fontBakeResult;
-				using (var stream = File.OpenRead("Assets/" + fontPath))
+				using (var stream = File.OpenRead(fontPath))
 				{
 					fontBakeResult = FontFactory.Bake(stream,
 						fontSize,

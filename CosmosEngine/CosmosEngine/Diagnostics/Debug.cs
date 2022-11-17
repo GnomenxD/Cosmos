@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.EntitySql;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace CosmosEngine
@@ -45,28 +46,34 @@ namespace CosmosEngine
 		/// Logs a warning message to the debug console.
 		/// </summary>
 		/// <param name="message"></param>
+		[Conditional("EDITOR")]
 		public static void LogWarning(object message) => Log(message, LogFormat.Warning);
 		/// <summary>
 		/// Logs an error message to the debug console.
 		/// </summary>
 		/// <param name="message"></param>
+		[Conditional("EDITOR")]
 		public static void LogError(object message) => Log(message, LogFormat.Error);
 
 		/// <summary>
 		/// <inheritdoc cref="CosmosEngine.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
+		[Conditional("EDITOR")]
 		public static void Log(object message) => Log(message, LogFormat.Message);
 		/// <summary>
 		/// <inheritdoc cref="CosmosEngine.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
+		[Conditional("EDITOR")]
 		public static void Log(object message, LogFormat format) => Log(message, format, null);
 		/// <summary>
 		/// <inheritdoc cref="CosmosEngine.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
+		[Conditional("EDITOR")]
 		public static void Log(object message, LogFormat format, object context) => Log(message, format, context, DefaultOption);
 		/// <summary>
 		/// <inheritdoc cref="CosmosEngine.Debug.Log(object, LogFormat, object, LogOption)"/>
 		/// </summary>
+		[Conditional("EDITOR")]
 		public static void Log(object message, LogFormat format, LogOption option) => Log(message, format, null, option);
 		/// <summary>
 		/// Logs a message to the debug console.
@@ -87,6 +94,7 @@ namespace CosmosEngine
 			StackTrace trace = new StackTrace(true);
 			StackFrame[] frames = trace.GetFrames();
 			int lastValidIndex = -1;
+			int line = -1;
 			for (int i = 0; i < frames.Length - 1; i++)
 			{
 				StackFrame frame = frames[i];
@@ -94,9 +102,9 @@ namespace CosmosEngine
 				Type declaringType = method.DeclaringType;
 				if (declaringType == typeof(Debug))
 					continue;
-				if (string.IsNullOrEmpty(frame.GetFileName()))
+				if (string.IsNullOrWhiteSpace(frame.GetFileName()))
 					continue;
-				if (!string.IsNullOrEmpty(declaringType.Namespace))
+				if (!string.IsNullOrWhiteSpace(declaringType.Namespace))
 				{
 					if (declaringType.Namespace.Contains("Microsoft"))
 						continue;
@@ -109,12 +117,13 @@ namespace CosmosEngine
 				string[] filePath = frame.GetFileName().Split('\\');
 				string fileName = filePath[filePath.Length - 1];
 
-				string stackTraceText = $"{declaringType.FullName}:{method.Name}{method.GetParameters().ParameterName()}" +
+				string stackTraceText = $"<stacktrace>{declaringType.FullName}:{method.Name}{method.GetParameters().ParameterName()}" +
 					$" at <colour>{fileName}:{frame.GetFileLineNumber()}";
 				stacktrace.Add(stackTraceText);
 
-				if (string.IsNullOrEmpty(initial))
+				if (string.IsNullOrWhiteSpace(initial))
 				{
+					line = frames[i].GetFileLineNumber();
 					initial = $"{declaringType.FullName}.{method.Name}";
 					if (option.HasFlag(LogOption.NoStacktrace))
 						break;
@@ -130,7 +139,7 @@ namespace CosmosEngine
 			}
 
 			LogMessage log = new LogMessage(message == null ? "null" : message.ToString(),
-				format, option, finalTrace.ToString(), initial);
+				format, option, finalTrace.ToString(), line, initial);
 
 			if (context != null)
 			{
@@ -174,6 +183,7 @@ namespace CosmosEngine
 			}
 		}
 
+		[Conditional("EDITOR")]
 		public static void FormatLog(string message, params object[] args) => FormatLog(message, LogFormat.Message, args);
 
 		[Conditional("EDITOR")]
@@ -187,10 +197,11 @@ namespace CosmosEngine
 		/// <inheritdoc cref="CosmosEngine.Debug.QuickLog(object, LogFormat)"/>
 		/// </summary>
 		/// <param name="message"></param>
+		[Conditional("EDITOR")]
 		public static void QuickLog(object message) => QuickLog(message, LogFormat.Message);
 
 		/// <summary>
-		/// Logs a message to the debug console. It's only possible to invoke one QuickLog from a method, only the newest QuickLog message will be displayed.
+		/// Logs a message to the debug console. Quick logs ignores call count and only displays newest log as its message.
 		/// <list type="bullet">
 		/// <item><see cref="CosmosEngine.LogOption.Collapse"/></item>
 		/// <item><see cref="CosmosEngine.LogOption.CompareInitialCallOnly"/></item>
@@ -198,10 +209,11 @@ namespace CosmosEngine
 		/// </list>
 		/// </summary>
 		[Conditional("EDITOR")]
-
 		public static void QuickLog(object message, LogFormat format) => Log(message, format, DefaultOption | LogOption.CompareInitialCallOnly | LogOption.IgnoreCallCount);
 
+		[Conditional("EDITOR")]
 		public static void LogTable(IEnumerable context) => LogTable($"{context.GetType().Name}", context);
+		[Conditional("EDITOR")]
 		public static void LogTable(object message, IEnumerable context) => LogTable(message, context, LogFormat.Message);
 
 		/// <summary>
@@ -223,8 +235,10 @@ namespace CosmosEngine
 			Log(message, format, context, DefaultOption | LogOption.IgnoreCallCount | LogOption.Collection | LogOption.NoStacktrace);
 		}
 
+		[Conditional("EDITOR")]
 		public static void LogTable<T>(IEnumerable context, Func<T, string> result) => LogTable<T>($"{context.GetType().Name}", context, result);
 
+		[Conditional("EDITOR")]
 		public static void LogTable<T>(object message, IEnumerable context, Func<T, string> result) => LogTable<T>(message, context, result, LogFormat.Message);
 
 		[Conditional("EDITOR")]
@@ -254,6 +268,15 @@ namespace CosmosEngine
 			method.Invoke();
 			sw.Stop();
 			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", LogFormat.Complete, DefaultOption);
+		}
+
+		[Conditional("EDITOR")]
+		public static void TimeLog(Func<bool> method)
+		{
+			Stopwatch sw = Stopwatch.StartNew();
+			bool v = method.Invoke();
+			sw.Stop();
+			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", v ? LogFormat.Complete : LogFormat.Error, DefaultOption);
 		}
 
 		public void Update()
@@ -331,23 +354,28 @@ namespace CosmosEngine
 				{
 					string[] message = log[i].Split("<colour>");
 					string text = message[0];
-					if (i == 0)
-					{
-						position.X = DisplayPosition.X;
-						Draw.Sprite(msg.Icon, position, 0.0f, new Vector2(0.4f, 0.4f), null, Vector2.Zero, Colour.White, short.MaxValue);
-						fontSize = 11;
-						message[0] += $" {(msg.Count > 1 ? $"({msg.Count})" : "")}";
-						Rect rect = msg.Rect;
-						rect.Set(position.X, position.Y, rect.Size.X, rect.Size.Y);
-						msg.Rect = rect;
-						position.X = DisplayPosition.X + 25;
-					}
-					else
+					if (log[i].Contains("<stacktrace>"))
 					{
 						if (!msg.Expanded)
 							break;
+
+						message[0] = message[0].Replace("<stacktrace>", "");
 						fontSize = 10;
 						position.X = DisplayPosition.X + 40;
+					}
+					else
+					{
+						position.X = DisplayPosition.X;
+						if (i == 0)
+						{
+							Draw.Sprite(msg.Icon, position, 0.0f, new Vector2(0.4f, 0.4f), null, Vector2.Zero, Colour.White, short.MaxValue);
+							Rect rect = msg.Rect;
+							rect.Set(position.X, position.Y, rect.Size.X, rect.Size.Y);
+							msg.Rect = rect;
+							message[0] += $" {(msg.Count > 1 ? $"({msg.Count})" : "")}";
+						}
+						fontSize = 11;
+						position.X = DisplayPosition.X + 25;
 					}
 
 					Draw.Text(message[0], Font.Inter, fontSize, position, Colour.White, short.MaxValue);

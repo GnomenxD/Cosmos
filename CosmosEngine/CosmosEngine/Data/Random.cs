@@ -125,7 +125,7 @@ namespace CosmosEngine
 		}
 
 		/// <summary>
-		/// Returns true if Random.Value is above the given percentage must be within [0.0, 1.0]
+		/// Returns <see langword="true"/> if <see cref="CosmosEngine.Random.Value"/> is above the given percentage must be within [0.0, 1.0]
 		/// </summary>
 		/// <param name="percent">The percentage in a range of [0.0, 1.0].</param>
 		/// <param name="inclusive">If inclusive the value itself will include in the check.</param>

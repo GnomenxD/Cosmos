@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Cosmos.Entity.CoreModule;
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 
 namespace Cosmos.Entity
 {

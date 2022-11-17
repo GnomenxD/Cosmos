@@ -17,7 +17,6 @@ namespace Opgave
 		{
 
 		}
-
 		public override void Start()
 		{
 		}

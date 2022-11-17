@@ -54,13 +54,14 @@ namespace CosmosEngine.CoreModule
 
 			IsFixedTimeStep = false;
 			graphics.SynchronizeWithVerticalRetrace = true;
-			TargetElapsedTime = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / 120);
-			InactiveSleepTime = new TimeSpan(0);
+			//TargetElapsedTime = TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond / 500));
+			InactiveSleepTime = new TimeSpan((long)(TimeSpan.TicksPerSecond / 120));
 			graphics.PreferMultiSampling = true;
 
 			graphics.ApplyChanges();
 			Window.AllowUserResizing = true;
 			Window.ClientSizeChanged += new EventHandler<EventArgs>(WindowClientSizeChanged);
+			Window.TextInput += new EventHandler<TextInputEventArgs>(KeyboardInput.InputHandler);
 
 			//Add desired Game Manager Systems
 			List<IModule> modules = new List<IModule>();

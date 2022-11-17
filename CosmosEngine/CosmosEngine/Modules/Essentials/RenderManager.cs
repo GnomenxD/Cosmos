@@ -1,6 +1,6 @@
 ﻿
 using CosmosEngine.CoreModule;
-using CosmosEngine.Collection;
+using CosmosEngine.Collections;
 using CosmosEngine.Rendering;
 using System.Threading;
 using System.Collections.Generic;
@@ -145,13 +145,11 @@ namespace CosmosEngine.Modules
 			base.Update();
 			if (renderComponents.IsDirty)
 			{
-				renderComponents.RemoveAll(RemoveAllPredicate());
-				renderComponents.IsDirty = false;
+				renderComponents.DisposeAll(RemoveAllPredicate());
 			}
 			if (uiComponents.IsDirty)
 			{
-				uiComponents.RemoveAll(RemoveAllPredicate());
-				uiComponents.IsDirty = false;
+				uiComponents.DisposeAll(RemoveAllPredicate());
 			}
 		}
 		public override System.Predicate<IRenderer> RemoveAllPredicate() => item => item.Expired;
