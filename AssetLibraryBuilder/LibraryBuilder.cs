@@ -5,6 +5,7 @@ namespace AssetLibraryBuilder
 {
 	internal class LibraryBuilder
 	{
+		private const int bufferMaxSize = 268435456;
 		private string? assetFolder;
 		private string? binFolder;
 		private string? outputDirectory;
@@ -21,7 +22,8 @@ namespace AssetLibraryBuilder
 
 		public void CreateLibrary()
 		{
-			Console.WriteLine($"------ Creationg Asset Library.");
+			System.Diagnostics.Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
+			Console.WriteLine($"------ Creationg Asset Library");
 			if (!LocateAssetDirectory())
 				return;
 			if (!LocateOutputDirectory())
@@ -39,7 +41,8 @@ namespace AssetLibraryBuilder
 			GenerateSpriteLibrary(libraryPath);
 			GenerateAudioLibrary(libraryPath);
 
-			Console.WriteLine($"Asset Library was successful constructed.");
+			stopwatch.Stop();
+			Console.WriteLine($"------ Asset Library was successful constructed [{stopwatch.Elapsed.TotalSeconds:F2}]");
 		}
 
 		#region Folder Structure
@@ -90,7 +93,7 @@ namespace AssetLibraryBuilder
 
 			if (configurationFolder == null)
 			{
-				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
+				Console.WriteLine(ErrorCode.MismatchConfigurationDirectory(null));
 				return false;
 			}
 
@@ -105,12 +108,6 @@ namespace AssetLibraryBuilder
 			});
 
 			if (outputFolder == null)
-			{
-				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
-				return false;
-			}
-
-			if(outputFolder == null)
 			{
 				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
 				return false;
@@ -163,6 +160,7 @@ namespace AssetLibraryBuilder
 				Console.WriteLine(ErrorCode.AssetsFileMissing($"{libraryPath}\\Assets.cs"));
 			}
 
+			int scriptLine = 6;
 			StringBuilder sb = new StringBuilder();
 			using (StreamWriter writer = new StreamWriter($"{libraryPath}\\Assets.cs"))
 			{
@@ -174,7 +172,8 @@ namespace AssetLibraryBuilder
 
 				foreach (SpriteAssetReference assetReference in spriteAssets)
 				{
-					sb.AppendLine(CreateSpriteProperty(assetReference));
+					sb.AppendLine(CreateSpriteProperty(assetReference, scriptLine));
+					scriptLine += 2;
 				}
 
 				sb.AppendLine("\t#endregion");
@@ -200,9 +199,9 @@ namespace AssetLibraryBuilder
 				SpriteAssetReference? assetReference = CreateSpriteAsset(assetPath);
 				if (assetReference == null)
 					continue;
-				if(spriteAssets.Exists(item => item.Name.Equals(assetReference.Name)))
+				if(spriteAssets.Exists(item => item.CompareAssetLink(assetReference)))
 				{
-					Console.WriteLine(ErrorCode.DuplicateSprite(assetReference));
+					//Console.WriteLine(ErrorCode.DuplicateSprite(assetReference));
 					continue;
 				}
 				spriteAssets.Add(assetReference);
@@ -215,28 +214,23 @@ namespace AssetLibraryBuilder
 			int offset = 0;
 			int library = 0;
 			int assetIndex = 0;
-			bool createdNewLibrary;
+			int maxSize = bufferMaxSize;
 
 		sharedAssetCreation:
-			createdNewLibrary = false;
 			FileStream stream = File.Open($"{outputDirectory}\\shared{library}.assets", FileMode.Create);
 			StreamWriter writer = new StreamWriter(stream);
 			for (int i = assetIndex; i < spriteAssets.Count; i++)
 			{
-				assetIndex++;
 				SpriteAssetReference asset = spriteAssets[i];
+				assetIndex++;
 				writer.BaseStream.Write(asset.Buffer, 0, asset.Buffer.Length);
-				if (offset + asset.Buffer.Length >= int.MaxValue - 1)
-				{
-					library++;
-					offset = 0;
-					createdNewLibrary = true;
-				}
 				asset.Library = library;
 				asset.Offset = offset;
 				offset += asset.Buffer.Length;
-				if (createdNewLibrary)
+				if (offset + asset.Buffer.Length >= maxSize)
 				{
+					library++;
+					offset = 0;
 					writer.Close();
 					stream.Close();
 					goto sharedAssetCreation;
@@ -245,6 +239,17 @@ namespace AssetLibraryBuilder
 			writer.Close();
 			stream.Close();
 			Console.WriteLine($"generated {library + 1} shared.assets file{(library >= 1 ? "s" : "")} at {outputDirectory}");
+
+			//Compressing went from 73.116KB to around 65.600KB - 65.178KB, which is a 10-11% decrease in space usage. Could be looked into later.
+			//To do this Comos Framework needs to handle decompression. Tests below
+				//byte[] buffer = File.ReadAllBytes($"{outputDirectory}\\shared0.assets");
+				//using (FileStream fcStream = File.Open($"{outputDirectory}\\fastCompressed_shared{library}.assets", FileMode.Create))
+				//	buffer.Compress(fcStream, System.IO.Compression.CompressionLevel.Fastest);
+				//using (FileStream ocStream = File.Open($"{outputDirectory}\\optimalCompressed_shared{library}.assets", FileMode.Create))
+				//	buffer.Compress(ocStream, System.IO.Compression.CompressionLevel.Optimal);
+				//using (FileStream sscStream = File.Open($"{outputDirectory}\\smallCompressed_shared{library}.assets", FileMode.Create))
+				//	buffer.Compress(sscStream, System.IO.Compression.CompressionLevel.SmallestSize);
+
 			return library;
 		}
 
@@ -253,6 +258,12 @@ namespace AssetLibraryBuilder
 			string[] assetSplit = assetPath.Split('\\');
 			//Get the sprite name from the full path.
 			string assetName = assetSplit[assetSplit.Length - 1];
+			assetName = assetName
+				.Replace("(", "")
+				.Replace(")", "")
+				.Replace("/", "")
+				.Replace("@", "")
+				.Replace("\\", "");
 
 			//Generate byte array from file.
 			byte[] buffer = File.ReadAllBytes(assetPath);
@@ -261,10 +272,18 @@ namespace AssetLibraryBuilder
 			List<string> subFolder = new List<string>();
 			for (int i = assetSplit.Length - 1; i >= 0; i--)
 			{
+				//Ignore and return nothing.
+				if (assetSplit[i].StartsWith('$'))
+				{
+					return null;
+				}
+				//Found final directory.
 				if (assetSplit[i].Equals("Assets"))
 					break;
+				//The current Sprite.
 				if (assetSplit[i].Equals(assetName))
 					continue;
+				//Subfolder.
 				if (assetSplit[i].StartsWith('.'))
 				{
 					subFolder.Add(assetSplit[i]);
@@ -272,7 +291,7 @@ namespace AssetLibraryBuilder
 			}
 			subFolder.Reverse();
 
-			if (buffer.Length == int.MaxValue)
+			if (buffer.Length >= bufferMaxSize)
 			{
 				Console.WriteLine(ErrorCode.MaximumSizeOverflow(assetName));
 				return null;
@@ -293,7 +312,7 @@ namespace AssetLibraryBuilder
 			};
 		}
 
-		private string CreateSpriteProperty(SpriteAssetReference asset)
+		private string CreateSpriteProperty(SpriteAssetReference asset, int scriptLine)
 		{
 			stringBuilder.Clear();
 
@@ -303,6 +322,7 @@ namespace AssetLibraryBuilder
 				.Replace("(", "")
 				.Replace(")", "")
 				.Replace("/", "")
+				.Replace("@", "")
 				.Replace("\\", "")
 				.ToPascalCase()
 				.Replace(" ", "");
@@ -311,7 +331,7 @@ namespace AssetLibraryBuilder
 			stringBuilder.Append(" { get; } = \n\t\t Sprite.Asset");
 			stringBuilder.Append($"(\"{asset.Name}\", {asset.Library}, {asset.Buffer.Length}, {asset.Offset});");
 
-			Console.WriteLine($"\tasset linked {asset.Library} {asset.FolderStructure}.{asset.Name} [{asset.Buffer.Length}, {asset.Offset}]");
+			Console.WriteLine($"\t[{scriptLine}]asset linked {asset.Library} {asset.FolderStructure}.{asset.Name} [{asset.Buffer.Length}, {asset.Offset}]");
 			return stringBuilder.Normalize();
 		}
 
@@ -328,37 +348,6 @@ namespace AssetLibraryBuilder
 
 		#region Static
 
-		private string CreateSpriteProperty(string assetFolderPath, string path)
-		{
-			stringBuilder.Clear();
-
-			string[] folderSplit = assetFolderPath.Split('\\');
-			string[] assetSplit = path.Split('\\');
-
-			string assetPathName = path.Replace(assetFolderPath, "").Replace("\\", "/").TrimStart('/');
-			string assetName = assetSplit[assetSplit.Length - 1]
-				.Replace("_", " ")
-				.ToPascalCase()
-				.Replace(" ", "")
-				.Split('.')[0];
-
-			string finalPath = "";
-			bool ignore = true;
-			for (int i = 0; i < folderSplit.Length; i++)
-			{
-				if (folderSplit[i].Equals("Assets"))
-					ignore = false;
-				if (!ignore)
-					finalPath = folderSplit[i] + "/";
-			}
-
-			stringBuilder.Append($"\tpublic static Sprite {assetName}");
-			stringBuilder.Append(" { get; } = \n\t\tnew Sprite");
-			stringBuilder.Append($"(\"{finalPath + assetPathName}\");");
-
-			return stringBuilder.Normalize();
-		}
-
 		private string[] LoadAllAssets(string path, params string[] searchPatterns)
 		{
 			List<string> collection = new List<string>();
@@ -366,7 +355,7 @@ namespace AssetLibraryBuilder
 			return collection.ToArray();
 		}
 
-		private void LoadAllAssets(List<string> collection, string path, params string[] searchPatterns)
+		private static void LoadAllAssets(List<string> collection, string path, params string[] searchPatterns)
 		{
 			foreach (string sp in searchPatterns)
 			{
@@ -376,21 +365,6 @@ namespace AssetLibraryBuilder
 					collection.Add(file);
 				}
 			}
-
-			//string[] directories = Directory.GetDirectories(path);
-			//foreach (string directory in directories)
-			//{
-			//	if (File.GetAttributes(directory) != FileAttributes.Directory)
-			//		continue;
-			//	string[] folderSplit = directory.Split('\\');
-			//	string folder = folderSplit[folderSplit.Length - 1];
-			//	if (folder.StartsWith(".") || folder.Equals("bin") || folder.Equals("obj"))
-			//		continue;
-			//	if (Directory.GetDirectories(directory).Length == 0)
-			//		continue;
-			//	else
-			//		LoadAllAssets(collection, directory, searchPatterns);
-			//}
 		}
 
 		private static void LocateFolder(string root, string target, ref string? folderPath, params Func<string, bool>[] ignoreConditions)

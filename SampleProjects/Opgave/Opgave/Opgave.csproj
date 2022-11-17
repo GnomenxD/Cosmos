@@ -13,16 +13,26 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Assets\Sprites\.Planets\planet00.png" />
-    <Content Include="Assets\Sprites\.Planets\planet01.png" />
-    <Content Include="Assets\Sprites\.Planets\planet02.png" />
-    <Content Include="Assets\Sprites\.Planets\planet03.png" />
-    <Content Include="Assets\Sprites\.Planets\planet04.png" />
-    <Content Include="Assets\Sprites\.Planets\planet05.png" />
-    <Content Include="Assets\Sprites\.Planets\planet06.png" />
-    <Content Include="Assets\Sprites\.Planets\planet07.png" />
-    <Content Include="Assets\Sprites\.Planets\planet08.png" />
-    <Content Include="Assets\Sprites\.Planets\planet09.png" />
+    <Compile Remove="Assets\Sprites\.Ships\**" />
+    <Compile Remove="Assets\Sprites\Ships - Copy\**" />
+    <EmbeddedResource Remove="Assets\Sprites\.Ships\**" />
+    <EmbeddedResource Remove="Assets\Sprites\Ships - Copy\**" />
+    <None Remove="Assets\Sprites\.Ships\**" />
+    <None Remove="Assets\Sprites\Ships - Copy\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Sprites\Ships\.Enemy\enemyBlack1.png" />
+    <Content Include="Assets\Sprites\Ships\.Enemy\enemyBlue2.png" />
+    <Content Include="Assets\Sprites\Ships\.Enemy\enemyGreen4.png" />
+    <Content Include="Assets\Sprites\Ships\.Enemy\enemyRed3.png" />
+    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_blue.png" />
+    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_green.png" />
+    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_orange.png" />
+    <Content Include="Assets\Sprites\Ships\.Player\playerShip1_red.png" />
+    <Content Include="Assets\Sprites\Ships\.UFO\ufoBlue.png" />
+    <Content Include="Assets\Sprites\Ships\.UFO\ufoGreen.png" />
+    <Content Include="Assets\Sprites\Ships\.UFO\ufoRed.png" />
+    <Content Include="Assets\Sprites\Ships\.UFO\ufoYellow.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
@@ -36,14 +46,6 @@
     <Folder Include="Assets\Audio\" />
     <Folder Include="ExistingFolder\" />
     <Folder Include="MyFolder\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Sprites\.Ships\playerShip1_blue.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Sprites\.Ships\.SubFolder\playerShip1_green.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />

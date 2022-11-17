@@ -77,6 +77,11 @@ namespace CosmosEngine
 			return point.Normalized;
 		}
 
+		public static Vector2 Position()
+		{
+			return new Vector2(Value * 2.0f - 1.0f, Value * 2.0f - 1.0f);
+		}
+
 		/// <summary>
 		/// Returns a random float between [<paramref name="min"/>, <paramref name="max"/>] (range is inclusive).
 		/// </summary>
