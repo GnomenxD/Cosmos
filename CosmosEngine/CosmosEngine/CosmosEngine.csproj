@@ -59,7 +59,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir) $(OutDir)" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)LibraryBuilder\AssetLibraryBuilder.exe $(SolutionDir) $(OutDir) $(ConfigurationName) $(SolutionFileName)" />
   </Target>
 </Project>

@@ -1,7 +1,10 @@
 ﻿using CosmosEngine;
 using CosmosEngine.CoreModule;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -15,36 +18,39 @@ namespace Opgave
 		public override void Initialize()
 		{
 			m_sprite = new Sprite("Assets/Sprites/playerShip1_green.png");
+
 		}
 
 		public override void Start()
 		{
-			string path = $"{AppDomain.CurrentDomain.BaseDirectory}Assets/Sprites/playerShip1_green.png";
-			Debug.Log($"Path: {path}");
+			Debug.Log("Exists: " + File.Exists("sharedassets0.asset"));
+			StreamReader sReader = new StreamReader("sharedassets0.asset");
 
-			byte[] bytes = File.ReadAllBytes(path);
+			Sprite[] sprites = new Sprite[2];
+			int i = 0;
 
+			Debug.Log("shared assets total count: " + File.ReadAllBytes("sharedassets0.asset").Length);
 
-
-			StringBuilder sb = new StringBuilder();
-			using (StreamReader reader = new StreamReader(path))
+			using (var tempFile = new TempFileCollection())
 			{
-				int index = 0;
-				string line;
-				while((line = reader.ReadLine()) != null)
-				{
-					sb.AppendLine($"[{index}]: {line}");
-					index++;
-				}
-			}
-			Debug.Log(sb.ToString());
+				int offset = 2698;
+				byte[] buffer = new byte[2708];
+				//sReader.BaseStream.Read(buffer, 0, 286506);
+				sReader.BaseStream.Position = 286506 + 2698;
+				//sReader.BaseStream.Read(buffer, 0, 2698);
+				sReader.BaseStream.Read(buffer, 0, buffer.Length);
 
-			string s = string.Empty;
-			foreach(byte b in bytes)
-			{
-				s += b.ToString();
+				string file = tempFile.AddExtension("png");
+				File.WriteAllBytes(file, buffer);
+				Debug.Log($"File: {file}");
+				sprites[i] = new Sprite();
+				sprites[i].Load(file);
+				Console.WriteLine(file);
 			}
-			Debug.Log($"{bytes.Length}: {s}");
+			sReader.Close();
+
+			GameObject go = new GameObject("Test Object", typeof(SpriteRenderer));
+			go.GetComponent<SpriteRenderer>().Sprite = sprites[0];
 		}
 
 		private void Iterate(int i)

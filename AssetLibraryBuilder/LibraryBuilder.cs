@@ -9,26 +9,31 @@ namespace AssetLibraryBuilder
 		private string? binFolder;
 		private string rootDirectory;
 		private string outputDirectory;
+		private string configurationName;
 		private StringBuilder stringBuilder;
 
-		public LibraryBuilder(string rootDirectory, string outputDirectory)
+		public LibraryBuilder(string rootDirectory, string outputDirectory, string configurationName)
 		{
-			Console.WriteLine($"Generating Asset Library.");
 			this.rootDirectory = rootDirectory;
 			this.outputDirectory = outputDirectory;
-			LocateOutputDirectory();
+			this.configurationName = configurationName;
 			stringBuilder = new StringBuilder();
-
-			Console.WriteLine($"root directory: {rootDirectory}");
-			Console.WriteLine($"output directory: {outputDirectory}");
 		}
 
 		public void CreateLibrary()
 		{
-			LocateAssetDirectory();
+			Console.WriteLine($"Creationg Asset Library.");
+			if (!LocateAssetDirectory())
+				return;
+			if (!LocateOutputDirectory())
+				return;
+
+			Console.WriteLine($"root directory: {rootDirectory}");
+			Console.WriteLine($"output directory: {outputDirectory}");
+
 			if (assetFolder == null)
 			{
-				Console.WriteLine($"No Assets folder was detected... Automatic asset builder could not create a library.");
+				Console.WriteLine($"Error code 035 - No asset folder exist, automatic asset builder cound not create a library.");
 				return;
 			}
 			string libraryPath = CreateAssetLibraryFolder();
@@ -40,26 +45,79 @@ namespace AssetLibraryBuilder
 
 		#region Folder Structure
 
-		private void LocateAssetDirectory()
+		private bool LocateAssetDirectory()
 		{
-			//LocateAssetFolder(rootDirectory, ref assetFolder);
 			LocateFolder(rootDirectory, "Assets", ref assetFolder, new Func<string, bool>[]
 			{
 				(s) => s.StartsWith("."),
-				(s) => s.Equals("bin"),
-				(s) => s.Equals("obj"),
+				(s) => s.Equals("bin", StringComparison.CurrentCultureIgnoreCase),
+				(s) => s.Equals("obj", StringComparison.CurrentCultureIgnoreCase),
 			});
+			return true;
 		}
 
-		private void LocateOutputDirectory()
+		private bool LocateOutputDirectory()
 		{
+			//First we locate the bin folder.
 			LocateFolder(rootDirectory, "bin", ref binFolder, new Func<string, bool>[]
 			{
 				(s) => s.StartsWith("."),
+				(s) => s.Equals("Assets"),
+				(s) => s.Equals("Editor"),
+				(s) => s.Equals("Content", StringComparison.CurrentCultureIgnoreCase),
 			});
 
-			string directory = binFolder.Replace($"\\bin", "");
-			outputDirectory = $"{directory}\\{outputDirectory}";
+			if(binFolder == null)
+			{
+				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
+				return false;
+			}
+
+			//Next we find the corresponding configuration folder to output to.
+			string? configurationFolder = null;
+			LocateFolder(binFolder, configurationName, ref configurationFolder, new Func<string, bool>[]
+			{
+				(s) => s.StartsWith("."),
+				(s) => s.Equals("Assets"),
+				(s) => s.Equals("Content", StringComparison.CurrentCultureIgnoreCase),
+			});
+
+			if (configurationFolder == null)
+			{
+				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
+				return false;
+			}
+
+			//Last we need to find the actually output folder, the one which contains the .exe file.
+			//This is not optimal and should be 
+			Console.WriteLine($"config: {(configurationFolder == null ? "null" : configurationFolder)}");
+			string? outputFolder = null;
+			LocateFolder(configurationFolder, "runtimes", ref outputFolder, new Func<string, bool>[]
+			{
+				(s) => s.StartsWith("."),
+				(s) => s.Equals("Assets"),
+				(s) => s.Equals("Content", StringComparison.CurrentCultureIgnoreCase),
+			});
+
+			if (outputFolder == null)
+			{
+				Console.WriteLine(ErrorCode.NoOutputDirectory(null));
+				return false;
+			}
+
+			Console.WriteLine($"output: {(outputFolder == null ? "null" : outputFolder)}");
+			if(outputFolder == null)
+			{
+				Console.WriteLine($"Error code 077 - Please Rebuild the Project.");
+				return false;
+			}
+
+			outputDirectory = $"{outputFolder.Replace("runtimes", "data")}";
+			Directory.CreateDirectory(outputDirectory);
+			string[] existingAssetFiles = LoadAllAssets(outputDirectory, "*.assets");
+			foreach (string s in existingAssetFiles)
+				File.Delete(s);
+			return true;
 		}
 
 		private string CreateAssetLibraryFolder()
@@ -73,10 +131,28 @@ namespace AssetLibraryBuilder
 
 		#region Library Generation
 
+		/*using CosmosEngine;
+		 * 
+		 * public static partical class Assets
+		 * {
+		 * #region Sprites
+		 * 
+		 * #if subfolder.length > 0
+		 * public static partical class Subfolder
+		 * {
+		 *		public static Sprite AssetName { get; } = Sprite.Asset(name, library, buffer.Length, offset);
+		 * }
+		 * 
+		 * public static Sprite AssetName { get; } = Sprite.Asset(name, library, buffer.Length, offset);
+		 * 
+		 * #endregion
+		 * }
+		 */
+
 		public void GenerateSpriteLibrary(string libraryPath)
 		{
-			List<string> spriteAssets = new List<string>();
-			LoadAllAssets(spriteAssets, $"{assetFolder}\\Sprites", "*.png", "*.jpg");
+			List<SpriteAssetReference> spriteAssets = GenerateSpriteAssetReferences();
+			GenerateSharedAssets(spriteAssets);
 
 			StringBuilder sb = new StringBuilder();
 			using (StreamWriter writer = new StreamWriter($"{libraryPath}\\Assets.cs"))
@@ -87,9 +163,9 @@ namespace AssetLibraryBuilder
 
 				sb.AppendLine("\t#region Sprites");
 
-				foreach (string assetPath in spriteAssets)
+				foreach (SpriteAssetReference assetReference in spriteAssets)
 				{
-					sb.AppendLine(CreateSpriteAssetClass(assetFolder, assetPath));
+					sb.AppendLine(CreateSpriteProperty(assetReference));
 				}
 
 				sb.AppendLine("\t#endregion");
@@ -103,21 +179,136 @@ namespace AssetLibraryBuilder
 			GenerateSharedAssets(spriteAssets);
 		}
 
-		private void GenerateSharedAssets(List<string> spriteAssets)
+		private List<SpriteAssetReference> GenerateSpriteAssetReferences()
 		{
-			FileStream stream = File.Open($"{rootDirectory}\\sharedassets0.asset", FileMode.Create);
-			StreamWriter writer = new StreamWriter(stream);
+			List<SpriteAssetReference> spriteAssets = new List<SpriteAssetReference>();
+			List<string> assetPaths = new List<string>();
+			LoadAllAssets(assetPaths, $"{assetFolder}\\Sprites", "*.png", "*.jpg");
 
-			foreach (string assetPath in spriteAssets)
+			foreach(string assetPath in assetPaths)
 			{
-				byte[] bytes = File.ReadAllBytes(assetPath);
-				writer.WriteLine(bytes);
+				SpriteAssetReference? assetReference = CreateSpriteAsset(assetPath);
+				if (assetReference == null)
+					continue;
+				if(spriteAssets.Exists(item => item.Name.Equals(assetReference.Name)))
+				{
+					Console.WriteLine(ErrorCode.DuplicateSprite(assetReference));
+					continue;
+				}
+				spriteAssets.Add(assetReference);
+			}
+			return spriteAssets;
+		}
+
+		private int GenerateSharedAssets(List<SpriteAssetReference> spriteAssets)
+		{
+			int offset = 0;
+			int library = 0;
+			int assetIndex = 0;
+			bool createdNewLibrary;
+
+		sharedAssetCreation:
+			createdNewLibrary = false;
+			FileStream stream = File.Open($"{outputDirectory}\\sharedassets{library}.assets", FileMode.Create);
+			StreamWriter writer = new StreamWriter(stream);
+			for (int i = assetIndex; i < spriteAssets.Count; i++)
+			{
+				assetIndex++;
+				SpriteAssetReference asset = spriteAssets[i];
+				Console.WriteLine($"{asset.Name} [{asset.Buffer.Length}]:[{offset}]");
+				writer.BaseStream.Write(asset.Buffer, 0, asset.Buffer.Length);
+				offset += asset.Buffer.Length;
+				if (offset + asset.Buffer.Length >= int.MaxValue - 1)
+				{
+					library++;
+					offset = 0;
+					createdNewLibrary = true;
+				}
+				asset.Library = library;
+				asset.Offset = offset;
+				if (createdNewLibrary)
+				{
+					writer.Close();
+					stream.Close();
+					goto sharedAssetCreation;
+				}
+			}
+			writer.Close();
+			stream.Close();
+			Console.WriteLine($"generated {library + 1} sharedasset file{(library >= 1 ? "s" : "")} at {outputDirectory}");
+			return library;
+		}
+
+		private SpriteAssetReference? CreateSpriteAsset(string assetPath)
+		{
+			string[] assetSplit = assetPath.Split('\\');
+			//Get the sprite name from the full path.
+			string assetName = assetSplit[assetSplit.Length - 1];
+
+			//Generate byte array from file.
+			byte[] buffer = File.ReadAllBytes(assetPath);
+
+			//Generate a Subfolder link to make the asset library folder more accessable when having a lot of files.
+			List<string> subFolder = new List<string>();
+			for (int i = assetSplit.Length - 1; i >= 0; i--)
+			{
+				if (assetSplit[i].Equals("Assets"))
+					break;
+				if (assetSplit[i].Equals(assetName))
+					continue;
+				if (assetSplit[i].StartsWith('.'))
+				{
+					subFolder.Add(assetSplit[i]);
+				}
+			}
+			subFolder.Reverse();
+
+			if (buffer.Length == int.MaxValue)
+			{
+				Console.WriteLine($"asset {assetName} excessed maximum size, you need to reduce it import it manually.");
+				return null;
 			}
 
-			stream.Close();
+			string folderStructure = "Assets";
+			foreach (string folder in subFolder)
+			{
+				folderStructure += $"{folder}";
+			}
 
-			Console.WriteLine($"generated sharedasset file");
+			return new SpriteAssetReference()
+			{
+				Name = assetName.Split('.')[0],
+				Buffer = buffer,
+				SubFolder = subFolder.ToArray(),
+				FolderStructure = folderStructure,
+			};
 		}
+
+		private string CreateSpriteProperty(SpriteAssetReference asset)
+		{
+			stringBuilder.Clear();
+
+			string assetName = asset.Name
+				.Replace("_", " ")
+				.Replace("-", " ")
+				.Replace("(", "")
+				.Replace(")", "")
+				.Replace("/", "")
+				.Replace("\\", "")
+				.ToPascalCase()
+				.Replace(" ", "");
+
+			stringBuilder.Append($"\tpublic static Sprite {assetName}");
+			stringBuilder.Append(" { get; } = \n\t\t Sprite.Asset");
+			stringBuilder.Append($"(\"{asset.Name}\", {asset.Library}, {asset.Buffer.Length}, {asset.Offset});");
+
+			Console.WriteLine($"\tasset link {asset.FolderStructure}");
+			return stringBuilder.Normalize();
+		}
+
+		#endregion
+
+		#region Audio
 
 		public void GenerateAudioLibrary(string libraryPath)
 		{
@@ -127,7 +318,8 @@ namespace AssetLibraryBuilder
 		#endregion
 
 		#region Static
-		private string CreateSpriteAssetClass(string assetFolderPath, string path)
+
+		private string CreateSpriteProperty(string assetFolderPath, string path)
 		{
 			stringBuilder.Clear();
 
@@ -155,9 +347,14 @@ namespace AssetLibraryBuilder
 			stringBuilder.Append(" { get; } = \n\t\tnew Sprite");
 			stringBuilder.Append($"(\"{finalPath + assetPathName}\");");
 
-			Console.WriteLine($"\tasset link: {assetPathName}");
-
 			return stringBuilder.Normalize();
+		}
+
+		private string[] LoadAllAssets(string path, params string[] searchPatterns)
+		{
+			List<string> collection = new List<string>();
+			LoadAllAssets(collection, path, searchPatterns);
+			return collection.ToArray();
 		}
 
 		private void LoadAllAssets(List<string> collection, string path, params string[] searchPatterns)
@@ -187,7 +384,7 @@ namespace AssetLibraryBuilder
 			//}
 		}
 
-		private void LocateFolder(string root, string target, ref string? folderPath, params Func<string, bool>[] ignoreConditions)
+		private static void LocateFolder(string root, string target, ref string? folderPath, params Func<string, bool>[] ignoreConditions)
 		{
 			if (File.GetAttributes(root) != FileAttributes.Directory)
 				return;
@@ -209,6 +406,7 @@ namespace AssetLibraryBuilder
 						break;
 					}
 				}
+				Console.WriteLine($"looking for \"{target}\" === {folder} [{ignore}]");
 				if (ignore)
 					continue;
 				if (folderPath != null)
@@ -228,6 +426,11 @@ namespace AssetLibraryBuilder
 						LocateFolder(directory, target, ref folderPath, ignoreConditions);
 				}
 			}
+		}
+
+		private static void LocateFileDirectory(string root, string target, ref string? path, params Func<string, bool>[] ignoreConditions)
+		{
+
 		}
 		#endregion
 	}

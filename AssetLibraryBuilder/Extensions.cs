@@ -11,7 +11,7 @@ namespace AssetLibraryBuilder
 			return s switch
 			{
 				null => throw new ArgumentNullException(nameof(s)),
-				"" => throw new ArgumentException($"{nameof(s)} cannot be empty", nameof(s)),
+				"" => string.Empty,
 				_ => string.Concat(s[0].ToString().ToUpper(), s.AsSpan(1))
 			};
 		}
@@ -19,8 +19,16 @@ namespace AssetLibraryBuilder
 		{
 			string final = "";
 			string[] split = s.Split(' ');
-			foreach(string word in split)
+			if (split.Length <= 1)
+				return string.Concat(s[0].ToString().ToUpper(), s.AsSpan(1), " ");
+			foreach (string word in split)
+			{
+				if (string.IsNullOrWhiteSpace(word))
+					continue;
+				if (word.Length == 1)
+					final += word;
 				final += string.Concat(word[0].ToString().ToUpper(), word.AsSpan(1), " ");
+			}
 			return final;
 		}
 	}

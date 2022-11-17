@@ -3,6 +3,7 @@ using CosmosEngine.CoreModule;
 using System.IO;
 using System;
 using Color = Microsoft.Xna.Framework.Color;
+using System.CodeDom.Compiler;
 
 namespace CosmosEngine
 {
@@ -18,9 +19,12 @@ namespace CosmosEngine
 		//WrapMode
 		//FilterMode
 		private int pixelsPerUnit = 100;
+		private bool sharedAsset;
 		private event Action spriteContentModifiedEvent;
 
 		public string Name => (mainTexture != null ? mainTexture.Name : string.IsNullOrWhiteSpace(contentPath) ? "null" : contentPath);
+		public string FullPath => $"{AppDomain.CurrentDomain.BaseDirectory}/{contentPath}";
+
 		public Texture2D Texture
 		{
 			get
@@ -44,16 +48,29 @@ namespace CosmosEngine
 		public int PixelsPerUnit => pixelsPerUnit;
 		public Action SpriteContentModified { get => spriteContentModifiedEvent; set => spriteContentModifiedEvent = value; }
 
+		public Sprite()
+		{
+
+		}
+
+		private Sprite(string name, int library, int buffer, int offset)
+		{
+
+		}
 
 		public Sprite(string contentPath)
 		{
 			this.contentPath = contentPath;
 		}
 
-
 		public Sprite(Texture2D mainTexture)
 		{
 			this.mainTexture = mainTexture;
+		}
+
+		private void LoadFromSharedAsset()
+		{
+
 		}
 
 		public void Load() => Load(contentPath);
@@ -65,14 +82,14 @@ namespace CosmosEngine
 				Debug.LogWarning($"Trying to load Texture2D from empty path.");
 				return;
 			}
-			if (!File.Exists($"{rootDirectory}/{path}"))
+			if (!File.Exists($"{path}"))
 			{
 				Debug.LogWarning($"Attempting to load Texture2D from {path}, but no such file exist. Remember to copy files to output directory.");
 				return;
 			}
 
 			Texture2D texture = null;
-			using (FileStream stream = new FileStream($"{AppDomain.CurrentDomain.BaseDirectory}/{path}", FileMode.Open))
+			using (FileStream stream = new FileStream($"{path}", FileMode.Open))
 			{
 				texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, stream);
 			};
@@ -115,5 +132,13 @@ namespace CosmosEngine
 		}
 
 		public override string ToString() => $"Sprite({Name})";
+
+		public static Sprite Asset(string name, int library, int buffer, int offset)
+		{
+			Sprite sprite = new Sprite(name, library, buffer, offset);
+			sprite.sharedAsset = true;
+
+			return sprite;
+		}
 	}
 }

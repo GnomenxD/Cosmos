@@ -1,16 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AssetLibraryBuilder;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 internal class Program
 {
-	private static string? assetFolder;
-	private static StringBuilder stringBuilder;
-
 	private static void Main(string[] args)
 	{
 		if (args.Length <= 1)
@@ -21,8 +13,15 @@ internal class Program
 
 		string rootDirectory = args[0];
 		string outputDirectory = args[1];
+		string configurationName = args[2];
+		string solution = args[3];
 
-		LibraryBuilder libraryBuilder = new LibraryBuilder(rootDirectory, outputDirectory);
+		for (int i = 0; i < args.Length; i++)
+		{
+			Console.WriteLine($"\t[{i}] = {args[i]}");
+		}
+
+		LibraryBuilder libraryBuilder = new LibraryBuilder(rootDirectory, outputDirectory, configurationName);
 		libraryBuilder.CreateLibrary();
 
 		//Console.WriteLine($"Library: {library}");
