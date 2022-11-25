@@ -71,9 +71,11 @@ namespace CosmosFramework
 			this.contentPath = contentPath;
 		}
 
-		public Sprite(Texture2D mainTexture)
+		public Sprite(Texture2D texture)
 		{
-			this.mainTexture = mainTexture;
+			Debug.Log($"Sprite was created using a Texture2D");
+			Debug.Log(mainTexture);
+			AssignTexture(texture);
 		}
 
 		public Texture2D Load()
