@@ -7,7 +7,7 @@ namespace IsometicProject
 	internal class IsometicMap : RenderModule<IsometicMap>, IUpdateModule
 	{
 		private static readonly Vector2 invalid = new Vector2(-1, -1);
-		private bool[,] map;
+		private Grid<bool> map;
 
 		private float tileWidth;
 		private float tileDepth;

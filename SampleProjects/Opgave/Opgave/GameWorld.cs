@@ -19,7 +19,6 @@ namespace Opgave
 
 		public override void Update()
 		{
-
 		}
 	}
 }
