@@ -53,7 +53,15 @@ namespace CosmosFramework
 		/// <summary>
 		/// The position of the <see cref="CosmosFramework.Transform"/> belonging to the <see cref="CosmosFramework.Camera"/>.
 		/// </summary>
-		public Vector2 Position { get => Transform.Position; set => Transform.Position = value; }
+		public Vector2 Position 
+		{ 
+			get => Transform.Position;
+			set
+			{
+				Transform.Position = value;
+				UpdateCamera();
+			}
+		}
 		public float OrthographicSize
 		{
 			get => orthographicSize;
