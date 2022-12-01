@@ -11,9 +11,9 @@ namespace CosmosFramework
 		private readonly int y;
 		private readonly int z;
 
-		public int X => X;
-		public int Y => Y;
-		public int Z => Z;
+		public int X => x;
+		public int Y => y;
+		public int Z => z;
 
 		public int this[int index]
 		{

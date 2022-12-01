@@ -7,7 +7,7 @@ namespace IsometicProject
 	internal class IsometicMap : RenderModule<IsometicMap>, IUpdateModule
 	{
 		private static readonly Vector2 invalid = new Vector2(-1, -1);
-		private Grid<bool> map;
+		private Grid<Tile> grid;
 
 		private float tileWidth;
 		private float tileDepth;
@@ -22,17 +22,28 @@ namespace IsometicProject
 			worldSpace = WorldSpace.World;
 			previousTile = invalid;
 			tileWidth = Assets.LandscapeTilesGrass.Width / 100f;
-			tileDepth = Assets.LandscapeTilesGrass.Height / 150f;
+			tileDepth = Assets.LandscapeTilesGrass.Height / 150f; //why are we dividing by 150 instead of 100?
 		}
 
 		public static void CreateMap(int width, int height)
 		{
-			Instance.ConstructMap(new bool[width, height]);	
+			Instance.ConstructMap(new Tile[width, height]);	
 		}
 
-		private void ConstructMap(bool[,] map)
+		private void ConstructMap(Tile[,] map)
 		{
-			this.map = map;
+			grid = map;
+
+			grid.For((x, y) =>
+			{
+				Tile tile = new Tile(x, y);
+				grid[x, y] = tile;
+			});
+
+			foreach(var item in grid)
+			{
+				Debug.Log($"{item}");
+			}
 		}
 
 		void IUpdateModule.Update()
@@ -43,22 +54,24 @@ namespace IsometicProject
 
 			if(previousTile != invalid)
 			{
-				map[(int)previousTile.X, (int)previousTile.Y] = false;
+				grid[(int)previousTile.X, (int)previousTile.Y] += false;
 			}
 			if(tilePosition != invalid)
 			{
-				map[(int)tilePosition.X, (int)tilePosition.Y] = true;
+				grid[(int)tilePosition.X, (int)tilePosition.Y] += true;
 			}
 			previousTile = tilePosition;
 
-			for (int x = 0; x < map.GetLength(0); x++)
+
+			foreach (var item in grid)
 			{
-				for(int y = 0; y < map.GetLength(1); y++)
-				{
-					Debug.Log($"[{x} : {y}] --- {MapToWorld(x, y)}");
-				}
+				if (item == null)
+					continue;
+				Debug.Log($"{item} --- {MapToWorld(item.Point)}");
 			}
 		}
+
+		private Vector2 MapToWorld(int2 point) => MapToWorld(point.X, point.Y);
 		
 		private Vector2 MapToWorld(int x, int y)
 		{
@@ -71,24 +84,24 @@ namespace IsometicProject
 		{
 			int x = Mathf.RoundToInt((world.X / HalfWidth + world.Y / HalfHeight) / 2);
 			int y = Mathf.RoundToInt((world.Y / HalfHeight -(world.X / HalfWidth)) / 2);
-			if (x < 0 || y < 0 || x >= map.GetLength(0) || y >= map.GetLength(1))
+			if (x < 0 || y < 0 || x >= grid.Length(0) || y >= grid.Length(1))
 				return invalid;
 			return new Vector2(x, y);
 		}
 
 		protected override void Render()
 		{
-			if(map == null)
+			if(grid == null)
 			{
 				return;
 			}
 
-			for(int x = 0; x < map.GetLength(0); x++)
+			for(int x = 0; x < grid.Length(0); x++)
 			{
-				for(int y = 0; y < map.GetLength(1); y++)
+				for(int y = 0; y < grid.Length(1); y++)
 				{
 					Colour colour = Colour.LightGrey;
-					if (map[x,y])
+					if (grid[x,y])
 					{
 						colour = Colour.White;
 					}

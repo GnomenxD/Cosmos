@@ -11,9 +11,9 @@ namespace CosmosFramework
 		private readonly float y;
 		private readonly float z;
 
-		public float X => X;
-		public float Y => Y;
-		public float Z => Z;
+		public float X => x;
+		public float Y => y;
+		public float Z => z;
 
 		public float this[int index]
 		{

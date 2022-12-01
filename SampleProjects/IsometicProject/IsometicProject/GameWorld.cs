@@ -11,7 +11,7 @@ namespace IsometicProject
 
 		public override void Start()
 		{
-			IsometicMap.CreateMap(16, 16);
+			IsometicMap.CreateMap(5, 5);
 		}
 
 		public override void Update()
