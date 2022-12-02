@@ -84,7 +84,7 @@ namespace CosmosFramework.Modules
 			{
 				foreach (IRenderWorld obj in visibleRenderObjets)
 				{
-					if (obj.Expired)
+					if (obj.Destroyed)
 					{
 						renderComponents.IsDirty = true;
 						continue;
@@ -128,7 +128,7 @@ namespace CosmosFramework.Modules
 			Draw.Space = WorldSpace.Screen;
 			foreach (IRenderUI obj in uiComponents)
 			{
-				if (obj.Expired)
+				if (obj.Destroyed)
 				{
 					uiComponents.IsDirty = true;
 					continue;
@@ -152,6 +152,6 @@ namespace CosmosFramework.Modules
 				uiComponents.DisposeAll(RemoveAllPredicate());
 			}
 		}
-		public override System.Predicate<IRenderer> RemoveAllPredicate() => item => item.Expired;
+		public override System.Predicate<IRenderer> RemoveAllPredicate() => item => item.Destroyed;
 	}
 }

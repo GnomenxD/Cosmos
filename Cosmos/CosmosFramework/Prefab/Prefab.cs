@@ -55,7 +55,7 @@ namespace CosmosFramework
 			//We will loop over all the attached Component and instantiate them as new and copy values from the origianl ones.
 			foreach (Component c in attachedComponents)
 			{
-				if (c == null || c.Expired)
+				if (c == null || c.Destroyed)
 					continue;
 				if (c is Transform)
 					continue;
@@ -136,7 +136,7 @@ namespace CosmosFramework
 		/// <returns></returns>
 		public static T CopyComponent<T>(Component component) where T: Component, new()
 		{
-			if (component == null || component.Expired)
+			if (component == null || component.Destroyed)
 				return default(T);
 
 			//We want private and public fields, only from an instantiated member.

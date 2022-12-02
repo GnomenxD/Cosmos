@@ -5,7 +5,7 @@ namespace CosmosFramework.CoreModule
 	{
 		public string Name { get; }
 		bool Enabled { get; set; }
-		bool Expired { get; }
+		bool Destroyed { get; }
 		bool DestroyOnLoad { get; }
 	}
 }

@@ -88,7 +88,7 @@ namespace CosmosFramework.Modules
 			{
 				//Debug.FastLog(" ");
 				Rigidbody a = rigidbodies[i];
-				if (a.Expired)
+				if (a.Destroyed)
 				{
 					rigidbodies.IsDirty = true;
 					continue;
@@ -104,7 +104,7 @@ namespace CosmosFramework.Modules
 				for (int j = i + 1; j < rigidbodies.Count; j++)
 				{
 					Rigidbody b = rigidbodies[j];
-					if (b.Expired || !b.Enabled)
+					if (b.Destroyed || !b.Enabled)
 						continue;
 					rigidbodyCount++;
 					nestedObjects++;
@@ -123,7 +123,7 @@ namespace CosmosFramework.Modules
 					{
 						foreach (Collider cA in a.Colliders)
 						{
-							if (cA.Expired)
+							if (cA.Destroyed)
 							{
 								colliders.IsDirty = true;
 								continue;
@@ -133,7 +133,7 @@ namespace CosmosFramework.Modules
 
 							foreach (Collider cB in b.Colliders)
 							{
-								if (cB.Expired)
+								if (cB.Destroyed)
 								{
 									colliders.IsDirty = true;
 									continue;
@@ -172,7 +172,7 @@ namespace CosmosFramework.Modules
 			for(int a = 0; a < colliders.Count; a++)
 			{
 				Collider cA = colliders[a];
-				if (cA.Expired)
+				if (cA.Destroyed)
 				{
 					colliders.IsDirty = true;
 					continue;
@@ -185,7 +185,7 @@ namespace CosmosFramework.Modules
 				{
 					Collider cB = colliders[b];
 
-					if (cB.Expired || !cB.Enabled)
+					if (cB.Destroyed || !cB.Enabled)
 						continue;
 
 					if (cA.CheckCollision(cB))
@@ -207,11 +207,11 @@ namespace CosmosFramework.Modules
 			base.Update();
 			if(rigidbodies.IsDirty)
 			{
-				rigidbodies.RemoveAll(item => item.Expired);
+				rigidbodies.RemoveAll(item => item.Destroyed);
 				rigidbodies.IsDirty = false;
 			}
 		}
 
-		public override System.Predicate<IPhysicsComponent> RemoveAllPredicate() => item => item.Expired;
+		public override System.Predicate<IPhysicsComponent> RemoveAllPredicate() => item => item.Destroyed;
 	}
 }

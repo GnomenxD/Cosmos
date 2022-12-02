@@ -14,7 +14,7 @@ namespace CosmosFramework.CoreModule
 		private bool initialized = false;
 		private bool awake = false;
 		private bool enabled;
-		private bool expired = false;
+		private bool destroyed = false;
 		private bool destroyOnLoad = true;
 		private float timeToDestroy = 0.0f;
 		private bool markedForDestruction = false;
@@ -56,9 +56,9 @@ namespace CosmosFramework.CoreModule
 		/// </summary>
 		public virtual bool ActiveSelf => enabled;
 		/// <summary>
-		/// Returns the state of an Object, if the object has expired it means it's no longer part of the game loop and all references should be nullified when possible, to allow for Garbage Collection. An Object can only be remove by using <see cref="CosmosFramework.CoreModule.Object.Destroy(Object)"/> or <see cref="CosmosFramework.CoreModule.Object.Destroy(Object, float)"/> for a delayed destruction.
+		/// Returns the state of an Object, if the object has been destroyed it means it's no longer part of the game loop and all references should be nullified when possible, to allow for Garbage Collection. An Object can only be remove by using <see cref="CosmosFramework.CoreModule.Object.Destroy(Object)"/> or <see cref="CosmosFramework.CoreModule.Object.Destroy(Object, float)"/> for a delayed destruction.
 		/// </summary>
-		public bool Expired { get => expired; private set => expired = value; }
+		public bool Destroyed { get => destroyed; private set => destroyed = value; }
 		/// <summary>
 		/// The time before this <see cref="CosmosFramework.CoreModule.Object"/> is destroyed.
 		/// </summary>
@@ -136,7 +136,7 @@ namespace CosmosFramework.CoreModule
 		{
 			if(!IsDisposed && disposing)
 			{
-				if (!Expired)
+				if (!Destroyed)
 					MarkForDestruction();
 			}
 			base.Dispose(disposing);
@@ -215,7 +215,7 @@ namespace CosmosFramework.CoreModule
 		{
 			Enabled = false;
 			OnDestroy();
-			Expired = true;
+			Destroyed = true;
 			Dispose();
 		}
 

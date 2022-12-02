@@ -51,7 +51,7 @@ namespace CosmosFramework
 		/// <param name="other"></param>
 		private void InvokeCollision(Collider other)
 		{
-			if (other == null || other.Expired || !other.Enabled)
+			if (other == null || other.Destroyed || !other.Enabled)
 				return;
 
 			if(!observedColliders.Contains(other))
@@ -102,7 +102,7 @@ namespace CosmosFramework
 			{
 				Collider other = observedColliders[i];
 				//Debug.FastLog($"{Name} --- Observed Colliders: {other}");
-				if (other.Expired || !other.Enabled || !CalculateCollisionIntersection(this, other))
+				if (other.Destroyed || !other.Enabled || !CalculateCollisionIntersection(this, other))
 				{
 					RevokeCollision(other);
 					observedColliders.IsDirty = true;
@@ -133,8 +133,8 @@ namespace CosmosFramework
 		public static bool CalculateCollisionIntersection(Collider colliderA, Collider colliderB)
 		{
 			stopwatch.Restart();
-			if (colliderA == null || colliderA.Expired || !colliderA.Enabled ||
-				colliderB == null || colliderB.Expired || !colliderB.Enabled)
+			if (colliderA == null || colliderA.Destroyed || !colliderA.Enabled ||
+				colliderB == null || colliderB.Destroyed || !colliderB.Enabled)
 			{
 				return false;
 			}

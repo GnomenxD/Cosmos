@@ -27,7 +27,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach (Behaviour behaviour in observerList)
 			{
-				if (behaviour.Expired)
+				if (behaviour.Destroyed)
 				{
 					observerList.IsDirty = true;
 					continue;
@@ -47,7 +47,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach (Behaviour behaviour in observerList)
 			{
-				if (behaviour.Expired)
+				if (behaviour.Destroyed)
 				{
 					observerList.IsDirty = true;
 					continue;
@@ -64,6 +64,6 @@ namespace CosmosFramework.Modules
 			}
 		}
 
-		public override Predicate<Behaviour> RemoveAllPredicate() => item => item.Expired;
+		public override Predicate<Behaviour> RemoveAllPredicate() => item => item.Destroyed;
 	}
 }

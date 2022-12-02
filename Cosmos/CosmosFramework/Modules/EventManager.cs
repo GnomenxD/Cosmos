@@ -20,7 +20,7 @@ namespace CosmosFramework.Modules
 			Pointer.IsOverObject = false;
 			foreach(IEventHandler handler in observerList)
 			{
-				if(handler.Expired)
+				if(handler.Destroyed)
 				{
 					observerList.IsDirty = true;
 					continue;
@@ -102,7 +102,7 @@ namespace CosmosFramework.Modules
 
 		public override Predicate<IEventHandler> RemoveAllPredicate()
 		{
-			return item => item.Expired;
+			return item => item.Destroyed;
 		}
 	}
 }

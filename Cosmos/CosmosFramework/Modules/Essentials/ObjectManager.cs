@@ -35,7 +35,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach(Object item in observerList)
 			{
-				if(item.Expired)
+				if(item.Destroyed)
 				{
 					observerList.IsDirty = true;
 					continue;
@@ -60,7 +60,7 @@ namespace CosmosFramework.Modules
 			}
 		}
 
-		public override System.Predicate<Object> RemoveAllPredicate() => item => item.Expired;
+		public override System.Predicate<Object> RemoveAllPredicate() => item => item.Destroyed;
 
 		#region FindObjectOfType
 		/// <summary>
@@ -78,7 +78,7 @@ namespace CosmosFramework.Modules
 		/// <returns></returns>
 		internal static T FindObjectOfType<T>(bool includeInactive) where T : Object
 		{
-			return Instance.observerList.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && (item.Enabled || includeInactive) && !item.Expired) as T;
+			return Instance.observerList.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && (item.Enabled || includeInactive) && !item.Destroyed) as T;
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace CosmosFramework.Modules
 				(item.GetType() == typeof(T) ||
 				item.GetType().IsSubclassOf(typeof(T))) &&
 				(item.Enabled || includeInactive) &&
-				!item.Expired);
+				!item.Destroyed);
 
 			foreach (Object obj in searched)
 			{
@@ -127,7 +127,7 @@ namespace CosmosFramework.Modules
 		/// <returns></returns>
 		internal static Object[] FindObjectsOfAll(bool includeInactive)
 		{
-			return Instance.observerList.FindAll(item => (item.Enabled || includeInactive) && !item.Expired).ToArray();
+			return Instance.observerList.FindAll(item => (item.Enabled || includeInactive) && !item.Destroyed).ToArray();
 		}
 		#endregion
 
@@ -147,7 +147,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach(GameObject go in Instance.gameObjects)
 			{
-				if(go.Expired)
+				if(go.Destroyed)
 				{
 					Instance.gameObjects.IsDirty = true;
 					continue;
@@ -175,7 +175,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach (GameObject go in Instance.gameObjects)
 			{
-				if (go.Expired)
+				if (go.Destroyed)
 				{
 					Instance.gameObjects.IsDirty = true;
 					continue;
@@ -203,7 +203,7 @@ namespace CosmosFramework.Modules
 			List<GameObject> gameObjects = new List<GameObject>();
 			foreach (GameObject go in Instance.gameObjects)
 			{
-				if (go.Expired)
+				if (go.Destroyed)
 				{
 					Instance.gameObjects.IsDirty = true;
 					continue;

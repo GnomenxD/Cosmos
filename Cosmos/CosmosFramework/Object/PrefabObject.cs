@@ -25,7 +25,7 @@ namespace CosmosFramework
 
 		public T GetComponent<T>() where T : Component
 		{
-			return components.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && !item.Expired) as T;
+			return components.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && !item.Destroyed) as T;
 		}
 	}
 }

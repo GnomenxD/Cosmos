@@ -61,7 +61,7 @@ namespace CosmosFramework.Modules
 		{
 			foreach (Behaviour behaviour in updateBehaviours)
 			{
-				if (behaviour.Expired)
+				if (behaviour.Destroyed)
 				{
 					updateBehaviours.IsDirty = true;
 					continue;
@@ -75,7 +75,7 @@ namespace CosmosFramework.Modules
 
 			foreach (Behaviour behaviour in lateUpdateBehaviours)
 			{
-				if (behaviour.Expired)
+				if (behaviour.Destroyed)
 				{
 					lateUpdateBehaviours.IsDirty = true;
 					continue;
@@ -88,7 +88,7 @@ namespace CosmosFramework.Modules
 
 			foreach (Behaviour behaviour in startBehaviours)
 			{
-				if (behaviour.Expired || !behaviour.Enabled)
+				if (behaviour.Destroyed || !behaviour.Enabled)
 				{
 					continue;
 				}
@@ -106,7 +106,7 @@ namespace CosmosFramework.Modules
 				lateUpdateBehaviours.DisposeAll(RemoveAllPredicate());
 		}
 
-		public override System.Predicate<Behaviour> RemoveAllPredicate() => item => item.Expired;
+		public override System.Predicate<Behaviour> RemoveAllPredicate() => item => item.Destroyed;
 
 		protected override void Dispose(bool disposing)
 		{

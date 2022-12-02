@@ -149,7 +149,7 @@ namespace CosmosFramework
 			return; // ??
 			foreach (Component component in components)
 			{
-				if (component.Expired)
+				if (component.Destroyed)
 				{
 					components.IsDirty = true;
 					break;
@@ -157,7 +157,7 @@ namespace CosmosFramework
 			}
 			if (components.IsDirty)
 			{
-				components.RemoveAll(item => item.Expired);
+				components.RemoveAll(item => item.Destroyed);
 				ModifiedEvent?.Invoke(GameObjectChange.ComponentStructure);
 				components.IsDirty = false;
 			}
@@ -282,7 +282,7 @@ namespace CosmosFramework
 		/// </summary>
 		internal void AddComponent(Component component)
 		{
-			if (component == null || component.Expired)
+			if (component == null || component.Destroyed)
 				return;
 			if (component is Transform)
 				components.Insert(0, component);
@@ -398,13 +398,13 @@ namespace CosmosFramework
 		private Predicate<Component> GetComponentMatch<T>()
 		{
 			return t => t.GetType().IsAssignableTo(typeof(T))
-				&& !t.Expired;
+				&& !t.Destroyed;
 		}
 
 		private Predicate<Component> GetComponentMatch(Type componentType)
 		{
 			return t => t.GetType().IsAssignableTo(componentType)
-				&& !t.Expired;
+				&& !t.Destroyed;
 		}
 
 		#endregion
