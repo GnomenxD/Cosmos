@@ -5,7 +5,7 @@ namespace CosmosFramework
 {
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
-	public readonly struct int2 : IComparable<int2>, IEquatable<int2>
+	public readonly struct Int2 : IComparable<Int2>, IEquatable<Int2>
 	{
 		private readonly int x;
 		private readonly int y;
@@ -26,7 +26,7 @@ namespace CosmosFramework
 			}
 		}
 
-		public int2(int x, int y)
+		public Int2(int x, int y)
 		{
 			this.x = x;
 			this.y = y;
@@ -50,55 +50,55 @@ namespace CosmosFramework
 			}
 		}
 
-		public int CompareTo(int2 other) => this.x.CompareTo(other.x) + this.y.CompareTo(other.y);
+		public int CompareTo(Int2 other) => this.x.CompareTo(other.x) + this.y.CompareTo(other.y);
 
-		public bool Equals(int2 other) => CompareTo(other) == 0;
+		public bool Equals(Int2 other) => CompareTo(other) == 0;
 
 		public override bool Equals(object obj)
 		{
-			if (obj == null || !(obj is int2))
+			if (obj == null || !(obj is Int2))
 				return false;
 			else
-				return Equals((int2)obj);
+				return Equals((Int2)obj);
 		}
 
 		public override int GetHashCode() => x.GetHashCode() ^ y.GetHashCode();
 
 		public override string ToString() => $"({X}, {Y})";
 
-		public static bool operator ==(int2 lhs, int2 rhs)
+		public static bool operator ==(Int2 lhs, Int2 rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		public static bool operator !=(int2 lhs, int2 rhs)
+		public static bool operator !=(Int2 lhs, Int2 rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		public static bool operator <(int2 lhs, int2 rhs)
+		public static bool operator <(Int2 lhs, Int2 rhs)
 		{
 			return lhs.CompareTo(rhs) < 0;
 		}
 
-		public static bool operator <=(int2 lhs, int2 rhs)
+		public static bool operator <=(Int2 lhs, Int2 rhs)
 		{
 			return lhs.CompareTo(rhs) <= 0;
 		}
 
-		public static bool operator >(int2 lhs, int2 rhs)
+		public static bool operator >(Int2 lhs, Int2 rhs)
 		{
 			return lhs.CompareTo(rhs) > 0;
 		}
 
-		public static bool operator >=(int2 lhs, int2 rhs)
+		public static bool operator >=(Int2 lhs, Int2 rhs)
 		{
 			return lhs.CompareTo(rhs) >= 0;
 		}
 
-		public static implicit operator int2(int[] array)
+		public static implicit operator Int2(int[] array)
 		{
-			return new int2(array[0], array[1]);
+			return new Int2(array[0], array[1]);
 		}
 	}
 }

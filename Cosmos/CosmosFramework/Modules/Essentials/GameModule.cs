@@ -8,7 +8,7 @@ namespace CosmosFramework.Modules
 	public abstract class GameModule<TModule> : BaseModule where TModule : GameModule<TModule>
 	{
 		private static TModule instance;
-		public static TModule Instance => instance;
+		internal static TModule Instance => instance;
 		internal static bool ActiveAndEnabled => Instance != null && Instance.SystemExist() && !instance.IsDisposed;
 		public override void Initialize() 
 		{

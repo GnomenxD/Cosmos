@@ -1,6 +1,8 @@
 ﻿using CosmosFramework;
 using CosmosFramework.CoreModule;
 using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Opgave
 {
@@ -15,6 +17,7 @@ namespace Opgave
 			GameObject gameObject = new GameObject("My Object");
 			SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
 			sr.Sprite = Assets.PlayerShip1Green;
+
 		}
 
 		public override void Update()

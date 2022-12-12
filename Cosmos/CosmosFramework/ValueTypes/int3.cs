@@ -5,7 +5,7 @@ namespace CosmosFramework
 {
 	[Serializable]
 	[StructLayout(LayoutKind.Sequential)]
-	public readonly struct int3 : IComparable<int3>, IEquatable<int3>
+	public readonly struct Int3 : IComparable<Int3>, IEquatable<Int3>
 	{
 		private readonly int x;
 		private readonly int y;
@@ -29,7 +29,7 @@ namespace CosmosFramework
 			}
 		}
 
-		public int3(int x, int y, int z)
+		public Int3(int x, int y, int z)
 		{
 			this.x = x;
 			this.y = y;
@@ -58,55 +58,55 @@ namespace CosmosFramework
 			}
 		}
 
-		public int CompareTo(int3 other) => this.x.CompareTo(other.x) + this.y.CompareTo(other.y) + this.z.CompareTo(other.z);
+		public int CompareTo(Int3 other) => this.x.CompareTo(other.x) + this.y.CompareTo(other.y) + this.z.CompareTo(other.z);
 
-		public bool Equals(int3 other) => CompareTo(other) == 0;
+		public bool Equals(Int3 other) => CompareTo(other) == 0;
 
 		public override bool Equals(object obj)
 		{
-			if (obj == null || !(obj is int3))
+			if (obj == null || !(obj is Int3))
 				return false;
 			else
-				return Equals((int3)obj);
+				return Equals((Int3)obj);
 		}
 
 		public override int GetHashCode() => x.GetHashCode() ^ y.GetHashCode() ^ z.GetHashCode();
 
 		public override string ToString() => $"({X}, {Y}, {Z})";
 
-		public static bool operator ==(int3 lhs, int3 rhs)
+		public static bool operator ==(Int3 lhs, Int3 rhs)
 		{
 			return lhs.Equals(rhs);
 		}
 
-		public static bool operator !=(int3 lhs, int3 rhs)
+		public static bool operator !=(Int3 lhs, Int3 rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		public static bool operator <(int3 lhs, int3 rhs)
+		public static bool operator <(Int3 lhs, Int3 rhs)
 		{
 			return lhs.CompareTo(rhs) < 0;
 		}
 
-		public static bool operator <=(int3 lhs, int3 rhs)
+		public static bool operator <=(Int3 lhs, Int3 rhs)
 		{
 			return lhs.CompareTo(rhs) <= 0;
 		}
 
-		public static bool operator >(int3 lhs, int3 rhs)
+		public static bool operator >(Int3 lhs, Int3 rhs)
 		{
 			return lhs.CompareTo(rhs) > 0;
 		}
 
-		public static bool operator >=(int3 lhs, int3 rhs)
+		public static bool operator >=(Int3 lhs, Int3 rhs)
 		{
 			return lhs.CompareTo(rhs) >= 0;
 		}
 
-		public static implicit operator int3(int[] array)
+		public static implicit operator Int3(int[] array)
 		{
-			return new int3(array[0], array[1], array[2]);
+			return new Int3(array[0], array[1], array[2]);
 		}
 	}
 }

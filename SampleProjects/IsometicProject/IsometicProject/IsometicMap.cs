@@ -1,10 +1,11 @@
 ﻿using CosmosFramework;
 using CosmosFramework.Modules;
 using CosmosFramework.Rendering;
+using CosmosFramework.Variables;
 
 namespace IsometicProject
 {
-	internal class IsometicMap : RenderModule<IsometicMap>, IUpdateModule
+    internal class IsometicMap : RenderModule<IsometicMap>, IUpdateModule
 	{
 		private static readonly Vector2 invalid = new Vector2(-1, -1);
 		private Grid<Tile> grid;
@@ -71,7 +72,7 @@ namespace IsometicProject
 			}
 		}
 
-		private Vector2 MapToWorld(int2 point) => MapToWorld(point.X, point.Y);
+		private Vector2 MapToWorld(Int2 point) => MapToWorld(point.X, point.Y);
 		
 		private Vector2 MapToWorld(int x, int y)
 		{
