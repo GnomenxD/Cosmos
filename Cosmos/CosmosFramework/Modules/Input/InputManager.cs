@@ -356,5 +356,13 @@ namespace CosmosFramework
 				return false;
 			return InputState.Released(key);
 		}
+
+		public static Keys GetCurrentKey()
+		{
+			Keys[] keys = InputState.GetKeys();
+			if (keys.Length > 0)
+				return keys[0];
+			return Keys.None;
+		}
 	}
 }

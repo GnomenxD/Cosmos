@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace CosmosFramework.InputModule
 {
@@ -59,6 +60,14 @@ namespace CosmosFramework.InputModule
 		public static CosmosFramework.InputModule.GamepadButton Convert(this Microsoft.Xna.Framework.Input.Buttons value)
 		{
 			return (CosmosFramework.InputModule.GamepadButton)(int)value;
+		}
+
+		public static CosmosFramework.InputModule.Keys[] ToKeysArray(this Microsoft.Xna.Framework.Input.Keys[] values)
+		{
+			Keys[] keys = new Keys[values.Length];
+			for (int i = 0; i < keys.Length; i++)
+				keys[i] = values[i].Convert();
+			return keys;
 		}
 	}
 }

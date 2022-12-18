@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CosmosFramework.Netcode
 {
-	public class NetcodeTransport
+	internal class NetcodeTransport
 	{
 		public const int SIO_UDP_CONNRESET = -1744830452;
 		private event Action<NetcodeMessage, IPEndPoint> onReceiveMessageEvent = delegate { };

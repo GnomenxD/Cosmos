@@ -97,6 +97,11 @@ namespace CosmosFramework
 			}
 		}
 
+		public static Keys[] GetKeys()
+		{
+			return keyboardState.GetPressedKeys().ToKeysArray();
+		}
+
 		/// <summary>
 		/// Returns <see langword="true"/> if <strong>Pressed</strong> condition is met on the current frame for <paramref name="input"/>.
 		/// </summary>

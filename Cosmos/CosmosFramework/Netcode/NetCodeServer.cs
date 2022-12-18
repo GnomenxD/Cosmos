@@ -28,7 +28,7 @@ namespace CosmosFramework.Netcode
 		private List<byte[]> recievedMessages = new List<byte[]>();
 
 		public bool IsServerConnection => isServerConnection;
-		public NetcodeTransport NetcodeTransport => transport ??= new NetcodeTransport();
+		internal NetcodeTransport NetcodeTransport => transport ??= new NetcodeTransport();
 
 		public NetcodeServer()
 		{
