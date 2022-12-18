@@ -163,7 +163,7 @@ namespace CosmosFramework.Netcode
 		/// <inheritdoc cref="Rpc(string, uint, object[])"/>
 		/// </summary>
 		/// <param name="methodName"></param>
-		/// <param name="index"></param>>	CosmosEngine.dll!CosmosEngine.Netcode.NetcodeIdentity.Rpc(string methodName, uint index, object[] parameters) Line 162	C#
+		/// <param name="index"></param>>	CosmosFramework.dll!CosmosFramework.Netcode.NetcodeIdentity.Rpc(string methodName, uint index, object[] parameters) Line 162	C#
 
 		/// <param name="target"></param>
 		/// <param name="parameters"></param>

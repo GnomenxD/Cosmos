@@ -1,4 +1,4 @@
-﻿namespace CosmosEngine
+﻿namespace CosmosFramework
 {
 	public class PixelCollider : Collider
 	{

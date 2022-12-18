@@ -98,6 +98,11 @@ namespace CosmosFramework
 		/// Orange (R: 255, G: 153, B: 0)
 		/// </summary>
 		public static Colour Orange { get; private set; } = new Colour(255, 153, 0);
+
+		/// <summary>
+		/// Dodger Blue (R: 30, G: 144, B: 255)
+		/// </summary>
+		public static Colour DodgerBlue { get; private set; } = new Colour(30, 144, 255);
 		/// <summary>
 		/// Skye Blue (R: 76, G: 178, B: 255)
 		/// </summary>
@@ -107,10 +112,6 @@ namespace CosmosFramework
 		/// </summary>
 		public static Colour CornflowerBlue { get; private set; } = new Colour(100, 148, 234);
 
-		/// <summary>
-		/// Lime (R: 191, G: 255, B: 0)
-		/// </summary>
-		public static Colour Lime { get; private set; } = new Colour(191, 255, 0);
 		/// <summary>
 		/// Violet (R: 171, G: 0, B: 232)
 		/// </summary>
@@ -123,6 +124,23 @@ namespace CosmosFramework
 		/// Indigo (R: 75, G: 0, B: 130)
 		/// </summary>
 		public static Colour Indigo { get; private set; } = new Colour(75, 0, 130);
+
+		/// <summary>
+		/// Lime (R: 191, G: 255, B: 0)
+		/// </summary>
+		public static Colour Lime { get; private set; } = new Colour(191, 255, 0);
+		/// <summary>
+		/// UndefinedGreen (R: 30, G: 144, B: 255)
+		/// </summary>
+		public static Colour UndefinedGreen { get; private set; } = new Colour(138, 192, 63);
+		/// <summary>
+		/// Asda Green (R: 30, G: 144, B: 255)
+		/// </summary>
+		public static Colour AsdaGreen { get; private set; } = new Colour(125, 194, 66);
+		/// <summary>
+		/// Microsoft Green (R: 30, G: 144, B: 255)
+		/// </summary>
+		public static Colour MicrosoftGreen { get; private set; } = new Colour(125, 183, 0);
 
 		/// <summary>
 		/// Dark Slate Grey (R: 46, G: 76, B: 76)
@@ -467,7 +485,7 @@ namespace CosmosFramework
 		public static bool operator ==(Colour lhs, Colour rhs) => lhs.Equals(rhs);
 		public static bool operator !=(Colour lhs, Colour rhs) => !lhs.Equals(rhs);
 		/// <summary>
-		/// Implicit conversion of <see cref="CosmosFramework.Colour"/> to a <see cref="Microsoft.Xna.Framework.Color"/>, one is used by CosmosEngine the other is used by MonoGame.
+		/// Implicit conversion of <see cref="CosmosFramework.Colour"/> to a <see cref="Microsoft.Xna.Framework.Color"/>, one is used by CosmosFramework the other is used by MonoGame.
 		/// </summary>
 		/// <param name="colour"></param>
 		public static implicit operator Color(Colour colour) => colour.packedColour;

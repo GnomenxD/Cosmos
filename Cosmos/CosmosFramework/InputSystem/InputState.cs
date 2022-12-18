@@ -10,7 +10,7 @@ using GamePad = Microsoft.Xna.Framework.Input.GamePad;
 namespace CosmosFramework
 {
 	/// <summary>
-	/// The base system for input CosmosEngine input control, <see cref="CosmosFramework.InputState"/> can be used to handle the most essential user input from static keys, mouse or gamepad. It is a static class that always persist within the system and can't be removed as the other input modules can. It is not recommended to use the <see cref="CosmosFramework.InputState"/> for user input. Instead consider one of the alternative systems that allow for custom user inputs.
+	/// The base system for input CosmosFramework input control, <see cref="CosmosFramework.InputState"/> can be used to handle the most essential user input from static keys, mouse or gamepad. It is a static class that always persist within the system and can't be removed as the other input modules can. It is not recommended to use the <see cref="CosmosFramework.InputState"/> for user input. Instead consider one of the alternative systems that allow for custom user inputs.
 	/// <list type="table">
 	/// <item><see cref="CosmosFramework.InputManager"/> a string based system with predefined buttons and axis with room for user defined input, allow for buttons / axis control and multiple keys for a single input.</item>
 	/// <item><see cref="CosmosFramework.InputSystem"/> an event based system that comes with no predefined inputs - requires more setup, with the exchange of invoking methods on inputs and allowing for custom return types.</item>

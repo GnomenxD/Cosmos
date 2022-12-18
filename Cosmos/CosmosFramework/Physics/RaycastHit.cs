@@ -1,4 +1,4 @@
-﻿namespace CosmosEngine
+﻿namespace CosmosFramework
 {
 	public struct RaycastHit
 	{
