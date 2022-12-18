@@ -94,6 +94,11 @@ namespace CosmosFramework
 		/// </summary>
 		public static float Log10(float f) => (float)MathF.Log10(f);
 		/// <summary>
+		/// <inheritdoc cref="System.MathF.Log2(float)"/>
+		/// </summary>
+		public static float Log2(float f) => MathF.Log2(f);
+
+		/// <summary>
 		/// <inheritdoc cref="System.MathF.Pow(float, float)"/>
 		/// </summary>
 		public static float Pow(float f, float p) => (float)MathF.Pow(f, p);

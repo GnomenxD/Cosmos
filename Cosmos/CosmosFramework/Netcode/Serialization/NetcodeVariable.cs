@@ -20,12 +20,7 @@ namespace CosmosFramework.Netcode
 			}
 		}
 
-		public NetcodeVariable(T value = default(T))
-		{
-			internalValue = value;
-		}
-
-		public NetcodeVariable(T value = default(T), OnValueChangedDelegate onValueChanged = default(OnValueChangedDelegate)) : this(value)
+		public NetcodeVariable(T value = default(T), OnValueChangedDelegate onValueChanged = default(OnValueChangedDelegate))
 		{
 
 		}

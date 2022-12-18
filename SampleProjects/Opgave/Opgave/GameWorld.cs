@@ -5,44 +5,33 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
-		ulong _id;
+		private Flag data;
 
 		public override void Initialize()
 		{
-
+			data = new Flag();
 		}
 		public override void Start()
 		{
 			GameObject gameObject = new GameObject("My Object");
 			SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
 			sr.Sprite = Assets.PlayerShip1Green;
-
-			_id += 1;
-			_id += 2;
-			_id += 4;
-			_id += 8;
 		}
 
 		public override void Update()
 		{
-			switch(InputManager.GetCurrentKey())
+			Debug.QuickLog($"ID: {data.ToString()} | {data.ToByteString()}");
+
+			switch (InputManager.GetCurrentKey())
 			{
 				case CosmosFramework.InputModule.Keys.D1:
 					break;
 			}
 
-			Debug.QuickLog($"ID: {_id}");
-			if(InputManager.GetKeyDown(CosmosFramework.InputModule.Keys.D1))
+			if (InputManager.GetKeyDown(CosmosFramework.InputModule.Keys.Space))
 			{
-
-			}
-			else if (InputManager.GetKeyDown(CosmosFramework.InputModule.Keys.D2))
-			{
-
-			}
-			else if (InputManager.GetKeyDown(CosmosFramework.InputModule.Keys.D3))
-			{
-
+				Debug.LogTable(data.Read());
+				data.Clear();
 			}
 		}
 	}

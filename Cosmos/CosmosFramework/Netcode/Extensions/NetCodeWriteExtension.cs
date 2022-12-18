@@ -3,7 +3,7 @@ using CosmosFramework.Netcode.Serialization;
 
 namespace CosmosFramework
 {
-	internal static class NetcodeWriteExtension
+	public static class NetcodeWriteExtension
 	{
 		public static void WriteVector2(this NetcodeWriter stream, Vector2 value)
 		{
@@ -11,5 +11,10 @@ namespace CosmosFramework
 			value.Y = Mathf.Round(value.Y, 2, MidpointRounding.ToEven);
 			stream.Write(value);
 		}
+
+		//public static void WriteInt2(this NetcodeWriter stream, Int2 value)
+		//{
+
+		//}
 	}
 }
