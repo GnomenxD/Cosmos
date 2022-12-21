@@ -489,6 +489,11 @@ namespace CosmosFramework
 		/// </summary>
 		/// <param name="colour"></param>
 		public static implicit operator Color(Colour colour) => colour.packedColour;
+
+		public static implicit operator Colour(Float3 value) => new Colour(value.X, value.Y, value.Z);
+		public static implicit operator Colour(Float4 value) => new Colour(value.X, value.Y, value.Z, value.W);
+		public static implicit operator Colour(Int3 value) => new Colour(value.X, value.Y, value.Z);
+		public static implicit operator Colour(Int4 value) => new Colour(value.X, value.Y, value.Z, value.W);
 		#endregion
 	}
 }

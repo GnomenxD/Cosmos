@@ -12,9 +12,31 @@ namespace CosmosFramework
 			stream.Write(value);
 		}
 
-		//public static void WriteInt2(this NetcodeWriter stream, Int2 value)
-		//{
+		public static void WriteFloat2(this NetcodeWriter stream, Float2 value)
+		{
+			stream.Write(
+				new Float2(
+					Mathf.Round(value.X, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.Y, 2, MidpointRounding.ToEven)));
+		}
 
-		//}
+		public static void WriteFloat3(this NetcodeWriter stream, Float3 value)
+		{
+			stream.Write(
+				new Float3(
+					Mathf.Round(value.X, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.Y, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.Z, 2, MidpointRounding.ToEven)));
+		}
+
+		public static void WriteFloat4(this NetcodeWriter stream, Float4 value)
+		{
+			stream.Write(
+				new Float4(
+					Mathf.Round(value.X, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.Y, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.Z, 2, MidpointRounding.ToEven),
+					Mathf.Round(value.W, 2, MidpointRounding.ToEven)));
+		}
 	}
 }

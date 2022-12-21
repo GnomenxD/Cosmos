@@ -5,45 +5,45 @@ using System.Reflection;
 
 namespace CosmosFramework.Netcode
 {
-	[RequireComponent(typeof(NetcodeIdentity))]
+	[RequireComponent(typeof(NetcodeObject))]
 	public abstract class NetcodeBehaviour : GameBehaviour
 	{
 		private const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
 
-		private NetcodeIdentity netIdentity;
+		private NetcodeObject netIdentity;
 		private uint behaviourIndex;
 		private object[] syncVarDirtyBits;
 		private Dictionary<byte, FieldInfo> syncVarFields;
 
-		public NetcodeIdentity NetIdentity => netIdentity ??= GetComponent<NetcodeIdentity>();
+		public NetcodeObject NetIdentity => netIdentity ??= GetComponent<NetcodeObject>();
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.IsConnected"></inheritdoc>/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.IsConnected"></inheritdoc>/>
 		/// </summary>
 		public bool IsConnected => NetIdentity.IsConnected;
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.IsServer"/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.IsServer"/>
 		/// </summary>
 		public bool IsServer => NetIdentity.IsServer;
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.IsClient"/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.IsClient"/>
 		/// </summary>
 		public bool IsClient => NetIdentity.IsClient && NetIdentity;
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.IsLocal"/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.IsLocal"/>
 		/// </summary>
 		public bool IsLocal => NetIdentity.IsLocal;
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.HasAuthority"/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.HasAuthority"/>
 		/// </summary>
 		public bool HasAuthority => NetIdentity.HasAuthority;
 
 		/// <summary>
-		/// <inheritdoc cref="Netcode.NetcodeIdentity.NetId"/>
+		/// <inheritdoc cref="Netcode.NetcodeObject.NetId"/>
 		/// </summary>
 		public uint NetId => NetIdentity.NetId;
 

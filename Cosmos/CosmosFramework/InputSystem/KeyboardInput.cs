@@ -1,5 +1,6 @@
 ﻿using CosmosFramework.Collections;
 using CosmosFramework.CoreModule;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TextInputEventArgs = Microsoft.Xna.Framework.TextInputEventArgs;
@@ -15,15 +16,27 @@ namespace CosmosFramework.InputModule
 		private bool enabled;
 		private bool allowLineEnding;
 		private int line;
+		private InputRestrictions restrictions;
 
-		public bool Enabled { get => enabled; set => enabled = value; }
+		public InputRestrictions Restrictions { get => restrictions; set => restrictions = value; }
+		public bool Enabled => enabled;
 
-		public KeyboardInput()
+		public KeyboardInput(InputRestrictions restrictions = InputRestrictions.None)
 		{
-			enabled = true;
+			this.restrictions = restrictions;
 			stringBuilder = new StringBuilder();
 			lastDeletedCharacter = new Stack<char>();
 			keyboardInputHandlers.Add(this);
+		}
+
+		public void Begin()
+		{
+			enabled = true;
+		}
+
+		public void End()
+		{
+			enabled = false;
 		}
 
 		public void Clear()
@@ -61,7 +74,20 @@ namespace CosmosFramework.InputModule
 				stringBuilder.Append($"\n");
 				return;
 			}
-
+			
+			if(Restrictions != InputRestrictions.None)
+			{
+				if(int.TryParse(input.Character.ToString(), out _))
+				{
+					if (Restrictions == InputRestrictions.OnlyCharacters)
+						return;
+				}
+				else
+				{
+					if (Restrictions == InputRestrictions.OnlyNumbers)
+						return;
+				}
+			}
 			stringBuilder.Append(input.Character);
 		}
 
@@ -91,5 +117,7 @@ namespace CosmosFramework.InputModule
 		}
 
 		public override string ToString() => stringBuilder.ToString();
+
+		public static implicit operator string(KeyboardInput input) => input.ToString();
 	}
 }

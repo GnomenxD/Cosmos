@@ -1,33 +1,36 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace CosmosFramework
 {
+	[System.Serializable]
+	[StructLayout(LayoutKind.Sequential)]
 	public struct Flag
 	{
-		private ulong value;
-		public ulong Value => value;
+		private ulong packedValue;
+		public ulong PackedValue => packedValue;
 
 		public Flag(ulong value)
 		{
-			this.value = value;
+			this.packedValue = value;
 		}
 
 		public Flag(params int[] markedPositions)
 		{
-			this.value = 0;
-			foreach(int i in markedPositions)
+			this.packedValue = 0;
+			foreach (int i in markedPositions)
 			{
-				Set(i);
+				Mark(i);
 			}
 		}
 
-		public void Set(int position)
+		public void Mark(int position)
 		{
-			if(position >= 64)
+			if (position >= 64)
 			{
 				return;
 			}
-			value += (ulong)(1 << position);
+			packedValue += (ulong)(1 << position);
 		}
 
 		public void Remove(int position)
@@ -36,7 +39,7 @@ namespace CosmosFramework
 			{
 				return;
 			}
-			value -= (ulong)(1 >> position);
+			packedValue -= (ulong)(1 >> position);
 		}
 
 		public bool HasFlag()
@@ -44,15 +47,15 @@ namespace CosmosFramework
 			return true;
 		}
 
-		public IEnumerable<int> Read()
+		public IEnumerable<int> Iterate()
 		{
 			List<int> list = new List<int>();
-			ulong internalValue = value;
+			ulong internalValue = packedValue;
 			int increment = (int)Mathf.Log2(internalValue);
 			while (internalValue > 0)
 			{
 				list.Add(increment);
-				Debug.Log($"Increment: {increment} | Value: {internalValue}");
+				//Debug.Log($"Increment: {increment} | Value: {internalValue}");
 				internalValue -= (uint)Mathf.Pow(2, increment);
 				increment = (int)Mathf.Log2(internalValue);
 			}
@@ -60,10 +63,11 @@ namespace CosmosFramework
 			return list;
 		}
 
-		public void Clear() => value = 0;
+		public void Clear() => packedValue = 0;
 
-		public string ToByteString() => System.Convert.ToString((long)value, 2);
-		public override string ToString() => value.ToString();
+		public string ToByteString() => System.Convert.ToString((long)packedValue, 2);
+		public override string ToString() => packedValue.ToString();
 
+		public static implicit operator ulong(Flag flag) => flag.packedValue;
 	}
 }

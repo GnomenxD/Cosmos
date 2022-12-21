@@ -1,14 +1,16 @@
 ﻿using CosmosFramework;
 using CosmosFramework.CoreModule;
-using System;
-using System.IO;
-using System.Windows.Forms;
+using CosmosFramework.Tweening;
+using Opgave.Prefabs;
 
 namespace Opgave
 {
 	public class GameWorld : Game
 	{
 		private Flag data;
+		private PlayerShip ship;
+		private float value;
+
 
 		public override void Initialize()
 		{
@@ -16,27 +18,30 @@ namespace Opgave
 		}
 		public override void Start()
 		{
-			GameObject gameObject = new GameObject("My Object");
-			SpriteRenderer sr = gameObject.AddComponent<SpriteRenderer>();
-			sr.Sprite = Assets.PlayerShip1Green;
+			EnemyShipPrefab.Instantiate(new Vector2(5.0f, 3.0f), 90.0f, 100);
+			ship = PlayerShipPrefab.Instantiate(Vector2.Zero, 0.0f, 100, 5, 10);
+			EnemyShipPrefab.Instantiate(new Vector2(-5.0f, 3.0f), 270.0f, 150);
+			value = 1.0f;
 
+			NetworkPlayerPrefab.Instantiate();
 		}
 
 		public override void Update()
 		{
-			Debug.QuickLog($"ID: {data.ToString()} | {data.ToByteString()}");
-
-			switch (InputManager.GetCurrentKey())
-			{
-				case CosmosFramework.InputModule.Keys.D1:
-					break;
-			}
-
+			Debug.QuickLog($"Value: {value}");
 			if (InputManager.GetKeyDown(CosmosFramework.InputModule.Keys.Space))
 			{
-				Debug.LogTable(data.Read());
-				data.Clear();
+				Debug.Log("Start Tween");
+				Tween.Set(ref value, 3.0f, 2.0f);
+
+				ship.Transform.Move(new Vector2(3.0f, -3.0f), 5.0f)
+					.OnComplete(OnTweenComplete);
 			}
+		}
+
+		private void OnTweenComplete()
+		{
+			Debug.Log($"Complete tween");
 		}
 	}
 }

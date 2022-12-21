@@ -14,6 +14,14 @@
     <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ExistingFolder\**" />
+    <Compile Remove="MyFolder\**" />
+    <EmbeddedResource Remove="ExistingFolder\**" />
+    <EmbeddedResource Remove="MyFolder\**" />
+    <None Remove="ExistingFolder\**" />
+    <None Remove="MyFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
@@ -23,8 +31,6 @@
   <ItemGroup>
     <Folder Include="Assets\Audio\" />
     <Folder Include="Assets\Sprites\" />
-    <Folder Include="ExistingFolder\" />
-    <Folder Include="MyFolder\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\Sprites\playerShip1_blue.png">

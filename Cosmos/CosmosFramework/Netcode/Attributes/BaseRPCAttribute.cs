@@ -8,7 +8,7 @@ namespace CosmosFramework.Netcode
 	}
 
 	/// <summary>
-	/// A <see cref="CosmosFramework.Netcode.ServerRPCAttribute"/> provides the ability to send information from a client to the server, as if you would invoke a method from within a class. To invoke the RPC a client must have authority on the <see cref="CosmosFramework.Netcode.NetcodeIdentity"/>.
+	/// A <see cref="CosmosFramework.Netcode.ServerRPCAttribute"/> provides the ability to send information from a client to the server, as if you would invoke a method from within a class. To invoke the RPC a client must have authority on the <see cref="CosmosFramework.Netcode.NetcodeObject"/>.
 	/// <para>Remote procedure call (RPC) will always be received and executed. Unless channel is set to <see cref="CosmosFramework.Netcode.Channel.Unreliable"/>.</para>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]

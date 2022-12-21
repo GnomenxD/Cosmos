@@ -149,11 +149,14 @@ namespace CosmosFramework.CoreModule
 		/// Initializes and instantiates the <see cref="CosmosFramework.CoreModule.Object"/> assigning it to the correct modules through the <see cref="CosmosFramework.Modules.ObjectDelegater"/>.
 		/// </summary>
 		/// <returns>Returns if the initialization was successful or not.</returns>
-		internal virtual bool Initialize()
+		internal virtual bool Initialize(bool ignoredByDelegater = false)
 		{
 			if (initialized)
 				return false;
 			initialized = true;
+			if (ignoredByDelegater)
+				return false;
+
 			OnInstantiated();
 			return ObjectDelegater.OnInstantiate(this);
 		}

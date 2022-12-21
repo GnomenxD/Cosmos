@@ -57,6 +57,7 @@ namespace CosmosFramework
 				State = CoroutineState.Running;
 		}
 		internal void Stop() => State = CoroutineState.Interrupted;
+		internal void Cancel() => State = CoroutineState.Cancelled;
 
 		internal void Update()
 		{
@@ -106,6 +107,13 @@ namespace CosmosFramework
 		public static Coroutine Start(IEnumerator routine)
 		{
 			return CoroutineManager.StartCoroutine(routine);
+		}
+
+		public static Coroutine Start(IEnumerator routine, out Cancellation cancellationtoken)
+		{
+			Coroutine coroutine = CoroutineManager.StartCoroutine(routine);
+			cancellationtoken = new Cancellation(() => coroutine.State = CoroutineState.Cancelled);
+			return coroutine;
 		}
 
 		#endregion

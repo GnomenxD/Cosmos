@@ -62,6 +62,15 @@ namespace CosmosFramework.Modules
 
 		public override System.Predicate<Object> RemoveAllPredicate() => item => item.Destroyed;
 
+		protected override void Dispose(bool disposing)
+		{
+			if (!IsDisposed && disposing)
+			{
+				gameObjects.Clear();
+			}
+			base.Dispose(disposing);
+		}
+
 		#region FindObjectOfType
 		/// <summary>
 		/// Returns the first loaded, active and enabled object of a type.

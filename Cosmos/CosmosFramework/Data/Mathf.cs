@@ -411,10 +411,14 @@ namespace CosmosFramework
 			return current + Math.Sign(target - current) * delta;
 		}
 
-		[System.Obsolete("Unsure what the reason for this method is...", false)]
-		public static bool MoveTowards(out float current, float target, float delta)
+		//[System.Obsolete("Unsure what the reason for this method is...", false)]
+		public static bool MoveTowards(ref float current, float target, float delta)
 		{
-			throw new NotImplementedException();
+			current = Mathf.MoveTowards(current, target, delta);
+			if (current == target)
+				return true;
+			else
+				return false;
 		}
 
 		/// <summary>
