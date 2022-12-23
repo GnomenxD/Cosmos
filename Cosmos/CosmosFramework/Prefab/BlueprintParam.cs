@@ -1,11 +1,11 @@
 ﻿namespace CosmosFramework
 {
-	public struct PrefabParams
+	public struct BlueprintParam
 	{
 		private readonly object[] param;
 		private int index;
 
-		public PrefabParams(params object[] param)
+		public BlueprintParam(params object[] param)
 		{
 			this.param = param;
 			index = 0;
@@ -19,7 +19,6 @@
 				return default(T);
 			if (param[index].GetType() != typeof(T))
 				return default(T);
-
 			return (T)param[index++];
 		}
 	}

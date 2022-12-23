@@ -2,13 +2,13 @@
 
 namespace CosmosFramework
 {
-	public abstract class PrefabObjectBase
+	public abstract class BlueprintBase
 	{
 		private bool instantiated;
 		private string name;
 		private readonly List<Component> components = new List<Component>();
 
-		protected abstract void Create(PrefabParams param);
+		protected abstract void Create();
 
 		protected string Name { get => name; set => name = value; }
 		protected private bool Instantiated { get => instantiated; set => instantiated = value; }

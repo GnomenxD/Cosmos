@@ -18,12 +18,12 @@ namespace Opgave
 		}
 		public override void Start()
 		{
-			EnemyShipPrefab.Instantiate(new Vector2(5.0f, 3.0f), 90.0f, 100);
-			ship = PlayerShipPrefab.Instantiate(Vector2.Zero, 0.0f, 100, 5, 10);
-			EnemyShipPrefab.Instantiate(new Vector2(-5.0f, 3.0f), 270.0f, 150);
+			EnemyShipBlueprint.Instantiate(new Vector2(5.0f, 3.0f), 90.0f, 100);
+			ship = PlayerShipBlueprint.Instantiate(Vector2.Zero, 0.0f, 100, 5, 10);
+			EnemyShipBlueprint.Instantiate(new Vector2(-5.0f, 3.0f), 270.0f, 150);
 			value = 1.0f;
 
-			NetworkPlayerPrefab.Instantiate();
+			NetworkPlayerBLueprint.Instantiate();
 		}
 
 		public override void Update()

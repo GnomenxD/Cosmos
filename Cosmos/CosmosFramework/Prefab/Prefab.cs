@@ -200,7 +200,7 @@ namespace CosmosFramework
 			return newComponent as T;
 		}
 
-		internal static GameObject CreateFromPrefabObject(string name, List<Component> components)
+		internal static GameObject CreateFromBlueprint(string name, IEnumerable<Component> components)
 		{
 			GameObject gameObject = new GameObject($"{name} (Clone)");
 			foreach(Component c in components)

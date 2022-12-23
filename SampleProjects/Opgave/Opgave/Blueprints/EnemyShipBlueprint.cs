@@ -2,9 +2,9 @@
 
 namespace Opgave.Prefabs
 {
-	internal class EnemyShipPrefab : PrefabObject<PlayerShip, EnemyShipPrefab>
+	internal class EnemyShipBlueprint : Blueprint<PlayerShip, EnemyShipBlueprint>
 	{
-		protected override void Create(PrefabParams param)
+		protected override void Create(BlueprintParam param)
 		{
 			Name = "Enemy Ship";
 			PlayerShip ship = AddComponent<PlayerShip>();

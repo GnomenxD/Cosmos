@@ -4,9 +4,9 @@ namespace CosmosFramework
 {
 	public class NetcodePrefabCollection
 	{
-		private readonly List<PrefabObjectBase> prefabObjects = new List<PrefabObjectBase>();
+		private readonly List<BlueprintBase> prefabObjects = new List<BlueprintBase>();
 
-		public void Register<T>() where T : PrefabObjectBase
+		public void Register<T>() where T : BlueprintBase
 		{
 			prefabObjects.Add(System.Activator.CreateInstance<T>());
 		}
