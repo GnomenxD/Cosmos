@@ -282,6 +282,16 @@ namespace CosmosFramework
 			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", v ? LogFormat.Complete : LogFormat.Error, DefaultOption);
 		}
 
+		//[Conditional("EDITOR"), Conditional("DEBUG")]
+		//public static void TimeLog(Func<IEnumerator, bool> method)
+		//{
+		//	Stopwatch sw = Stopwatch.StartNew();
+		//	Coroutine.Start()
+		//	bool v = method.Invoke();
+		//	sw.Stop();
+		//	Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", v ? LogFormat.Complete : LogFormat.Error, DefaultOption);
+		//}
+
 		public void Update()
 		{
 #if EDITOR || DEBUG

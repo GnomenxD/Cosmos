@@ -1,10 +1,10 @@
 ﻿using CosmosFramework;
 
-namespace Opgave.Prefabs
+namespace Opgave.Blueprints
 {
-	internal class NetworkPlayerBLueprint : Blueprint<NetworkPlayer, NetworkPlayerBLueprint>
+	internal class NetworkPlayerBlueprint : Blueprint<NetworkPlayer, NetworkPlayerBlueprint>
 	{
-		protected override void Create(BlueprintParam param)
+		protected override void Create()
 		{
 			NetworkPlayer player = AddComponent<NetworkPlayer>();
 		}

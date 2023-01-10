@@ -1,5 +1,5 @@
 ﻿using CosmosFramework;
-using Opgave.Prefabs;
+using Opgave.Blueprints;
 
 namespace Opgave
 {

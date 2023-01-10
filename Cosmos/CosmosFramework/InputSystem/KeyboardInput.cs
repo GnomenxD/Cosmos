@@ -71,6 +71,8 @@ namespace CosmosFramework.InputModule
 			}
 			if (input.Key.Convert() == Keys.Enter)
 			{
+				if (!allowLineEnding)
+					return;
 				stringBuilder.Append($"\n");
 				return;
 			}
@@ -116,6 +118,13 @@ namespace CosmosFramework.InputModule
 			base.Dispose(disposing);
 		}
 
+		public string Read()
+		{
+			string input = stringBuilder.ToString();
+			lastDeletedCharacter.Clear();
+			stringBuilder.Clear();
+			return input;
+		}
 		public override string ToString() => stringBuilder.ToString();
 
 		public static implicit operator string(KeyboardInput input) => input.ToString();
