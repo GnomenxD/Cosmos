@@ -5,7 +5,10 @@ using CosmosFramework.Tweening;
 using OpenAI_API;
 using Opgave.Blueprints;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Opgave
 {
@@ -14,7 +17,7 @@ namespace Opgave
 		OpenAIAPI openAi;
 		public override void Initialize()
 		{
-			openAi = new OpenAIAPI("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");
+			openAi = new OpenAIAPI("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");
 		}
 		public override void Start()
 		{
@@ -23,7 +26,7 @@ namespace Opgave
 
 		private KeyboardInput input;
 
-		public override void Update()
+		public override async void Update()
 		{
 			Debug.QuickLog(input);
 
@@ -32,9 +35,10 @@ namespace Opgave
 				if(input.Enabled)
 				{
 					string read = input.Read();
-					GetAiResult(read, 0.0);
-					GetAiResult(read, 0.5);
-					GetAiResult(read, 1.0);
+					await Request(read, Model.AdaText, 0.9);
+					await Request(read, Model.BabbageText, 0.9);
+					await Request(read, Model.CurieText, 0.9);
+					await Request(read, Model.DavinciText, 0.9);
 				}
 				else
 				{
@@ -57,11 +61,11 @@ namespace Opgave
 
 		//Is this even fun - it could be too easy?
 
-		private async void GetAiResult(string s, double tmp)
+		private async Task Request(string s, Model model, double tmp)
 		{
-			CompletionRequest request = new CompletionRequest(s, model: Model.DavinciText, max_tokens: 8, temperature: tmp);
+			CompletionRequest request = new CompletionRequest(s, model: model, max_tokens: 40, temperature: tmp);
 			var result = await openAi.Completions.CreateCompletionAsync(request);
-			Debug.Log($"Result [{tmp:F2}]: {result.ToString()}");
+			Debug.Log($"Result [{tmp:F2}, {model.ModelID}]: {result.ToString()}\n");
 			Console.WriteLine(result.ToString());
 		}
 	}
