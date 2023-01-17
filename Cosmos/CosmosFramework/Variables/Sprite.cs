@@ -129,6 +129,11 @@ namespace CosmosFramework
 			if (!sharedAsset)
 				return;
 			string sharedAssetPath = $"data/shared{assetReference.Library}.assets";
+			if(!File.Exists(sharedAssetPath))
+			{
+				Debug.Log("Could not find shared asset file.. Please try to rebuild the game.");
+				return;
+			}	
 			using (StreamReader sReader = new StreamReader(sharedAssetPath))
 			{
 				byte[] buffer = new byte[assetReference.BufferSize];
