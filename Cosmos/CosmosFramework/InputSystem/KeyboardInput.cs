@@ -51,23 +51,36 @@ namespace CosmosFramework.InputModule
 			if (!enabled)
 				return;
 
+			Debug.Log($"Input: {input.Key.Convert()}");
+
 			if(InputState.Held(Keys.LeftControl) || InputState.Held(Keys.RightControl))
 			{
 				//Does not work when using MTA programs... ignore for now 
-				goto clipboardSkip;
-				Debug.QuickLog("Control Held");
+				Debug.QuickLog($"Control Held [{input.Key.Convert()}]");
 				if (input.Key.Convert() == Keys.V)
 				{
+					Debug.Log($"Paste");
 					//Paste text from clipboard to input.
 					string clipboard = Clipboard.GetText();
 					stringBuilder.Append(clipboard);
 				}
 				else if (input.Key.Convert() == Keys.C)
 				{
+					Debug.Log($"Copy");
 					//Copy text from input to clipboard.
 					if (!string.IsNullOrWhiteSpace(stringBuilder.ToString()))
 					{
 						Clipboard.SetText(stringBuilder.ToString());
+					}
+				}
+				else if(input.Key.Convert() == Keys.X)
+				{
+					Debug.Log($"Clip");
+					//Clip text from input to clipboard.
+					if (!string.IsNullOrWhiteSpace(stringBuilder.ToString()))
+					{
+						Clipboard.SetText(stringBuilder.ToString());
+						Clear();
 					}
 				}
 				return;

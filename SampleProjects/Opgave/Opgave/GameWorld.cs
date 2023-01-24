@@ -14,14 +14,26 @@ namespace Opgave
 {
 	public class GameWorld : Game
 	{
-		OpenAIAPI openAi;
+
+		private OpenAIAPI openAi;
 		public override void Initialize()
 		{
 			openAi = new OpenAIAPI("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");
 		}
 		public override void Start()
 		{
+			int[] values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+			Debug.LogTable(values[8..]);
 			input = new KeyboardInput();
+
+			Item item = new Item();
+			var product = new { item.name, item.price };
+		}
+
+		public class Item
+		{
+			public string name;
+			public int price;
 		}
 
 		private KeyboardInput input;
@@ -34,11 +46,12 @@ namespace Opgave
 			{
 				if(input.Enabled)
 				{
-					string read = input.Read();
-					await Request(read, Model.AdaText, 0.9);
-					await Request(read, Model.BabbageText, 0.9);
-					await Request(read, Model.CurieText, 0.9);
-					await Request(read, Model.DavinciText, 0.9);
+					string prompt = input.Read();
+					Console.WriteLine($"Prompt: {prompt}");
+					await Request(prompt, Model.AdaText, 0.9);
+					await Request(prompt, Model.BabbageText, 0.9);
+					await Request(prompt, Model.CurieText, 0.9);
+					await Request(prompt, Model.DavinciText, 0.9);
 				}
 				else
 				{
