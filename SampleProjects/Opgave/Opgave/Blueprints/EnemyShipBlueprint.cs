@@ -1,18 +1,18 @@
 ﻿using CosmosFramework;
 
-namespace Opgave.Blueprints
+namespace Opgave.Blueprint
 {
 	internal class EnemyShipBlueprint : Blueprint<PlayerShip, EnemyShipBlueprint>
 	{
+		protected override string UniqueName => "Enemy Ship";
 		protected override void Create()
 		{
-			Name = "Enemy Ship";
 			PlayerShip ship = AddComponent<PlayerShip>();
 			SpriteRenderer renderer = AddComponent<SpriteRenderer>();
 			renderer.Sprite = Assets.EnemyBlack1;
 		}
 
-		protected override void Initialize(PlayerShip blueprint, BlueprintParam param)
+		protected override void Initialize(ref PlayerShip blueprint, BlueprintParam param)
 		{
 			blueprint.Health = param.ReadValue<int>(100);
 			SpriteRenderer renderer = blueprint.AddComponent<SpriteRenderer>();

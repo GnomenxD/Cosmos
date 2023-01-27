@@ -1,14 +1,20 @@
-﻿namespace CosmosFramework
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace CosmosFramework
 {
-	public struct BlueprintParam
+	public struct BlueprintParam : IEnumerator, IEnumerable, IEnumerable<object>
 	{
 		private readonly object[] param;
 		private int index;
 
+		public bool Empty => index >= param.Length;
+		public object Current => param[index];
+
 		public BlueprintParam(params object[] param)
 		{
 			this.param = param;
-			index = 0;
+			index = -1;
 		}
 
 		/// <summary>
@@ -21,11 +27,32 @@
 		{
 			if(param == null)
 				return defaultValue;
-			if (index >= param.Length)
+			if (!MoveNext())
 				return defaultValue;
 			if (param[index].GetType() != typeof(T))
 				return defaultValue;
-			return (T)param[index++];
+			return (T)param[index];
+		}
+
+		public bool MoveNext()
+		{
+			index++;
+			return (!Empty);
+		}
+
+		public void Reset()
+		{
+			index = -1;
+		}
+
+		public IEnumerator GetEnumerator()
+		{
+			return this;
+		}
+
+		IEnumerator<object> IEnumerable<object>.GetEnumerator()
+		{
+			return (IEnumerator<object>)GetEnumerator();
 		}
 	}
 }
