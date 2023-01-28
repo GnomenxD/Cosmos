@@ -4,6 +4,8 @@ using System.IO;
 using System;
 using Color = Microsoft.Xna.Framework.Color;
 using System.CodeDom.Compiler;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace CosmosFramework
 {
@@ -30,7 +32,7 @@ namespace CosmosFramework
 		{
 			get
 			{
-				if(mainTexture == null)
+				if (mainTexture == null)
 				{
 					if (sharedAsset)
 						LoadFromSharedAsset();
@@ -74,11 +76,12 @@ namespace CosmosFramework
 		public Sprite(Texture2D mainTexture)
 		{
 			this.mainTexture = mainTexture;
+			this.size = new Vector2(mainTexture.Width, mainTexture.Height);
 		}
 
 		public Texture2D Load()
 		{
-			if(sharedAsset)
+			if (sharedAsset)
 			{
 				LoadFromSharedAsset();
 				return null;
@@ -105,7 +108,7 @@ namespace CosmosFramework
 				texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, stream);
 			};
 
-			if(texture != null)
+			if (texture != null)
 			{
 				Color[] buffer = new Color[texture.Width * texture.Height];
 				texture.GetData(buffer);
@@ -129,11 +132,6 @@ namespace CosmosFramework
 			if (!sharedAsset)
 				return;
 			string sharedAssetPath = $"data/shared{assetReference.Library}.assets";
-			if(!File.Exists(sharedAssetPath))
-			{
-				Debug.Log("Could not find shared asset file.. Please try to rebuild the game.");
-				return;
-			}	
 			using (StreamReader sReader = new StreamReader(sharedAssetPath))
 			{
 				byte[] buffer = new byte[assetReference.BufferSize];
@@ -165,7 +163,7 @@ namespace CosmosFramework
 
 		protected override void Dispose(bool disposing)
 		{
-			if(!IsDisposed && disposing)
+			if (!IsDisposed && disposing)
 			{
 				mainTexture.Dispose();
 			}
@@ -186,6 +184,22 @@ namespace CosmosFramework
 			sprite.sharedAsset = true;
 
 			return sprite;
+		}
+
+		public async static Task<Sprite> FromUrl(string url)
+		{
+			var client = new HttpClient();
+			client.BaseAddress = new Uri(url);
+			var response = await client.GetAsync(url);
+			if (!response.IsSuccessStatusCode)
+			{
+				Debug.Log($"{response.ReasonPhrase}", LogFormat.Error);
+				return null;
+			}
+			byte[] buffer = response.Content.ReadAsByteArrayAsync().Result;
+			Texture2D texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, new MemoryStream(buffer));
+			Debug.Log($"New texture from stream");
+			return new Sprite(texture);
 		}
 	}
 }
