@@ -1,29 +1,20 @@
 ﻿using CosmosFramework;
 using CosmosFramework.CoreModule;
 using CosmosFramework.InputModule;
-using CosmosFramework.Tweening;
 using Newtonsoft.Json;
-using OpenAI_API;
-using Opgave.Blueprints;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
-using Tensorboard;
 using System.Text;
 
 namespace Opgave
 {
 	public class GameWorld : Game
 	{
-
-		private OpenAIAPI openAi;
 		public override void Initialize()
 		{
-			openAi = new OpenAIAPI("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");
 		}
 		public override async void Start()
 		{
@@ -105,13 +96,13 @@ namespace Opgave
 			return resp.data[0].url;
 		}
 
-		private async Task Request(string s, Model model, double tmp)
-		{
-			CompletionRequest request = new CompletionRequest(s, model: model, max_tokens: 40, temperature: tmp);
-			var result = await openAi.Completions.CreateCompletionAsync(request);
-			Debug.Log($"Result [{tmp:F2}, {model.ModelID}]: {result.ToString()}\n");
-			Console.WriteLine(result.ToString());
-		}
+		//private async Task Request(string s, Model model, double tmp)
+		//{
+		//	CompletionRequest request = new CompletionRequest(s, model: model, max_tokens: 40, temperature: tmp);
+		//	var result = await openAi.Completions.CreateCompletionAsync(request);
+		//	Debug.Log($"Result [{tmp:F2}, {model.ModelID}]: {result.ToString()}\n");
+		//	Console.WriteLine(result.ToString());
+		//}
 	}
 
 

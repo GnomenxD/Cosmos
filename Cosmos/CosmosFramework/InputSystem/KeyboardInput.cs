@@ -1,9 +1,8 @@
-﻿using CosmosFramework.Collections;
+﻿using Cosmos.Collections;
 using CosmosFramework.CoreModule;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using TextInputEventArgs = Microsoft.Xna.Framework.TextInputEventArgs;
 
 namespace CosmosFramework.InputModule

@@ -1,4 +1,4 @@
-﻿using CosmosFramework.Collections;
+﻿using Cosmos.Collections;
 using CosmosFramework.CoreModule;
 using CosmosFramework.PhysicsModule;
 

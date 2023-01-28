@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CosmosFramework;
+using Random = CosmosFramework.Random;
 
-namespace CosmosFramework.Collections
+namespace Cosmos.Collections
 {
 	/// <summary>
-	/// A <see cref="CosmosFramework.Collections.RandomAssortment{T}"/> is an unsorted collection, which allows for easy random access to elements stored.
+	/// A <see cref="Cosmos.Collections.RandomAssortment{T}"/> is an unsorted collection, which allows for easy random access to elements stored.
 	/// </summary>
 	/// <typeparam name="T">The element type represented in the collection.</typeparam>
 	public class RandomAssortment<T>
@@ -19,11 +21,11 @@ namespace CosmosFramework.Collections
 		private bool nonSequential;
 		
 		/// <summary>
-		/// The amount of useable items in the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// The amount of useable items in the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		public int Count => count;
 		/// <summary>
-		/// The total amount of items in the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// The total amount of items in the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		public int Span => span;
 		/// <summary>
@@ -33,7 +35,7 @@ namespace CosmosFramework.Collections
 		public bool NonSequential { get => nonSequential; set => nonSequential = value; }
 
 		/// <summary>
-		/// Creates a new empty <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Creates a new empty <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		public RandomAssortment()
 		{
@@ -41,7 +43,7 @@ namespace CosmosFramework.Collections
 			occupiedIndex = new bool[8];
 		}
 		/// <summary>
-		/// Create a new <see cref="CosmosFramework.Collections.RandomAssortment{T}"/> with elements copied from an existing collection.
+		/// Create a new <see cref="Cosmos.Collections.RandomAssortment{T}"/> with elements copied from an existing collection.
 		/// </summary>
 		/// <param name="collection"></param>
 		public RandomAssortment(IEnumerable<T> collection)
@@ -79,7 +81,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Adds the <paramref name="item"/> to the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Adds the <paramref name="item"/> to the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <param name="item"></param>
 		public void Add(T item)
@@ -91,7 +93,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Adds a <paramref name="collection"/> of items to the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Adds a <paramref name="collection"/> of items to the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <param name="collection"></param>
 		public void Add(IEnumerable<T> collection)
@@ -104,7 +106,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Allows the use of <paramref name="func"/> to add new items to the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Allows the use of <paramref name="func"/> to add new items to the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <param name="func"></param>
 		/// <param name="amount"></param>
@@ -120,7 +122,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Returns a random <typeparamref name="T"/> from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Returns a random <typeparamref name="T"/> from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <returns></returns>
 		public T Peek()
@@ -151,7 +153,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Returns a collection with <paramref name="amount"/> random <typeparamref name="T"/> from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Returns a collection with <paramref name="amount"/> random <typeparamref name="T"/> from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <param name="amount"></param>
 		/// <param name="allowDuplicates">Not allowing duplicates can decrease the total amount of <typeparamref name="T"/> returned, but will ensure that all items are unique.</param>
@@ -214,7 +216,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Returns a random <typeparamref name="T"/> from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>. An item returned by Get will be marked as USED and will not be returned again, unless Reset is invoked.
+		/// Returns a random <typeparamref name="T"/> from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>. An item returned by Get will be marked as USED and will not be returned again, unless Reset is invoked.
 		/// </summary>
 		/// <returns></returns>
 		public T? Get()
@@ -243,7 +245,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Returns a collection with <paramref name="amount"/> random <typeparamref name="T"/> from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>. Items returned by Get will be marked as USED and will not be returned again, unless Reset is invoked.
+		/// Returns a collection with <paramref name="amount"/> random <typeparamref name="T"/> from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>. Items returned by Get will be marked as USED and will not be returned again, unless Reset is invoked.
 		/// </summary>
 		/// <param name="amount"></param>
 		/// <returns></returns>
@@ -267,7 +269,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Removes the first occurrence of <paramref name="item"/> found in the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Removes the first occurrence of <paramref name="item"/> found in the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		/// <param name="item"></param>
 		public void Remove(T item)
@@ -288,7 +290,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Removes all elements from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/> that matches the <paramref name="predicate"/>.
+		/// Removes all elements from the <see cref="Cosmos.Collections.RandomAssortment{T}"/> that matches the <paramref name="predicate"/>.
 		/// </summary>
 		/// <param name="predicate"></param>
 		public void RemoveAll(Predicate<T> predicate)
@@ -309,7 +311,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Resets the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>, allowing all elements in collection to be once again returend using the Get method.
+		/// Resets the <see cref="Cosmos.Collections.RandomAssortment{T}"/>, allowing all elements in collection to be once again returend using the Get method.
 		/// </summary>
 		public void Reset()
 		{
@@ -321,7 +323,7 @@ namespace CosmosFramework.Collections
 		}
 
 		/// <summary>
-		/// Removes all elements from the <see cref="CosmosFramework.Collections.RandomAssortment{T}"/>.
+		/// Removes all elements from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>.
 		/// </summary>
 		public void Clear()
 		{
