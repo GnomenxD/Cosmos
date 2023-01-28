@@ -274,6 +274,15 @@ namespace CosmosFramework
 			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", LogFormat.Complete, DefaultOption);
 		}
 
+
+		public static void TimeLog<T>(Action<T> method, T input)
+		{
+			Stopwatch sw = Stopwatch.StartNew();
+			method.Invoke(input);
+			sw.Stop();
+			Log($"Invoked method: {method.Method.Name} took {sw.Elapsed.TotalMilliseconds:F2}ms", LogFormat.Complete, DefaultOption);
+		}
+
 		[Conditional("EDITOR"), Conditional("DEBUG")]
 		public static void TimeLog(Func<bool> method)
 		{

@@ -8,13 +8,17 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
+using Cosmos.AI;
 
 namespace Opgave
 {
 	public class GameWorld : Game
 	{
+		private OpenAI openAi;
+
 		public override void Initialize()
 		{
+			openAi = new OpenAI("sk-");
 		}
 		public override async void Start()
 		{
@@ -52,9 +56,10 @@ namespace Opgave
 
 					string key = "";
 
-					string response = await GenerateImage(key, new Input() { prompt = prompt, n = 1, size = "256x256" });
-					Console.WriteLine($"RESPONE: {response}");
-					sr.Sprite = await Sprite.FromUrl(response);
+					Debug.TimeLog(GenerateImage, prompt);
+
+
+
 					//await Request(prompt, Model.AdaText, 0.9);
 					//await Request(prompt, Model.BabbageText, 0.9);
 					//await Request(prompt, Model.CurieText, 0.9);
@@ -67,33 +72,10 @@ namespace Opgave
 			}
 		}
 
-		public async Task<string> GenerateImage(string APIKEY, Input input)
+		private async void GenerateImage(string prompt)
 		{
-			// create a response object
-			var resp = new ResponseModel();
-			using (var client = new HttpClient())
-			{
-				// clear the default headers to avoid issues
-				client.DefaultRequestHeaders.Clear();
-
-				// add header authorization and use your API KEY
-				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKEY);
-
-				//  call the  api using post method and set the content type to application/json
-				var Message = await client.PostAsync("https://api.openai.com/v1/images/generations",
-					new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json"));
-
-				// if result OK
-				// read the content and deserialize it using the Response Model
-				// then return the response object
-				if (Message.IsSuccessStatusCode)
-				{
-
-					var content = await Message.Content.ReadAsStringAsync();
-					resp = JsonConvert.DeserializeObject<ResponseModel>(content);
-				}
-			}
-			return resp.data[0].url;
+			Response response = await openAi.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1, Cosmos.AI.Open_AI.ImageSize.p256));
+			sr.Sprite = response.Image;
 		}
 
 		//private async Task Request(string s, Model model, double tmp)
@@ -103,27 +85,6 @@ namespace Opgave
 		//	Debug.Log($"Result [{tmp:F2}, {model.ModelID}]: {result.ToString()}\n");
 		//	Console.WriteLine(result.ToString());
 		//}
-	}
-
-
-	public class Input
-	{
-		public string? prompt { get; set; }
-		public short? n { get; set; }
-		public string? size { get; set; }
-	}
-
-	// model for the image url
-	public class Link
-	{
-		public string? url { get; set; }
-	}
-
-	// model for the DALL E api response
-	public class ResponseModel
-	{
-		public long created { get; set; }
-		public List<Link>? data { get; set; }
 	}
 
 

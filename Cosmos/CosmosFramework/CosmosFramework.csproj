@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTypes\" />
-    <Folder Include="AI\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
