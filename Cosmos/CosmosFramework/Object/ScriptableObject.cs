@@ -6,7 +6,7 @@ namespace CosmosFramework
 {
 	public abstract class ScriptableObject : Object
 	{
-		private static List<ScriptableObject> scriptableObjects = new List<ScriptableObject>();
+		private static Dictionary<System.Type, ScriptableObject> scriptableObjects = new Dictionary<System.Type, ScriptableObject>();
 
 		~ScriptableObject()
 		{
@@ -17,27 +17,20 @@ namespace CosmosFramework
 
 		public static ScriptableObject Instance(System.Type type)
 		{
-			ScriptableObject instance;
-			int index = FindIndex(type);
-			if (index == -1)
+			if (!scriptableObjects.TryGetValue(type, out ScriptableObject instance))
 			{
 				//instance does not exist and must be created.
 				instance = (ScriptableObject)System.Activator.CreateInstance(type);
-				scriptableObjects.Add(instance);
+				scriptableObjects.Add(type, instance);
 			}
-			else
-				instance = scriptableObjects[index];
 			return instance;
 		}
 
-		public static void ClearInstance<T>() => ClearInstance(typeof(T));
-		public static void ClearInstance(System.Type type)
+		internal static void ClearInstance<T>() => ClearInstance(typeof(T));
+		internal static void ClearInstance(System.Type type)
 		{
-			int index = FindIndex(type);
-			if (index != -1)
-				scriptableObjects.RemoveAt(index);
+			if (scriptableObjects.ContainsKey(type))
+				scriptableObjects.Remove(type);
 		}
-
-		private static int FindIndex(System.Type type) => scriptableObjects.FindIndex(item => item.GetType() == type);
 	}
 }
