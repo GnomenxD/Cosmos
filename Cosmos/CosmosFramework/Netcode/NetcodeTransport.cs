@@ -4,10 +4,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using CosmosFramework.Netcode.Messages;
 
 namespace CosmosFramework.Netcode
 {
-	internal class NetcodeTransport
+    internal class NetcodeTransport
 	{
 		public const int SIO_UDP_CONNRESET = -1744830452;
 		private event Action<NetcodeMessage, IPEndPoint> onReceiveMessageEvent = delegate { };

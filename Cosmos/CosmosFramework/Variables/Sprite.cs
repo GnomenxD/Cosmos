@@ -4,6 +4,9 @@ using System.IO;
 using System;
 using Color = Microsoft.Xna.Framework.Color;
 using System.CodeDom.Compiler;
+using System.Net.Http;
+using System.Runtime.Intrinsics.Arm;
+using System.Threading.Tasks;
 
 namespace CosmosFramework
 {
@@ -74,6 +77,7 @@ namespace CosmosFramework
 		public Sprite(Texture2D mainTexture)
 		{
 			this.mainTexture = mainTexture;
+			this.size = new Vector2(mainTexture.Width, mainTexture.Height);
 		}
 
 		public Texture2D Load()
@@ -181,6 +185,22 @@ namespace CosmosFramework
 			sprite.sharedAsset = true;
 
 			return sprite;
+		}
+
+		public async static Task<Sprite> FromUrl(string url)
+		{
+			var client = new HttpClient();
+			client.BaseAddress = new Uri(url);
+			var response = await client.GetAsync(url);
+			if (!response.IsSuccessStatusCode)
+			{
+				Debug.Log($"{response.ReasonPhrase}", LogFormat.Error);
+				return null;
+			}
+			byte[] buffer = response.Content.ReadAsByteArrayAsync().Result;
+			Texture2D texture = Texture2D.FromStream(CoreModule.Core.GraphicsDeviceManager.GraphicsDevice, new MemoryStream(buffer));
+			Debug.Log($"New texture from stream");
+			return new Sprite(texture);
 		}
 	}
 }

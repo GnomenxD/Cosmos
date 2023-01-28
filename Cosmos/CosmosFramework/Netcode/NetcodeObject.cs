@@ -1,3 +1,4 @@
+using CosmosFramework.Netcode.Messages;
 using CosmosFramework.Netcode.Serialization;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using System.Reflection;
 
 namespace CosmosFramework.Netcode
 {
-	public class NetcodeIdentity : GameBehaviour
+	public class NetcodeObject : GameBehaviour
 	{
 		private uint reliableMsgKey;
 
@@ -147,7 +148,7 @@ namespace CosmosFramework.Netcode
 		#region Remote Procedure Call (RPC)
 
 		/// <summary>
-		/// Invokes a remote procedure call on this <see cref="CosmosFramework.Netcode.NetcodeIdentity"/>, a method must be marked for RPC operation.A method must be marked with an appropriate attribute to work as an RPC.
+		/// Invokes a remote procedure call on this <see cref="CosmosFramework.Netcode.NetcodeObject"/>, a method must be marked for RPC operation.A method must be marked with an appropriate attribute to work as an RPC.
 		/// <list type="bullet">
 		/// <item><see cref="CosmosFramework.Netcode.ClientRPCAttribute"/>: Can only be invoked by clients, this is also true if the client is the host. This method will be executed on the server. For a client to invoke an RPC they must have Authority on the Netcode Object they call it on.</item>
 		/// <item><see cref="CosmosFramework.Netcode.ServerRPCAttribute"/>: Can only be invoked by the server, this is also true if a client is the host. This method will be executed on all clients connected to the server.</item>

@@ -1,10 +1,11 @@
+using CosmosFramework.Netcode.Messages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace CosmosFramework.Netcode
 {
-	public static class NetcodeSerializer
+    public static class NetcodeSerializer
 	{
 		#region Messages
 

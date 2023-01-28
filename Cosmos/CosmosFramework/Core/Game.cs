@@ -84,6 +84,7 @@ namespace CosmosFramework.CoreModule
 			AddModule<InputSystem>(-800);
 			AddModule<EventManager>();
 			AddModule<AudioSystem>(1);
+			AddModule<TweensModule>(2);
 
 			return this;
 		}

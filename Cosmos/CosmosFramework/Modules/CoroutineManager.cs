@@ -35,6 +35,8 @@ namespace CosmosFramework.Modules
 					continue;
 
 				coroutine.Update();
+				if (coroutine.State == CoroutineState.Cancelled)
+					coroutine.Stop();
 			}
 		}
 		public override Predicate<Coroutine> RemoveAllPredicate() => item => !item.IsAlive;

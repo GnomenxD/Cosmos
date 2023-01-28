@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.3.32929.385
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosFramework", "CosmosFramework\CosmosFramework.csproj", "{F7952954-10B0-4DC2-A9B6-26E88A5311BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosFramework", "CosmosFramework\CosmosFramework.csproj", "{4AA1E514-D0CA-4011-AD74-D34A49AF3D67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7952954-10B0-4DC2-A9B6-26E88A5311BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7952954-10B0-4DC2-A9B6-26E88A5311BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7952954-10B0-4DC2-A9B6-26E88A5311BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7952954-10B0-4DC2-A9B6-26E88A5311BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AA1E514-D0CA-4011-AD74-D34A49AF3D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AA1E514-D0CA-4011-AD74-D34A49AF3D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AA1E514-D0CA-4011-AD74-D34A49AF3D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AA1E514-D0CA-4011-AD74-D34A49AF3D67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CE6F52E9-6EDB-4B63-98B1-CA57BCF51622}
+		SolutionGuid = {0EE0C254-E4F5-4B59-AA39-E966E86CCDAF}
 	EndGlobalSection
 EndGlobal

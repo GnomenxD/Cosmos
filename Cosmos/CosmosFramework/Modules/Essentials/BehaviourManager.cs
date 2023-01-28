@@ -16,6 +16,7 @@ namespace CosmosFramework.Modules
 		private readonly List<Behaviour> startBehaviours = new List<Behaviour>();
 		private readonly DirtyList<Behaviour> updateBehaviours = new DirtyList<Behaviour>();
 		private readonly DirtyList<Behaviour> lateUpdateBehaviours = new DirtyList<Behaviour>();
+		private readonly List<GameObject> prefabObjects = new List<GameObject>();
 
 		public override void Initialize()
 		{
@@ -112,6 +113,7 @@ namespace CosmosFramework.Modules
 		{
 			if (!IsDisposed && disposing)
 			{
+				prefabObjects.Clear();
 				updateBehaviours.Clear();
 				lateUpdateBehaviours.Clear();
 				startBehaviours.Clear();

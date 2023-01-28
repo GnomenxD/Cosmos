@@ -35,5 +35,13 @@ namespace CosmosFramework.Modules
 			}
 			this.disposed = true;
 		}
+
+		/// <summary>
+		/// Is executed right before the application is shut down.
+		/// </summary>
+		public virtual void OnShutdown()
+		{
+
+		}
 	}
 }

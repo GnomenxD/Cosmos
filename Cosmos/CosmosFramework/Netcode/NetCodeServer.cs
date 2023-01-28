@@ -3,16 +3,17 @@ using System.Net;
 using CosmosFramework.Modules;
 using CosmosFramework.Collections;
 using System;
+using CosmosFramework.Netcode.Messages;
 
 namespace CosmosFramework.Netcode
 {
-	public class NetcodeServer : Singleton<NetcodeServer>
+    public class NetcodeServer : Singleton<NetcodeServer>
 	{
 		private string ip = "127.0.0.1";
 		private int port = 7000;
 		private float serverTickRate = 20;
 		protected readonly List<NetcodeClient> connectedClients = new List<NetcodeClient>();
-		protected readonly Bag<NetcodeIdentity> netcodeObjects = new Bag<NetcodeIdentity>();
+		protected readonly Bag<NetcodeObject> netcodeObjects = new Bag<NetcodeObject>();
 
 		private NetcodeTransport transport;
 		private bool isServerConnection;
@@ -34,7 +35,7 @@ namespace CosmosFramework.Netcode
 		{
 		}
 
-		private void OnNetcodeIdentityInstantiated(NetcodeIdentity item)
+		private void OnNetcodeIdentityInstantiated(NetcodeObject item)
 		{
 			int indentity = netcodeObjects.Count;
 			netcodeObjects[indentity] = item;
@@ -71,7 +72,7 @@ namespace CosmosFramework.Netcode
 			NetcodeHandler.IsServer = true;
 			NetcodeHandler.IsClient = true;
 			OnStartServer();
-			ObjectDelegater.CreateNewDelegation<NetcodeIdentity>(OnNetcodeIdentityInstantiated);
+			ObjectDelegater.CreateNewDelegation<NetcodeObject>(OnNetcodeIdentityInstantiated);
 		}
 
 		protected void StartClient()
@@ -146,10 +147,10 @@ namespace CosmosFramework.Netcode
 			{
 				if (remoteProcedureCalls.Count > 0)
 				{
-					List<NetcodeIdentity> netObjects = new List<NetcodeIdentity>(FindObjectsOfType<NetcodeIdentity>());
+					List<NetcodeObject> netObjects = new List<NetcodeObject>(FindObjectsOfType<NetcodeObject>());
 					foreach (NetcodeRPC rpc in remoteProcedureCalls)
 					{
-						NetcodeIdentity identity = netObjects.Find(item => item.NetId == rpc.NetId);
+						NetcodeObject identity = netObjects.Find(item => item.NetId == rpc.NetId);
 						if (identity != null)
 						{
 							identity.ExecuteRpc(rpc.Call);
@@ -180,14 +181,14 @@ namespace CosmosFramework.Netcode
 			}
 			recievedMessages.Clear();
 
-			List<NetcodeIdentity> netObjects = new List<NetcodeIdentity>();
-			netObjects.AddRange(FindObjectsOfType<NetcodeIdentity>());
+			List<NetcodeObject> netObjects = new List<NetcodeObject>();
+			netObjects.AddRange(FindObjectsOfType<NetcodeObject>());
 			lock (serializationLock)
 			{
 				//Debug.Log($"Object to serialize: {netObjects.Count} | Data to deserialize: {serializationObjects.Count}");
 				foreach (SerializeNetcodeData netData in serializationObjects)
 				{
-					NetcodeIdentity netIdentity = netObjects.Find(item => item.NetId == netData.NetId);
+					NetcodeObject netIdentity = netObjects.Find(item => item.NetId == netData.NetId);
 					netIdentity.DeserializeToObject(netData);
 				}
 				serializationObjects.Clear();
@@ -212,8 +213,8 @@ namespace CosmosFramework.Netcode
 
 		private void SerializeNetIdentityObjects()
 		{
-			NetcodeIdentity[] netObjects = FindObjectsOfType<NetcodeIdentity>();
-			foreach (NetcodeIdentity netIdentity in netObjects)
+			NetcodeObject[] netObjects = FindObjectsOfType<NetcodeObject>();
+			foreach (NetcodeObject netIdentity in netObjects)
 			{
 				//I should only serialize if I have authority or I am the server.
 				if (!netIdentity.HasAuthority)
@@ -242,13 +243,13 @@ namespace CosmosFramework.Netcode
 
 		private void DeserializeNetIdentityObjects()
 		{
-			List<NetcodeIdentity> netObjects = new List<NetcodeIdentity>();
-			netObjects.AddRange(FindObjectsOfType<NetcodeIdentity>());
+			List<NetcodeObject> netObjects = new List<NetcodeObject>();
+			netObjects.AddRange(FindObjectsOfType<NetcodeObject>());
 			lock(serializationLock)
 			{
 				foreach (SerializeNetcodeData data in serializationObjects)
 				{
-					NetcodeIdentity netIdentity = netObjects.Find(item => item.NetId == data.NetId);
+					NetcodeObject netIdentity = netObjects.Find(item => item.NetId == data.NetId);
 					if (netIdentity == null)
 					{
 						continue;

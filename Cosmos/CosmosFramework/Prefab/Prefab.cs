@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace CosmosFramework
 {
-	public static class Prefab
+	public partial class Prefab
 	{
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.Prefab.Create{T}(GameObject)"/>
@@ -134,7 +134,7 @@ namespace CosmosFramework
 		/// <typeparam name="T"></typeparam>
 		/// <param name="component"></param>
 		/// <returns></returns>
-		public static T CopyComponent<T>(Component component) where T: Component, new()
+		public static T CopyComponent<T>(Component component) where T: Component
 		{
 			if (component == null || component.Destroyed)
 				return default(T);
@@ -168,9 +168,12 @@ namespace CosmosFramework
 					//If a class contains this interface, it means that the class wish to be replicated a new way, we invoke the method Clone(T).
 					//The returned value should be a new object of that class, which means we have a new reference.
 					//If IReplicable is not implemented the reference of a class will remain the same.
-					if (field.FieldType.IsClass)
+					if (field.FieldType.IsClass &&
+						!Attribute.IsDefined(field, typeof(KeepReference)))
 					{
-						if (field.FieldType.GetInterfaces().Any(item => item.IsGenericType && item.GetGenericTypeDefinition() == typeof(IReplicatable<>)))
+						if (field.FieldType.GetInterfaces().Any(
+							item => item.IsGenericType &&
+							item.GetGenericTypeDefinition() == typeof(IReplicatable<>)))
 						{
 							MethodInfo m = field.FieldType.GetMethod("Clone", BindingFlags.Instance | BindingFlags.Public);
 							if (m != null)
@@ -180,7 +183,13 @@ namespace CosmosFramework
 								continue;
 							}
 						}
+						else if (field.FieldType.GetInterfaces().Any(item => item.IsGenericType && item.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+						{
+							//Debug.Log($"GetInterfaces() == IEnumerable --- {field.Name} on {type.Name}");
+						}
+						continue;
 					}
+
 					type.GetField(field.Name, flags).SetValue(newComponent, field.GetValue(component));
 				}
 				//We next iterate over the next BaseType (type the current type is inheriting from) to not only copy direct values, but copy values from inherited fields.
@@ -189,6 +198,16 @@ namespace CosmosFramework
 
 			} while (type != null);
 			return newComponent as T;
+		}
+
+		internal static GameObject CreateFromBlueprint(string name, IEnumerable<Component> components)
+		{
+			GameObject gameObject = new GameObject($"{name} (Clone)");
+			foreach(Component c in components)
+			{
+				gameObject.AddComponent(CopyComponent<Component>(c));
+			}
+			return gameObject;
 		}
 	}
 }

@@ -3,7 +3,7 @@ using System;
 namespace CosmosFramework.Netcode
 {
 	/// <summary>
-	/// Mark a field as a <see cref="CosmosFramework.Netcode.SyncVarAttribute"/> to automatically update and synchronize to and from the server, whenever a change happens. <see cref="CosmosFramework.Netcode.SyncVarAttribute"/> will always be synchronized by the authority of the <see cref="CosmosFramework.Netcode.NetcodeIdentity"/> to the server and from the server to the rest of the clients.
+	/// Mark a field as a <see cref="CosmosFramework.Netcode.SyncVarAttribute"/> to automatically update and synchronize to and from the server, whenever a change happens. <see cref="CosmosFramework.Netcode.SyncVarAttribute"/> will always be synchronized by the authority of the <see cref="CosmosFramework.Netcode.NetcodeObject"/> to the server and from the server to the rest of the clients.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
 	public class SyncVarAttribute : Attribute
