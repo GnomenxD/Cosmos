@@ -1,5 +1,13 @@
 ﻿using CosmosFramework;
 using CosmosFramework.CoreModule;
+using CosmosFramework.InputModule;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace Opgave
 {
@@ -11,25 +19,10 @@ namespace Opgave
 
 		public override void Start()
 		{
-			int[] values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-			Debug.LogTable(values[8..]);
-
-			Item item = new Item();	
-			var product = new { item.name, item.price };	
-
-			GameObject go = new GameObject();
-		}
-
-		public class Item
-		{
-			public string name;
-			public int price;
 		}
 
 		public override void Update()
 		{
 		}
 	}
-
-
 }
