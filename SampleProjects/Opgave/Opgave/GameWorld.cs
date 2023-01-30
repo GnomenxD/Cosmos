@@ -1,7 +1,7 @@
-﻿using CosmosEngine;
-using CosmosEngine.Collections;
-using CosmosEngine.CoreModule;
-using CosmosEngine.InputModule;
+﻿using CosmosFramework;
+using Cosmos.Collections;
+using CosmosFramework.CoreModule;
+using CosmosFramework.InputModule;
 using System.Collections;
 using System.Collections.Generic;
 
