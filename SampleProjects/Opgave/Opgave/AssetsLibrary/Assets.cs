@@ -1,39 +1,31 @@
-using CosmosEngine;
+using CosmosFramework;
 
 public static partial class Assets
 {
 	#region Sprites
+	public static Sprite EnemyBlack1 { get; } = 
+		 Sprite.Asset("enemyBlack1", 0, 4589, 0);
+	public static Sprite EnemyBlue2 { get; } = 
+		 Sprite.Asset("enemyBlue2", 0, 4430, 4589);
+	public static Sprite EnemyGreen4 { get; } = 
+		 Sprite.Asset("enemyGreen4", 0, 3630, 9019);
+	public static Sprite EnemyRed3 { get; } = 
+		 Sprite.Asset("enemyRed3", 0, 5223, 12649);
 	public static Sprite PlayerShip1Blue { get; } = 
-		new Sprite("Assets/Sprites/playerShip1_blue.png");
+		 Sprite.Asset("playerShip1_blue", 0, 2698, 17872);
 	public static Sprite PlayerShip1Green { get; } = 
-		new Sprite("Assets/Sprites/playerShip1_green.png");
+		 Sprite.Asset("playerShip1_green", 0, 2708, 20570);
 	public static Sprite PlayerShip1Orange { get; } = 
-		new Sprite("Assets/Sprites/playerShip1_orange.png");
+		 Sprite.Asset("playerShip1_orange", 0, 2578, 23278);
 	public static Sprite PlayerShip1Red { get; } = 
-		new Sprite("Assets/Sprites/playerShip1_red.png");
-	public static Sprite PlayerShip2Blue { get; } = 
-		new Sprite("Assets/Sprites/playerShip2_blue.png");
-	public static Sprite PlayerShip2Green { get; } = 
-		new Sprite("Assets/Sprites/playerShip2_green.png");
-	public static Sprite PlayerShip2Orange { get; } = 
-		new Sprite("Assets/Sprites/playerShip2_orange.png");
-	public static Sprite PlayerShip2Red { get; } = 
-		new Sprite("Assets/Sprites/playerShip2_red.png");
-	public static Sprite PlayerShip3Blue { get; } = 
-		new Sprite("Assets/Sprites/playerShip3_blue.png");
-	public static Sprite PlayerShip3Green { get; } = 
-		new Sprite("Assets/Sprites/playerShip3_green.png");
-	public static Sprite PlayerShip3Orange { get; } = 
-		new Sprite("Assets/Sprites/playerShip3_orange.png");
-	public static Sprite PlayerShip3Red { get; } = 
-		new Sprite("Assets/Sprites/playerShip3_red.png");
+		 Sprite.Asset("playerShip1_red", 0, 2710, 25856);
 	public static Sprite UfoBlue { get; } = 
-		new Sprite("Assets/Sprites/ufoBlue.png");
+		 Sprite.Asset("ufoBlue", 0, 3043, 28566);
 	public static Sprite UfoGreen { get; } = 
-		new Sprite("Assets/Sprites/ufoGreen.png");
+		 Sprite.Asset("ufoGreen", 0, 3049, 31609);
 	public static Sprite UfoRed { get; } = 
-		new Sprite("Assets/Sprites/ufoRed.png");
+		 Sprite.Asset("ufoRed", 0, 3050, 34658);
 	public static Sprite UfoYellow { get; } = 
-		new Sprite("Assets/Sprites/ufoYellow.png");
+		 Sprite.Asset("ufoYellow", 0, 3041, 37708);
 	#endregion
 }

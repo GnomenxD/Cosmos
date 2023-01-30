@@ -1,7 +1,13 @@
-﻿using CosmosEngine;
-using CosmosEngine.CoreModule;
-using System.Collections;
-using System.IO;
+﻿using CosmosFramework;
+using CosmosFramework.CoreModule;
+using CosmosFramework.InputModule;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace Opgave
 {
@@ -9,24 +15,14 @@ namespace Opgave
 	{
 		public override void Initialize()
 		{
-
 		}
 
 		public override void Start()
 		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MathExample>();
-
-			Sprite sprite = new Sprite("Assets/Sprites/ufoYellow.png");
-
-			SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
-			sr.Sprite = sprite;
-
 		}
 
 		public override void Update()
 		{
-
 		}
 	}
 }
