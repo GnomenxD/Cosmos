@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opgave", "Opgave\Opgave.csproj", "{CD6BFBB5-487A-412E-A12D-D57C4C589616}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosEngine", "..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj", "{C739C583-AA78-4C0A-B5D4-8E059764040E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosFramework", "..\..\Cosmos\CosmosFramework\CosmosFramework.csproj", "{218C4A5C-79EB-4B46-BD69-71BD299D417E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +29,17 @@ Global
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Release|x64.ActiveCfg = Release|Any CPU
 		{CD6BFBB5-487A-412E-A12D-D57C4C589616}.Release|x64.Build.0 = Release|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Debug|Any CPU.ActiveCfg = Editor|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Debug|Any CPU.Build.0 = Editor|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Debug|x64.ActiveCfg = Debug|x64
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Debug|x64.Build.0 = Debug|x64
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Editor|Any CPU.Build.0 = Editor|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Editor|x64.ActiveCfg = Editor|x64
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Editor|x64.Build.0 = Editor|x64
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Release|x64.ActiveCfg = Release|x64
-		{C739C583-AA78-4C0A-B5D4-8E059764040E}.Release|x64.Build.0 = Release|x64
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Debug|x64.Build.0 = Debug|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Editor|Any CPU.ActiveCfg = Editor|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Editor|Any CPU.Build.0 = Editor|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Editor|x64.ActiveCfg = Release|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Release|x64.ActiveCfg = Release|Any CPU
+		{218C4A5C-79EB-4B46-BD69-71BD299D417E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

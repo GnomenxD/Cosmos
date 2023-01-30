@@ -11,6 +11,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="ExistingFolder\**" />
@@ -25,10 +26,11 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CosmosEngine\CosmosEngine\CosmosEngine.csproj" />
+    <Folder Include="Assets\Audio\" />
+    <Folder Include="Assets\Sprites\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Audio\" />
+    <ProjectReference Include="..\..\..\Cosmos\CosmosFramework\CosmosFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\Sprites\playerShip1_blue.png">
