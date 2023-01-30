@@ -1,6 +1,4 @@
-﻿using CosmosFramework.Rendering;
-
-namespace CosmosFramework.Modules
+﻿namespace CosmosFramework.Modules
 {
 	public abstract class RenderModule<TModule> : GameModule<TModule>, IRenderModule where TModule : RenderModule<TModule>
 	{

@@ -1,7 +1,4 @@
-﻿using CosmosFramework.Modules;
-using System.Collections.Generic;
-
-namespace CosmosFramework
+﻿namespace CosmosFramework
 {
 	public abstract class Blueprint<TBlueprint> : BlueprintBase where TBlueprint : Blueprint<TBlueprint>, new()
 	{
