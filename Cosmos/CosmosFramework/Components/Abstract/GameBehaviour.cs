@@ -156,7 +156,7 @@ namespace CosmosFramework
 		/// </summary>
 		public void Invoke(string methodName, float time) => Invoke(methodName, System.Array.Empty<object>(), time);
 
-#nullable enable
+
 		/// <summary>
 		/// Invokes the method <paramref name="methodName"/> after <paramref name="time"/> seconds.
 		/// </summary>
@@ -173,7 +173,7 @@ namespace CosmosFramework
 			yield return new WaitForSeconds(time);
 			Invoke(methodName, parameter);
 		}
-#nullable disable
+
 		#endregion
 
 		#endregion

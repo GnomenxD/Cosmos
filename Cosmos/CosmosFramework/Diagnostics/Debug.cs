@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace CosmosFramework
 {
-	public class Debug : EditorModule<Debug>, IUpdateModule, IRenderModule
+	public partial class Debug : EditorModule<Debug>, IUpdateModule, IRenderModule
 	{
 		/// <summary>
 		/// <list type="bullet">

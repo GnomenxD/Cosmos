@@ -1,7 +1,6 @@
 ﻿
 namespace CosmosFramework.InputModule
 {
-#nullable enable
 	// <summary>
 	// CallbackContext contains information about what InputAction triggered and a string value of what key was pressed.
 	// For simple InputActions the CallbackContext may be ignored since it's unused.

@@ -32,7 +32,7 @@ namespace CosmosFramework.Modules
 			return match;
 		}
 
-#nullable enable
+
 		/// <summary>
 		/// Establish a <see langword="new"/> <see cref="CosmosFramework.Modules.Delegation{T}"/>. Whenever a <see langword="new"/> <see cref="CosmosFramework.CoreModule.Object"/> is instantiated, if the <see cref="CosmosFramework.CoreModule.Object"/> is assignable to <typeparamref name="T"/> the <paramref name="subscribeEvent"/> will be invoked with the <see cref="CosmosFramework.CoreModule.Object"/> as parameter. All objects that was instantiated before this delegation was added, will not be taken into consideration.
 		/// </summary>
@@ -47,6 +47,6 @@ namespace CosmosFramework.Modules
 		/// <param name="predicate">The match any <see langword="new"/> <see cref="CosmosFramework.CoreModule.Object"/> will be be compared against.</param>
 		public static void CreateNewDelegation<T>(System.Action<T> subscribeEvent, System.Predicate<T>? predicate) where T : class => objectDelegations.Add(new Delegation<T>(subscribeEvent, predicate));
 
-#nullable disable
+
 	}
 }

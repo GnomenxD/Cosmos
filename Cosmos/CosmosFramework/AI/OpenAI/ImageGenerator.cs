@@ -7,27 +7,25 @@ using System.Threading.Tasks;
 
 namespace Cosmos.AI.Open_AI
 {
-	public class ImageGenerator
+	public class ImageGenerator : BaseTool
 	{
-		private readonly OpenAI ai;
-		public ImageGenerator(OpenAI ai)
+		public ImageGenerator(OpenAI ai) : base(ai)
 		{
-			this.ai = ai;
 		}
 
-		public async Task<Response> Request(ImageRequest request)
+		public async Task<ImageResponse> Request(ImageRequest request)
 		{
-			ResponseModel resp = await Request(ai.ApiKey, request.ToInput());
-			return await Response.Generate(resp);
+			ImageResponseContent resp = await Request(ApiKey, OpenAI.UrlImageGeneration, request.Body());
+			return await ImageResponse.Generate(resp);
 		}
 
-		public async Task<Response> Request(string? prompt = default, short? amount = default, string size = default) => await Request(new ImageRequest(prompt, amount.GetValueOrDefault(), size.Convert()));
+		public async Task<ImageResponse> Request(string? prompt = default, short? amount = default, string size = default) => await Request(new ImageRequest(prompt, amount.GetValueOrDefault(), size.Convert()));
 
-		private static async Task<ResponseModel> Request(string apiKey, Input input)
+		private static async Task<ImageResponseContent> Request(string apiKey, string url, ImageRequestBody body)
 		{
 			// create a response object
-			var resp = new ResponseModel();
-			using (var client = new HttpClient())
+			ImageResponseContent resp = new ImageResponseContent();
+			using (HttpClient client = new HttpClient())
 			{
 				// clear the default headers to avoid issues
 				client.DefaultRequestHeaders.Clear();
@@ -36,17 +34,19 @@ namespace Cosmos.AI.Open_AI
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
 				//  call the  api using post method and set the content type to application/json
-				var Message = await client.PostAsync("https://api.openai.com/v1/images/generations",
-					new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json"));
+				HttpResponseMessage message = await client.PostAsync(
+					url,
+					new StringContent(JsonConvert.SerializeObject(body),
+					Encoding.UTF8, "application/json"));
 
 				// if result OK
 				// read the content and deserialize it using the Response Model
 				// then return the response object
-				if (Message.IsSuccessStatusCode)
+				if (message.IsSuccessStatusCode)
 				{
 
-					var content = await Message.Content.ReadAsStringAsync();
-					resp = JsonConvert.DeserializeObject<ResponseModel>(content);
+					string content = await message.Content.ReadAsStringAsync();
+					resp = JsonConvert.DeserializeObject<ImageResponseContent>(content);
 				}
 			}
 			return resp;

@@ -1,20 +1,44 @@
 ﻿using Cosmos.AI.Open_AI;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Cosmos.AI
 {
 	public class OpenAI
 	{
-		private readonly string apiKey;
+		internal const string UrlModels = "https://api.openai.com/v1/models)";
+		internal const string UrlTextCompletion = "https://api.openai.com/v1/completions";
+		internal const string UrlImageGeneration = "https://api.openai.com/v1/images/generations";
 
+		private readonly string apiKey;
 		private readonly ImageGenerator imageGeneration;
+		private readonly TextCompletion textCompletion;
 
 		internal string ApiKey => apiKey;
 		public ImageGenerator ImageGeneration => imageGeneration;
+		public TextCompletion TextCompletion => textCompletion;
 
 		public OpenAI(string apiKey)
 		{
 			this.apiKey = apiKey;
 			imageGeneration = new ImageGenerator(this);
+			textCompletion = new TextCompletion(this);
+		}
+
+		public async Task<string> ListModels()
+		{
+			var resp = string.Empty;
+			using (HttpClient client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.Clear();
+
+				client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+
+				var Message = await client.GetAsync(UrlModels);
+
+				resp = await Message.Content.ReadAsStringAsync();
+			}
+			return resp;
 		}
 	}
 }

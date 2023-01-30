@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿
 namespace CosmosFramework
 {
 	/// <summary>

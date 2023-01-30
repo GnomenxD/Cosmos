@@ -1,14 +1,8 @@
-﻿using CosmosFramework;
+﻿using Cosmos.AI;
+using CosmosFramework;
 using CosmosFramework.CoreModule;
 using CosmosFramework.InputModule;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Text;
-using Cosmos.AI;
 
 namespace Opgave
 {
@@ -26,8 +20,8 @@ namespace Opgave
 			Debug.LogTable(values[8..]);
 			input = new KeyboardInput();
 
-			Item item = new Item();
-			var product = new { item.name, item.price };
+			Item item = new Item();	
+			var product = new { item.name, item.price };	
 
 			GameObject go = new GameObject();
 			sr = go.AddComponent<SpriteRenderer>();
@@ -54,16 +48,14 @@ namespace Opgave
 					string prompt = input.Read();
 					Console.WriteLine($"Prompt: {prompt}");
 
-					string key = "";
-
-					Debug.TimeLog(GenerateImage, prompt);
-
-
-
-					//await Request(prompt, Model.AdaText, 0.9);
-					//await Request(prompt, Model.BabbageText, 0.9);
-					//await Request(prompt, Model.CurieText, 0.9);
-					//await Request(prompt, Model.DavinciText, 0.9);
+					TextResponse response = await openAi.TextCompletion.Request(prompt, model: Cosmos.AI.Open_AI.Model.Ada, maxTokens: 100);
+					foreach(var resp in response)
+					{
+						Debug.Log(resp.Format());
+						Debug.Log(resp.FinishReason);
+					}
+					Debug.Log($"Model: {response.Model}");
+					Debug.Log($"{response.Usage}");
 				}
 				else
 				{
@@ -74,7 +66,7 @@ namespace Opgave
 
 		private async void GenerateImage(string prompt)
 		{
-			Response response = await openAi.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1, Cosmos.AI.Open_AI.ImageSize.p256));
+			ImageResponse response = await openAi.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1, Cosmos.AI.Open_AI.ImageSize.p256));
 			sr.Sprite = response.Image;
 		}
 

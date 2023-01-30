@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cosmos.AI
 {
-	public class Response : IEnumerable<Sprite>
+	public class ImageResponse : IEnumerable<Sprite>
 	{
 		private readonly long created;
 		private readonly List<Sprite> images;
@@ -17,7 +17,7 @@ namespace Cosmos.AI
 
 		public int Count => images.Count;
 
-		public Response(long created, List<Sprite> images)
+		public ImageResponse(long created, List<Sprite> images)
 		{
 			this.created = created;
 			this.images = images;
@@ -33,7 +33,7 @@ namespace Cosmos.AI
 			yield return GetEnumerator();
 		}
 
-		public static async Task<Response> Generate(ResponseModel resp)
+		public static async Task<ImageResponse> Generate(ImageResponseContent resp)
 		{
 			List<Sprite> images = new List<Sprite>();
 			foreach(Link data in resp.data)
@@ -43,7 +43,7 @@ namespace Cosmos.AI
 				Sprite image = await Sprite.FromUrl(data.url);
 				images.Add(image);
 			}
-			return new Response(resp.created, images);
+			return new ImageResponse(resp.created, images);
 		}
 	}
 }

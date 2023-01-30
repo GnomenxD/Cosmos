@@ -61,12 +61,10 @@ namespace CosmosFramework.CoreModule
 		#region Public Methods
 		public abstract T AddComponent<T>() where T : Component;
 		public abstract Component AddComponent(System.Type componentType);
-#nullable enable
 		public abstract T? GetComponent<T>() where T : class;
 		public abstract Component? GetComponent(System.Type componentType);
 		public abstract T[] GetComponents<T>() where T : class;
 		public abstract Component[] GetComponents(System.Type componentType);
-#nullable disable
 
 		#endregion
 	}

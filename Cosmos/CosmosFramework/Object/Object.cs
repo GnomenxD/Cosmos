@@ -167,7 +167,7 @@ namespace CosmosFramework.CoreModule
 		/// <param name="methodName"></param>
 		public bool Invoke(string methodName) => Invoke(methodName, System.Array.Empty<object>());
 
-#nullable enable
+
 		/// <summary>
 		/// Invokes the method <paramref name="methodName"/> on this object, with <paramref name="parameter"/>.
 		/// </summary>
@@ -196,7 +196,7 @@ namespace CosmosFramework.CoreModule
 				return true;
 			}
 		}
-#nullable disable
+
 
 		/// <summary>
 		///  
