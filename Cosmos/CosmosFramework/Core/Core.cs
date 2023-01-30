@@ -178,7 +178,14 @@ namespace CosmosFramework.CoreModule
 			this.Exit();
 		}
 
-	#endregion
+		protected override void OnExiting(object sender, EventArgs args)
+		{
+			foreach (BaseModule module in gameModules)
+				module.OnShutdown();
+			base.OnExiting(sender, args);
+		}
+
+		#endregion
 
 		#region Game Systems
 		private void SystemsInitialization()
@@ -242,6 +249,7 @@ namespace CosmosFramework.CoreModule
 			}
 		}
 	#endregion
+
 
 	}
 }

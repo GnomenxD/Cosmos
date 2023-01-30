@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using CosmosFramework.Modules;
-using CosmosFramework.Collections;
+using Cosmos.Collections;
 using System;
 using CosmosFramework.Netcode.Messages;
 

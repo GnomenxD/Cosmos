@@ -24,14 +24,13 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
-    <PackageReference Include="OpenAI" Version="1.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Cosmos\CosmosFramework\CosmosFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Audio\" />
     <Folder Include="Assets\Sprites\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cosmos\CosmosFramework\CosmosFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\Sprites\playerShip1_blue.png">

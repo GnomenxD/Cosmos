@@ -1,6 +1,6 @@
 ﻿
 using CosmosFramework.CoreModule;
-using CosmosFramework.Collections;
+using Cosmos.Collections;
 using CosmosFramework.Rendering;
 using System.Threading;
 using System.Collections.Generic;

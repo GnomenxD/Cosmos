@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CosmosFramework.Collections
+namespace Cosmos.Collections
 {
 	/// <summary>
 	/// <inheritdoc cref="List{T}"/> And can be marked with a <see href="https://gameprogrammingpatterns.com/dirty-flag.html">Dirty Flag</see> to reduce call time.

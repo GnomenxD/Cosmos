@@ -1,9 +1,8 @@
-﻿using CosmosFramework.Collections;
+﻿using Cosmos.Collections;
 using CosmosFramework.CoreModule;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using TextInputEventArgs = Microsoft.Xna.Framework.TextInputEventArgs;
 
 namespace CosmosFramework.InputModule
@@ -56,21 +55,21 @@ namespace CosmosFramework.InputModule
 				//Does not work when using MTA programs... ignore for now 
 				goto clipboardSkip;
 				Debug.QuickLog("Control Held");
-				if (input.Key.Convert() == Keys.V)
-				{
-					//Paste text from clipboard to input.
-					string clipboard = Clipboard.GetText();
-					stringBuilder.Append(clipboard);
-				}
-				else if (input.Key.Convert() == Keys.C)
-				{
-					//Copy text from input to clipboard.
-					if (!string.IsNullOrWhiteSpace(stringBuilder.ToString()))
-					{
-						Clipboard.SetText(stringBuilder.ToString());
-					}
-				}
-				return;
+				//if (input.Key.Convert() == Keys.V)
+				//{
+				//	//Paste text from clipboard to input.
+				//	string clipboard = Clipboard.GetText();
+				//	stringBuilder.Append(clipboard);
+				//}
+				//else if (input.Key.Convert() == Keys.C)
+				//{
+				//	//Copy text from input to clipboard.
+				//	if (!string.IsNullOrWhiteSpace(stringBuilder.ToString()))
+				//	{
+				//		Clipboard.SetText(stringBuilder.ToString());
+				//	}
+				//}
+				//return;
 			}
 			clipboardSkip:
 

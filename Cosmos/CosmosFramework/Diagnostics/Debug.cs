@@ -183,6 +183,7 @@ namespace CosmosFramework
 					}
 				}
 				logMessages.Add(log);
+				Console.WriteLine(log.print);
 			}
 		}
 

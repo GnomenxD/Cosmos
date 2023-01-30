@@ -1,7 +1,9 @@
 ﻿
 using CosmosFramework.Editor;
+using CosmosFramework.Rendering;
 using System;
 using System.Collections;
+using System.Text;
 
 namespace CosmosFramework.Diagnostics
 {
@@ -47,6 +49,22 @@ namespace CosmosFramework.Diagnostics
 		internal bool Expanded { get => expanded; set => expanded = value; }
 		internal int Count { get => count; set => count = value; }
 		internal Rect Rect { get => rect; set => rect = value; }
+
+		public string print
+		{
+			get
+			{
+				StringBuilder sb = new StringBuilder();
+				string[] log = SplitLines();
+				for (int i = 0; i < log.Length; i++)
+				{
+					if (i > 0)
+						sb.Append($"\t");
+					sb.Append(log[i]);
+				}
+				return sb.ToString();
+			}
+		}
 
 		public Sprite Icon
 		{
