@@ -6,7 +6,6 @@ using System;
 using Cosmos.AI.Open_AI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cosmos.Entity;
 
 namespace Opgave
 {
