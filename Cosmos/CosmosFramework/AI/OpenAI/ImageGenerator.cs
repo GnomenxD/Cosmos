@@ -16,7 +16,7 @@ namespace Cosmos.AI.Open_AI
 		public async Task<ImageResponse> Request(ImageRequest request)
 		{
 			ImageResponseContent resp = await Request(ApiKey, OpenAI.UrlImageGeneration, request.Body());
-			return await ImageResponse.Generate(resp);
+			return ImageResponse.Generate(resp);
 		}
 
 		public async Task<ImageResponse> Request(string? prompt = default, short? amount = default, string size = default) => await Request(new ImageRequest(prompt, amount.GetValueOrDefault(), size.Convert()));

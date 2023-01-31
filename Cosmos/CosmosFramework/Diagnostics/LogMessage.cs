@@ -58,7 +58,11 @@ namespace CosmosFramework.Diagnostics
 				string[] log = SplitLines();
 				for (int i = 0; i < log.Length; i++)
 				{
-					if (i > 0)
+					if (log[i].Contains("<stacktrace>"))
+					{
+						continue;
+					}
+						if (i > 0)
 						sb.Append($"\t");
 					sb.Append(log[i]);
 				}

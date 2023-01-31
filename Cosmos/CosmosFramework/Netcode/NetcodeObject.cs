@@ -178,11 +178,12 @@ namespace CosmosFramework.Netcode
 			if (!NetcodeHandler.IsConnected)
 				return;
 
-			Debug.Log($"RPC: {methodName}");
+			Debug.Log($"RPC: {methodName} | {parameters.Length} | {(parameters.GetType() == typeof(object[]))} | {parameters[1]} | {parameters.GetType()}");
 
+			int parameterLength = parameters.GetType() == typeof(object[]) ? parameters.Length : 1;
 			NetcodeBehaviour behaviour = netcodeBehaviours[index];
 			System.Type[] parametersType = new System.Type[parameters.Length];
-			for (int i = 0; i < parameters.Length; i++)
+			for (int i = 0; i <parameterLength; i++)
 				parametersType[i] = parameters[i].GetType();
 
 			MethodInfo[] methodInfos = behaviour.GetType().GetMethods(Flags);
@@ -191,7 +192,7 @@ namespace CosmosFramework.Netcode
 			{
 				if (info.Name.Equals(methodName))
 				{
-					if (info.GetParameters().Length == parameters.Length)
+					if (info.GetParameters().Length == parameterLength)
 					{
 						method = info;
 						break;
@@ -227,16 +228,29 @@ namespace CosmosFramework.Netcode
 			UpdateBehaviourDictionary();
 			NetcodeBehaviour behaviour = netcodeBehaviours[call.Index];
 			Debug.Log($"Executing RPC: {call.Method} on {(behaviour == null ? "null" : behaviour.GetType().Name)}");
+
+			Debug.Log($"{call.Args.Length} | {(call.Args.GetType() == typeof(object[]))} | {call.Args.GetType()}");
 			if (behaviour != null)
 			{
 				MethodInfo[] methodOnBehaviour = behaviour.GetType().GetMethods(Flags);
+				bool failedToExecute = true;
 				foreach(MethodInfo method in methodOnBehaviour)
 				{
-					if(!method.Name.Equals(call.Method))
+					if (!method.Name.Equals(call.Method))
 						continue;
 
+					int parameterLength = call.Args.Length;
 					ParameterInfo[] methodParameters = method.GetParameters();
-					if (methodParameters.Length != call.Args.Length)
+					foreach (ParameterInfo par in methodParameters)
+					{
+						Debug.Log($"Parameter {par.GetType()}");
+					}
+					foreach(object arg in call.Args)
+					{
+						Debug.Log($"Arg {arg.GetType()}");
+					}
+					Debug.Log($"Method length: {methodParameters.Length} | Args length: {call.Args.Length}");
+					if (methodParameters.Length != parameterLength)
 						continue;
 
 					object[] args = new object[call.Args.Length];
@@ -245,7 +259,13 @@ namespace CosmosFramework.Netcode
 						args[i] = JsonConvert.DeserializeObject(call.Args[i], methodParameters[i].ParameterType);
 					}
 					method.Invoke(behaviour, args);
+					failedToExecute = false;
 					break;
+				}
+
+				if(failedToExecute)
+				{
+					Debug.Log($"Failed to execute RPC {call.Method} on {(behaviour == null ? "null" : behaviour.GetType().Name)}", LogFormat.Error);
 				}
 			}
 		}

@@ -147,15 +147,16 @@ namespace CosmosFramework.CoreModule
 
 		#region Application
 
-		internal void SetResolution(int width, int height, bool fullscreenMode)
+		internal void SetResolution(int width, int height, bool? fullscreenMode)
 		{
 			graphics.PreferredBackBufferWidth = width; // Screen.Width;
 			graphics.PreferredBackBufferHeight = height; // Screen.Height;
-			graphics.IsFullScreen = fullscreenMode;
+			if (fullscreenMode.HasValue)
+				graphics.IsFullScreen = fullscreenMode.Value;
 			graphics.ApplyChanges();
 		}
 
-		internal void SetResolution(ScreenResolution resolution, bool fullscreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullscreenMode);
+		internal void SetResolution(ScreenResolution resolution, bool? fullscreenMode) => SetResolution(resolution.Width(), resolution.Height(), fullscreenMode);
 
 		private void WindowClientSizeChanged(object sender, EventArgs e)
 		{

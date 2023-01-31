@@ -8,24 +8,38 @@ namespace Cosmos.AI
 {
 	public class ImageResponse : IEnumerable<Sprite>
 	{
+		private bool fetched;
 		private readonly long created;
-		private readonly List<Sprite> images;
+		private readonly string[] urls;
+		private List<Sprite> images;
 
 		public long Created => created;
-		public Sprite Image => images[0];
-		public List<Sprite> Images => images;
+		public string? Url => urls.Length > 0 ? urls[0] : null;
+		public string[] Urls => urls;
+		public Sprite? Image => Images.Count > 0 ? Images[0] : null;
+		public List<Sprite> Images
+		{
+			get
+			{
+				if(!fetched && images == null)
+				{
+					new Task(async () => await Fetch()).Start();
+					fetched = true;
+				}
+				return images;
+			}
+		}
+		public int Count => Images.Count;
 
-		public int Count => images.Count;
-
-		public ImageResponse(long created, List<Sprite> images)
+		public ImageResponse(long created, string[] urls)
 		{
 			this.created = created;
-			this.images = images;
+			this.urls = urls;
 		}
 
 		public IEnumerator<Sprite> GetEnumerator()
 		{
-			return images.GetEnumerator();
+			return Images.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -33,17 +47,32 @@ namespace Cosmos.AI
 			yield return GetEnumerator();
 		}
 
-		public static async Task<ImageResponse> Generate(ImageResponseContent resp)
+		public async Task<List<Sprite>> Fetch()
 		{
-			List<Sprite> images = new List<Sprite>();
-			foreach(Link data in resp.data)
+			images = new List<Sprite>();
+			foreach (string data in urls)
 			{
 				if (data == null)
 					continue;
-				Sprite image = await Sprite.FromUrl(data.url);
+				Sprite image = await Sprite.FromUrl(data);
+
 				images.Add(image);
 			}
-			return new ImageResponse(resp.created, images);
+			return images;
+		}
+
+		public static ImageResponse Generate(ImageResponseContent resp)
+		{
+			if(resp.data == null)
+			{
+				Debug.LogError($"No returned data.");
+			}
+			string[] urls = new string[resp.data != null ? resp.data.Count : 0];
+			for(int i = 0; i < urls.Length; i++)
+			{
+				urls[i] = resp.data[i].url;
+			}
+			return new ImageResponse(resp.created, urls);
 		}
 	}
 }

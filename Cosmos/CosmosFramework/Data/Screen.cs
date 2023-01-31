@@ -79,10 +79,10 @@ namespace CosmosFramework
 		/// <summary>
 		/// Sets the resolution of the game window to the <paramref name="width"/> and <paramref name="height"/>.
 		/// </summary>
-		public static void SetResolution(int width, int height, bool fullscreen = true) => Core.Instance.SetResolution(width, height, fullscreen);
+		public static void SetResolution(int width, int height, bool? fullscreen = default) => Core.Instance.SetResolution(width, height, fullscreen);
 		/// <summary>
 		/// Sets the resolution of the game window to the 16:9 predetermined resolution.
 		/// </summary>
-		public static void SetResolution(ScreenResolution resolution, bool fullscreen = true) => Core.Instance.SetResolution(resolution, fullscreen);
+		public static void SetResolution(ScreenResolution resolution, bool? fullscreen = default) => Core.Instance.SetResolution(resolution, fullscreen);
 	}
 }

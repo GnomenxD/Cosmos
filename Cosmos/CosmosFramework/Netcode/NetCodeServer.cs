@@ -29,6 +29,29 @@ namespace CosmosFramework.Netcode
 		private List<byte[]> recievedMessages = new List<byte[]>();
 
 		public bool IsServerConnection => isServerConnection;
+		public string Ip
+		{
+			get => ip;
+			set
+			{
+				if (IsServerConnection)
+				{
+					return;
+				}
+			}
+		}
+
+		public int Port
+		{
+			get => port;
+			set
+			{
+				if(IsServerConnection)
+				{
+					return;
+				}
+			}
+		}
 		internal NetcodeTransport NetcodeTransport => transport ??= new NetcodeTransport();
 
 		public NetcodeServer()
@@ -44,20 +67,9 @@ namespace CosmosFramework.Netcode
 
 		protected override void Update()
 		{
-			if (!NetcodeHandler.IsConnected)
-			{
-				if (InputManager.GetButtonDown("c"))
-				{
-					StartClient();
-				}
-				else if (InputManager.GetButtonDown("z"))
-				{
-					StartServer();
-				}
-			}
 		}
 
-		protected void StartServer()
+		public void StartServer()
 		{
 			if (!Application.IsRunning)
 				return;
@@ -75,7 +87,7 @@ namespace CosmosFramework.Netcode
 			ObjectDelegater.CreateNewDelegation<NetcodeObject>(OnNetcodeIdentityInstantiated);
 		}
 
-		protected void StartClient()
+		public void StartClient()
 		{
 			if (!Application.IsRunning)
 				return;
@@ -200,8 +212,8 @@ namespace CosmosFramework.Netcode
 		public void SendToConnectedClients(NetcodeMessage message)
 		{
 			Debug.Log($"Sending global message to all clients: {connectedClients.Count}");
-			//Debug.Log($"SEND: {Encoding.UTF8.GetString(NetcodeSerializer.Serialize(message))}");
-			foreach(NetcodeClient client in connectedClients)
+			Console.WriteLine($"SEND: {System.Text.Encoding.UTF8.GetString(NetcodeSerializer.Serialize(message))}");
+			foreach (NetcodeClient client in connectedClients)
 			{
 				NetcodeTransport.SendToClient(message, client);
 			}
