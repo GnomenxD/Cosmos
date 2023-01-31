@@ -19,7 +19,7 @@ namespace Opgave
 		public override void Initialize()
 		{
 			Screen.SetResolution(ScreenResolution.m_540p);
-			ai = new OpenAI("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");
+			ai = new OpenAI("sk-");
 		}
 		public override void Start()
 		{
