@@ -2,18 +2,18 @@
 
 namespace Opgave.Blueprints
 {
-	internal class PlayerShipBlueprint : Blueprint<PlayerShip, PlayerShipBlueprint>
+	internal class PlayerShipBlueprint : Blueprint<Ship, PlayerShipBlueprint>
 	{
 		protected override void Create()
 		{
 			Name = "Player Ship";
-			PlayerShip ship = AddComponent<PlayerShip>();
+			Ship ship = AddComponent<Ship>();
 			ship.PlayerControlled = true;
 			SpriteRenderer renderer = AddComponent<SpriteRenderer>();
 			renderer.Sprite = Assets.PlayerShip1Orange;
 		}
 
-		protected override void Initialize(PlayerShip blueprint, BlueprintParam param)
+		protected override void Initialize(Ship blueprint, BlueprintParam param)
 		{
 			blueprint.Health = param.ReadValue<int>(100);
 			blueprint.Speed = param.ReadValue<int>(5);

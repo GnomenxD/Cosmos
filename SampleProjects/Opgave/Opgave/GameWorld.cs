@@ -5,65 +5,33 @@ using CosmosFramework.InputModule;
 using CosmosFramework.Netcode;
 using System;
 using Cosmos.AI.Open_AI;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Opgave
 {
 	public class GameWorld : Game
 	{
-		private OpenAI openAi;
+		private OpenAI ai;
+		private SpriteRenderer sr;
+		private KeyboardInput input;
 
 		public override void Initialize()
 		{
 			Screen.SetResolution(ScreenResolution.m_540p);
-			openAi = new OpenAI("sk- ");
+			ai = new OpenAI("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");
 		}
 		public override void Start()
 		{
-			int[] values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-			Debug.LogTable(values[8..]);
 			input = new KeyboardInput();
-
-			Item item = new Item();	
-			var product = new { item.name, item.price };	
 
 			GameObject go = new GameObject();
 			go.AddComponent<NetcodeObject>();
 			sr = go.AddComponent<SpriteRenderer>();
-			game = go.AddComponent<NetGame>();
-
-			server = go.AddComponent<NetcodeServer>();
 		}
-
-		private SpriteRenderer sr;
-		private NetcodeServer server;
-		private NetGame game;
-
-		public class Item
-		{
-			public string name;
-			public int price;
-		}
-
-		private KeyboardInput input;
 
 		public override async void Update()
 		{
-			if(!NetcodeHandler.IsConnected)
-			{
-				Debug.QuickLog($"Awaiting connection [C for client] - [H for server].");
-				if (InputManager.GetKeyDown(Keys.C))
-				{
-					server.StartClient();
-				}
-				else if (InputManager.GetKeyDown(Keys.H))
-				{
-					server.StartServer();
-				}
-			}
-
-			if (!NetcodeHandler.IsServer)
-				return;
-
 			Debug.QuickLog(input);
 
 			if(InputManager.GetKeyDown(Keys.Enter))
@@ -73,10 +41,8 @@ namespace Opgave
 					string prompt = input.Read();
 					Console.WriteLine($"Prompt: {prompt}");
 
-					ImageResponse resp = await openAi.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1));
+					ImageResponse resp = await ai.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1));
 					await resp.Fetch();
-
-					Debug.Log(resp.Url);
 					sr.Sprite = resp.Image;
 				}
 				else
@@ -86,19 +52,53 @@ namespace Opgave
 			}
 		}
 
-		private async void GenerateImage(string prompt)
+		private async Task Image(string prompt)
 		{
-			ImageResponse response = await openAi.ImageGeneration.Request(new Cosmos.AI.Open_AI.ImageRequest(prompt, 1, Cosmos.AI.Open_AI.ImageSize.p256));
-			sr.Sprite = response.Image;
+			ImageRequest request = new ImageRequest(
+				prompts: prompt,		//The prompt(s) used for image generation.
+				amount: 3,				//The amount of images generated using the prompt.
+				size: ImageSize.p256);	//The size of the images generated.
+
+			//Post an image request to the AI.
+			ImageResponse response = await ai.ImageGeneration.Request(request);
+			
+			//Convert the AI generated images into useable Textures for the game. 
+			await response.Fetch();
+
+			//Create GameObject for each of the generated images.
+			Vector2 position = new Vector2(response.Images.Count * -2, 0);
+			foreach(var image in response)
+			{
+				GameObject go = new GameObject("Image");
+				go.Transform.Position = position;
+				SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+				sr.Sprite = image;
+			}
 		}
 
-		//private async Task Request(string s, Model model, double tmp)
-		//{
-		//	CompletionRequest request = new CompletionRequest(s, model: model, max_tokens: 40, temperature: tmp);
-		//	var result = await openAi.Completions.CreateCompletionAsync(request);
-		//	Debug.Log($"Result [{tmp:F2}, {model.ModelID}]: {result.ToString()}\n");
-		//	Console.WriteLine(result.ToString());
-		//}
+		private async void Text(string prompt)
+		{
+			TextRequest request = new TextRequest(
+				prompts: prompt,				//The prompt(s) to generate completion for.
+				model: Model.Curie,				//The model to use.
+				suffix: string.Empty,			//What that comes after the completion text.
+				maxTokens: 40,					//The maximum number of tokens to generates.
+				temperature: 0.7d,				//Sampling temperature "randomness"
+				p: 1.0d,						//Nucleaus sampling
+				amount: 1,						//The amount of completions to generate.
+				echo: false,					//Echos back the prompt in addition to the completion.
+				stopSequence: string.Empty);	//A sequence that stops the AI from generating further tokkens.
+
+			//Post a text completion request to the AI.
+			TextResponse response = await ai.TextCompletion.Request(request);
+
+			//Collect all the responses in a list for later use.
+			List<string> answers = new List<string>();
+			foreach(var resp in response)
+			{
+				answers.Add(resp.Response);
+			}
+		}
 	}
 
 

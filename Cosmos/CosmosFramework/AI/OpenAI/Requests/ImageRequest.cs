@@ -1,15 +1,17 @@
-﻿namespace Cosmos.AI.Open_AI
+﻿using Newtonsoft.Json;
+
+namespace Cosmos.AI.Open_AI
 {
 	public readonly struct ImageRequest
 	{
-		private readonly string prompt;
+		private readonly Prompt prompts;
 		private readonly short amount;
 		private readonly ImageSize size;
 
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody.prompt"/>
 		/// </summary>
-		internal string Prompt => prompt;
+		internal Prompt Prompts => prompts;
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody.n"/>
 		/// </summary>
@@ -22,12 +24,12 @@
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody"/>
 		/// </summary>
-		/// <param name="prompt"><inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody.prompt"/></param>
-		/// <param name="amount"><inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody.n"/></param>
-		/// <param name="size"><inheritdoc cref="Cosmos.AI.Open_AI.ImageRequestBody.size"/></param>
-		public ImageRequest(string prompt, short amount = 1, ImageSize size = ImageSize.p256)
+		/// <param name="prompts">A text description of the desired image(s). The maximum length is 1000 characters.</param>
+		/// <param name="amount">The number of images to generate. Must be between 1 and 10.</param>
+		/// <param name="size">The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.</param>
+		public ImageRequest(Prompt prompts, short amount = 1, ImageSize size = ImageSize.p256)
 		{
-			this.prompt = prompt;
+			this.prompts = prompts;
 			this.amount = amount;
 			this.size = size;
 		}
@@ -36,12 +38,17 @@
 		/// Converts <see cref="Cosmos.AI.Open_AI.ImageRequest"/> into <see cref="Cosmos.AI.Open_AI.ImageRequestBody"/>.
 		/// </summary>
 		/// <returns></returns>
-		internal ImageRequestBody Body() => new ImageRequestBody() 
+		internal ImageRequestBody ConstructBody() => new ImageRequestBody() 
 		{ 
-			prompt = Prompt, 
+			prompt = (string)Prompts, 
 			n = N, 
 			size = Size
 		};
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this.ConstructBody());
+		}
 	}
 
 	/// <summary>

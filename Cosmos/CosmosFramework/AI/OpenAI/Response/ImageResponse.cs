@@ -14,17 +14,17 @@ namespace Cosmos.AI
 		private List<Sprite> images;
 
 		public long Created => created;
-		public string? Url => urls.Length > 0 ? urls[0] : null;
+		public string? Url => urls.Length > 0 ? Urls[0] : null;
 		public string[] Urls => urls;
 		public Sprite? Image => Images.Count > 0 ? Images[0] : null;
 		public List<Sprite> Images
 		{
 			get
 			{
-				if(!fetched && images == null)
+				if(!fetched || images == null)
 				{
-					new Task(async () => await Fetch()).Start();
-					fetched = true;
+					Debug.LogWarning("Sprites have not been fetched. Remember to invoke Fetch() before requsting a sprite.");
+					return new List<Sprite>();
 				}
 				return images;
 			}
@@ -47,15 +47,19 @@ namespace Cosmos.AI
 			yield return GetEnumerator();
 		}
 
+		/// <summary>
+		/// Generates <see cref="CosmosFramework.Sprite"/> from all the images.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<List<Sprite>> Fetch()
 		{
+			fetched = true;
 			images = new List<Sprite>();
 			foreach (string data in urls)
 			{
 				if (data == null)
 					continue;
 				Sprite image = await Sprite.FromUrl(data);
-
 				images.Add(image);
 			}
 			return images;

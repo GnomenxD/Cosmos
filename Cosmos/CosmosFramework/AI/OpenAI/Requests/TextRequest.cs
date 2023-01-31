@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Cosmos.AI.Open_AI
 {
@@ -6,9 +7,13 @@ namespace Cosmos.AI.Open_AI
 	{
 		private readonly Model model;
 		private readonly Prompt prompts;
+		private readonly string suffix;
 		private readonly int maxTokens;
 		private readonly double temperature;
 		private readonly double p;
+		private readonly int n;
+		private readonly bool echo;
+		private readonly string stopSequence;
 
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.model"/>
@@ -18,6 +23,10 @@ namespace Cosmos.AI.Open_AI
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.prompt"/>
 		/// </summary>
 		public Prompt Prompts => prompts;
+		/// <summary>
+		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.suffix"/>
+		/// </summary>
+		public string Suffix => suffix;
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.max_tokens"/>
 		/// </summary>
@@ -30,36 +39,66 @@ namespace Cosmos.AI.Open_AI
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.top_p"/>
 		/// </summary>
 		public double P => p;
+		/// <summary>
+		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.n"/>
+		/// </summary>
+		public int N => n;
+		/// <summary>
+		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.echo"/>
+		/// </summary>
+		public bool Echo => echo;
+		/// <summary>
+		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.stop"/>
+		/// </summary>
+		public string Stop => stopSequence;
 
 		/// <summary>
 		/// <inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody"/>
 		/// </summary>
 		/// <param name="prompts"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.prompt"/></param>
 		/// <param name="model"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.model"/></param>
+		/// <param name="suffix"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.suffix"/></param>
 		/// <param name="maxTokens"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.max_tokens"/></param>
 		/// <param name="temperature"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.temperature"/></param>
 		/// <param name="p"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.top_p"/></param>
-		public TextRequest(Prompt prompts, Model model = default, int maxTokens = 10, double temperature = 0.7d, double p = 1.0d)
+		/// <param name="amount"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.n"/></param>
+		/// <param name="echo"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.echo"/></param>
+		/// <param name="stopSequence"><inheritdoc cref="Cosmos.AI.Open_AI.TextRequestBody.stop"/></param>
+		public TextRequest(Prompt prompts, Model model = default, string suffix = default, int maxTokens = 10, double temperature = 0.7d, double p = 1.0d, int amount = 1, bool echo = default, string stopSequence = default)
 		{
+			this.prompts = prompts;
 			this.model = model;
+			this.suffix = suffix;
 			this.maxTokens = maxTokens;
 			this.temperature = temperature;
-			this.prompts = prompts;
 			this.p = p;
+			this.n = amount;
+			this.echo = echo;
+			this.stopSequence = stopSequence;
 		}
 
 		/// <summary>
 		/// Converts <see cref="Cosmos.AI.Open_AI.TextRequest"/> to a <see cref="Cosmos.AI.Open_AI.TextRequestBody"/>.
 		/// </summary>
 		/// <returns></returns>
-		internal TextRequestBody Body() => new TextRequestBody
+		internal TextRequestBody ConstructBody() => new TextRequestBody
 		{
-			model = this.model.Convert(),
-			prompt = (string[])this.prompts,
-			max_tokens = this.maxTokens,
-			temperature = this.temperature,
-			top_p = this.p,
+			model = this.Model.Convert(),
+			prompt = (string[])this.Prompts,
+			suffix = this.Suffix,
+			max_tokens = this.MaxTokens,
+			temperature = this.Temperature,
+			top_p = this.P,
+			n = this.N,
+			echo = this.Echo,
+			stop = this.Stop,
 		};
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this.ConstructBody());
+		}
+
 	}
 
 	/// <summary>
@@ -87,12 +126,12 @@ namespace Cosmos.AI.Open_AI
 		public int? max_tokens { get; set; }
 		/// <summary>
 		/// What <see href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">sampling temperature</see> to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.
-		/// <para>We generally recommend altering this or <see cref="top_p"/> but not both.</para>
+		/// <para>It's recommend altering this or <see cref="top_p"/> but not both.</para>
 		/// </summary>
 		public double? temperature { get; set; }
 		/// <summary>
 		/// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
-		/// <para>We generally recommend altering this or <see cref="temperature"/> but not both.</para>
+		/// <para>It's recommend altering this or <see cref="temperature"/> but not both.</para>
 		/// </summary>
 		public double? top_p { get; set; }
 		/// <summary>

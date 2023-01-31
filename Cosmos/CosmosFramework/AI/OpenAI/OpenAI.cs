@@ -18,6 +18,11 @@ namespace Cosmos.AI
 		public ImageGenerator ImageGeneration => imageGeneration;
 		public TextCompletion TextCompletion => textCompletion;
 
+		/// <summary>
+		/// OpenAI should be constructed with your API key, find it here: <see href="https://platform.openai.com/account/api-keys">Account/api-keys</see>.
+		/// <para>API key should not be uploaded to github or any other platform.</para>
+		/// </summary>
+		/// <param name="apiKey"></param>
 		public OpenAI(string apiKey)
 		{
 			this.apiKey = apiKey;

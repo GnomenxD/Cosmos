@@ -1,29 +1,29 @@
 ﻿using Cosmos.AI.Open_AI;
 using CosmosFramework;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Cosmos.AI
 {
-	public class TextResponse : IEnumerable<TextResponse.Field>
+	public class TextResponse : IEnumerable<TextResponse.Answer>
 	{
 		private readonly long created;
-		private readonly List<Field> responses;
+		private readonly List<Answer> responses;
 		private readonly string model;
 		private readonly Usage usage;
 
 		public long Created => created;
 		public string? Response => (responses.Count > 0 ? responses[0].Response : null);
-		public List<Field> Responses => responses;
+		public List<Answer> Responses => responses;
 		public string Model => model;
 		public Usage Usage => usage;
 
-		public TextResponse(long created, List<Field> responses, string model, Usage usage)
+		public TextResponse(long created, List<Answer> responses, string model, Usage usage)
 		{
 			this.created = created;
 			this.responses = responses;
@@ -40,7 +40,7 @@ namespace Cosmos.AI
 			}
 			return sb.ToString();
 		}
-		public IEnumerator<Field> GetEnumerator()
+		public IEnumerator<Answer> GetEnumerator()
 		{
 			return responses.GetEnumerator();
 		}
@@ -52,15 +52,15 @@ namespace Cosmos.AI
 
 		public static TextResponse Generate(TextResponseContent content)
 		{
-			Field[] responses = new Field[content.choices.Length];
+			Answer[] responses = new Answer[content.choices.Length];
 			foreach(Choice choice in content.choices)
 			{
-				responses[choice.index] = new Field(choice.text, choice.finish_reason);
+				responses[choice.index] = new Answer(choice.text, choice.finish_reason);
 			}
 			return new TextResponse(content.created, responses.ToList(), content.model, content.usage);
 		}
 
-		public readonly struct Field
+		public readonly struct Answer
 		{
 			private readonly string response;
 			private readonly string finishReason;
@@ -70,7 +70,7 @@ namespace Cosmos.AI
 
 			public string Format() => response.Replace(".", "." + Environment.NewLine);
 
-			public Field(string response, string finishReason)
+			public Answer(string response, string finishReason)
 			{
 				this.response =Regex.Replace(response.Trim(), @"^\s+$[\r\n]*", string.Empty, RegexOptions.Multiline); ;
 				this.finishReason = finishReason.Trim();

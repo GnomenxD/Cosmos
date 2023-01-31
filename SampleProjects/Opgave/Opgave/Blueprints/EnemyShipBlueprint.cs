@@ -2,17 +2,17 @@
 
 namespace Opgave.Blueprints
 {
-	internal class EnemyShipBlueprint : Blueprint<PlayerShip, EnemyShipBlueprint>
+	internal class EnemyShipBlueprint : Blueprint<Ship, EnemyShipBlueprint>
 	{
 		protected override void Create()
 		{
 			Name = "Enemy Ship";
-			PlayerShip ship = AddComponent<PlayerShip>();
+			Ship ship = AddComponent<Ship>();
 			SpriteRenderer renderer = AddComponent<SpriteRenderer>();
 			renderer.Sprite = Assets.EnemyBlack1;
 		}
 
-		protected override void Initialize(PlayerShip blueprint, BlueprintParam param)
+		protected override void Initialize(Ship blueprint, BlueprintParam param)
 		{
 			blueprint.Health = param.ReadValue<int>(100);
 			SpriteRenderer renderer = blueprint.AddComponent<SpriteRenderer>();

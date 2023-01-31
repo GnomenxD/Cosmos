@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CosmosFramework;
 
 namespace Cosmos.AI.Open_AI
 {
@@ -13,9 +14,15 @@ namespace Cosmos.AI.Open_AI
 		{
 		}
 
+		/// <summary>
+		/// The image generations endpoint allows you to create an original image given a text prompt. Generated images can have a size of 256x256, 512x512, or 1024x1024 pixels. Smaller sizes are faster to generate.
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
 		public async Task<ImageResponse> Request(ImageRequest request)
 		{
-			ImageResponseContent resp = await Request(ApiKey, OpenAI.UrlImageGeneration, request.Body());
+			Debug.Log($"Image generation request {request}");
+			ImageResponseContent resp = await Request(ApiKey, OpenAI.UrlImageGeneration, request.ConstructBody());
 			return ImageResponse.Generate(resp);
 		}
 
@@ -23,28 +30,22 @@ namespace Cosmos.AI.Open_AI
 
 		private static async Task<ImageResponseContent> Request(string apiKey, string url, ImageRequestBody body)
 		{
-			// create a response object
 			ImageResponseContent resp = new ImageResponseContent();
 			using (HttpClient client = new HttpClient())
 			{
-				// clear the default headers to avoid issues
 				client.DefaultRequestHeaders.Clear();
 
-				// add header authorization and use your API KEY
 				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
-				//  call the  api using post method and set the content type to application/json
 				HttpResponseMessage message = await client.PostAsync(
 					url,
 					new StringContent(JsonConvert.SerializeObject(body),
 					Encoding.UTF8, "application/json"));
 
-				// if result OK
-				// read the content and deserialize it using the Response Model
-				// then return the response object
+
+				Debug.Log($"{(int)message.StatusCode} - {message.ReasonPhrase}", message.IsSuccessStatusCode ? LogFormat.Complete : LogFormat.Warning);
 				if (message.IsSuccessStatusCode)
 				{
-
 					string content = await message.Content.ReadAsStringAsync();
 					resp = JsonConvert.DeserializeObject<ImageResponseContent>(content);
 				}

@@ -169,24 +169,29 @@ namespace CosmosFramework
 		public static Colour DesaturatedGreen { get; private set; } = new Colour(40, 59, 25);
 		/// <summary>
 		/// Desaturated Blue (R: 25, G: 40, B: 59)
+		/// <para>#19283B</para>
 		/// </summary>
 		public static Colour DesaturatedBlue { get; private set; } = new Colour(25, 40, 59);
 		/// <summary>
 		/// Desaturated Purple (R: 35, G: 23: B: 39)
+		/// <para>#231727</para>
 		/// </summary>
 		public static Colour DesaturatedPurple { get; private set; } = new Colour(35, 23, 39);
 
 		/// <summary>
 		/// Editor Blue (R: 13, G: 37, B: 69)
+		/// <para>#0D2545</para>
 		/// </summary>
 		public static Colour EditorBlue { get; private set; } = new Colour(13, 37, 69);
 
 		/// <summary>
 		/// Desaturated Blue (R: 0, G: 0, B: 0, A: 0)
+		/// <para>#000000</para>
 		/// </summary>
 		public static Colour TransparentBlack { get; private set; } = new Colour(0f, 0f, 0f, 0f);
 		/// <summary>
 		/// Desaturated Blue (R: 255, G: 255, B: 255, A: 0)
+		/// <para>#FFFFFF</para>
 		/// </summary>
 		public static Colour TransparentWhite { get; private set; } = new Colour(1f, 1f, 1f, 0f);
 

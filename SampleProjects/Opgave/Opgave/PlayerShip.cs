@@ -2,7 +2,7 @@
 
 namespace Opgave
 {
-	internal class PlayerShip : GameBehaviour
+	internal class Ship : GameBehaviour
 	{
 		private float health;
 		private float speed;

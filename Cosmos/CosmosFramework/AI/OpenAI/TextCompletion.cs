@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CosmosFramework;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,13 +12,20 @@ namespace Cosmos.AI.Open_AI
 		public TextCompletion(OpenAI ai) : base(ai)
 		{
 		}
+
+		/// <summary>
+		/// Creates a completion for the provided prompt and parameters
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
 		public async Task<TextResponse> Request(TextRequest request)
 		{
-			TextResponseContent content = await Request(ApiKey, OpenAI.UrlTextCompletion, request.Body());
+			Debug.Log($"Text completion request {request}");
+			TextResponseContent content = await Request(ApiKey, OpenAI.UrlTextCompletion, request.ConstructBody());
 			return TextResponse.Generate(content);
 		}
 
-		public async Task<TextResponse> Request(Prompt prompts, Model model = Model.Ada, int maxTokens = 10, double temperature = 0.7d, double p = 1.0d) => await Request(new TextRequest(prompts, model, maxTokens, temperature, p));
+		public async Task<TextResponse> Request(Prompt prompts, Model model = Model.Ada, string suffix = default, int maxTokens = 10, double temperature = 0.7d, double p = 1.0d, int amount = 1, bool echo = default, string stopSequence = default) => await Request(new TextRequest(prompts, model, suffix, maxTokens, temperature, p, amount, echo, stopSequence));
 
 		private static async Task<TextResponseContent?> Request(string apiKey, string url, TextRequestBody body)
 		{
@@ -33,6 +41,7 @@ namespace Cosmos.AI.Open_AI
 					new StringContent(JsonConvert.SerializeObject(body),
 					Encoding.UTF8, "application/json"));
 
+				Debug.Log($"{(int)message.StatusCode} - {message.ReasonPhrase}", message.IsSuccessStatusCode ? LogFormat.Complete : LogFormat.Warning);
 				if (message.IsSuccessStatusCode)
 				{
 					string content = await message.Content.ReadAsStringAsync();
