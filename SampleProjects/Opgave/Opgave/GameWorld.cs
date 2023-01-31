@@ -15,7 +15,7 @@ namespace Opgave
 		public override void Initialize()
 		{
 			Screen.SetResolution(ScreenResolution.m_540p);
-			openAi = new OpenAI("sk-");
+			openAi = new OpenAI("sk- ");
 		}
 		public override void Start()
 		{
@@ -77,35 +77,7 @@ namespace Opgave
 					await resp.Fetch();
 
 					Debug.Log(resp.Url);
-
-					//sr.Sprite = resp.Image;
-
-					//TextResponse text = await openAi.TextCompletion.Request(new TextRequest(prompt, model: Model.Curie, maxTokens: 150));
-					//Debug.Log(text.Responses[0].Format());
-
-					//string[] urls = new string[]
-					//{
-					//	"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0D-Glxi9mpw5HtRNshYb_Iwx0fK_ibtFD2N3vZQo&s",
-					//	"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0D-Glxi9mpw5HtRNshYb_Iwx0fK_ibtFD2N3vZQo&s",
-					//	"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0D-Glxi9mpw5HtRNshYb_Iwx0fK_ibtFD2N3vZQo&s"
-					//};
-					//string[] urls = new string[]
-					//{
-					//	"hello",
-					//	"there",
-					//	"general",
-					//};
-					//sr.Sprite = await Sprite.FromUrl(url);
-					//game.Change(resp.Url);
-
-					//TextResponse response = await openAi.TextCompletion.Request(prompt, model: Cosmos.AI.Open_AI.Model.Ada, maxTokens: 100);
-					//foreach(var resp in response)
-					//{
-					//	Debug.Log(resp.Format());
-					//	Debug.Log(resp.FinishReason);
-					//}
-					//Debug.Log($"Model: {response.Model}");
-					//Debug.Log($"{response.Usage}");
+					sr.Sprite = resp.Image;
 				}
 				else
 				{
