@@ -1,5 +1,4 @@
-﻿using CosmosFramework.InputModule;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;

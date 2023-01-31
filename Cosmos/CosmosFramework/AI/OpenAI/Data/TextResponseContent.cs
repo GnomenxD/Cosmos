@@ -1,6 +1,4 @@
-﻿using Cosmos.AI.Open_AI;
-
-namespace Cosmos.AI.Open_AI
+﻿namespace Cosmos.AI.Open_AI
 {
 	public class TextResponseContent
 	{

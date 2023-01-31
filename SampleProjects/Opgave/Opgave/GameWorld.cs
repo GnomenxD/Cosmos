@@ -2,11 +2,11 @@
 using CosmosFramework;
 using CosmosFramework.CoreModule;
 using CosmosFramework.InputModule;
-using CosmosFramework.Netcode;
 using System;
 using Cosmos.AI.Open_AI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cosmos.Entity;
 
 namespace Opgave
 {
@@ -26,7 +26,6 @@ namespace Opgave
 			input = new KeyboardInput();
 
 			GameObject go = new GameObject();
-			go.AddComponent<NetcodeObject>();
 			sr = go.AddComponent<SpriteRenderer>();
 		}
 

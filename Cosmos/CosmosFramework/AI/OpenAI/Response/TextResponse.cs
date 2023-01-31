@@ -1,6 +1,4 @@
 ﻿using Cosmos.AI.Open_AI;
-using CosmosFramework;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
