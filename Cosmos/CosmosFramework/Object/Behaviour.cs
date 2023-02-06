@@ -65,6 +65,37 @@ namespace CosmosFramework.CoreModule
 		public abstract Component? GetComponent(System.Type componentType);
 		public abstract T[] GetComponents<T>() where T : class;
 		public abstract Component[] GetComponents(System.Type componentType);
+		/// <summary>
+		/// Will return <see langword="true"/> if an instance of <typeparamref name="T"/> exist on this <see cref="CosmosFramework.GameObject"/> and set <paramref name="component"/> to the first instance, returns <see langword="false"/> otherwise.
+		/// /// <para>An alternative to <see cref="CosmosFramework.CoreModule.Behaviour.GetComponent{T}"/>, can be used to only execute if the requested <see cref="CosmosFramework.Component"/> exists.</para>
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="component"></param>
+		/// <returns></returns>
+		public bool TryGetComponent<T>(out T? component) where T : Component
+		{
+			component = GetComponent<T>();
+			if (component == null)
+				return false;
+			else
+				return true;
+		}
+
+		/// <summary>
+		/// Will return <see langword="true"/> if an instance of <paramref name="componentType"/> exist on this <see cref="CosmosFramework.GameObject"/> and set <paramref name="component"/> to the first instance, returns <see langword="false"/> otherwise.
+		/// <para>An alternative to <see cref="CosmosFramework.CoreModule.Behaviour.GetComponent(System.Type)"/>, can be used to only execute if the requested <see cref="CosmosFramework.Component"/> exists.</para>
+		/// </summary>
+		/// <param name="componentType"></param>
+		/// <param name="component"></param>
+		/// <returns></returns>
+		public bool TryGetComponent(System.Type componentType, out Component? component)
+		{
+			component = GetComponent(componentType);
+			if (component == null)
+				return false;
+			else
+				return true;
+		}
 
 		#endregion
 	}

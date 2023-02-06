@@ -1,8 +1,8 @@
-﻿using CosmosFramework.CoreModule;
+﻿using CosmosFramework;
 
 namespace Opgave
 {
-	public class GameWorld : Game
+	public class GameWorld : CosmosFramework.CoreModule.Game
 	{
 		public override void Initialize()
 		{
@@ -10,6 +10,12 @@ namespace Opgave
 
 		public override void Start()
 		{
+			PlayerShip ship = Blueprints.PlayerShipBlueprint.Instantiate();
+			if(ship.TryGetComponent(out SpriteRenderer sr))
+			{
+				sr.Sprite = Assets.PlayerShip1Green;
+			}
+			ship.StartMove();
 		}
 
 		public override void Update()
