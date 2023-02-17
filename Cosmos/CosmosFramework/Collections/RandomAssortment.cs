@@ -244,6 +244,15 @@ namespace Cosmos.Collections
 			return item;
 		}
 
+		public bool TryGet(out T? item)
+		{
+			item = Get();
+			if (item == null)
+				return false;
+			else
+				return true;
+		}
+
 		/// <summary>
 		/// Returns a collection with <paramref name="amount"/> random <typeparamref name="T"/> from the <see cref="Cosmos.Collections.RandomAssortment{T}"/>. Items returned by Get will be marked as USED and will not be returned again, unless Reset is invoked.
 		/// </summary>
@@ -308,6 +317,21 @@ namespace Cosmos.Collections
 			{
 				//Remove
 			}
+		}
+
+		public bool Contains(T item)
+		{
+			return collection.Contains(item);
+		}
+
+		public bool Exists(Predicate<T> match)
+		{
+			foreach (T item in collection)
+			{
+				if (match.Invoke(item))
+					return true;
+			}
+			return false;
 		}
 
 		/// <summary>
