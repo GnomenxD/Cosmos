@@ -1,6 +1,5 @@
 ﻿using Cosmos.Collections;
 using CosmosFramework.CoreModule;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using TextInputEventArgs = Microsoft.Xna.Framework.TextInputEventArgs;

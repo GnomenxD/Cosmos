@@ -1,11 +1,9 @@
 # Cosmos
 The **CosmosFramework** is a framework build on top of the [MonoGame](https://www.monogame.net/) framework. It has gone through multiple iterations and was actively worked on over a longer period. It has been a personal develop project used while studying software development with expertise in game development. It has been used in various student project.
 
-Cosmos is a 2D only game development framework that uses MonoGame in its core, but have been developed with the intend that when creating a new project you only need to reference the Cosmos framework and not MonoGame in your own project.
+Cosmos is a 2D only game development framework that is build on top of MonoGame, but have been developed with the intend that when creating a new project you only need to reference the Cosmos framework.
 
-Now that I'm no longer actively using it I have decided to put it up publicly on GitHub, hoping it might help others that could be stuggeling getting started using MonoGame. This also allows for others to contribute to the framework and/or fixing other issues and bugs I might have left behind.
-
-I feel like I have documented most of the code in the project properly. I might come back fixing or adding functionality when I find the time and need. But it's no longer an active development of mine.
+Since I'm no longer actively using it I have decided to put it up publicly on GitHub, hoping it might help others that could be stuggeling getting started using MonoGame. This also allows for others to contribute to the framework and/or fixing other issues and bugs I might have left behind.
 
 ## Tutorial
 Here is a quick **HOW TO** use the Cosmos Framework to create a new game.

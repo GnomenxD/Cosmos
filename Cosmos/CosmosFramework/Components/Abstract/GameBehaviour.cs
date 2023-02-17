@@ -1,6 +1,7 @@
 ﻿
 using CosmosFramework.Async;
 using CosmosFramework.Modules;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -47,8 +48,7 @@ namespace CosmosFramework
 				{
 					if (method.GetParameters().Length == parameters.Length)
 					{
-						IEnumerator routine = (IEnumerator)method.Invoke(this, parameters);
-						Coroutine coroutine = StartCoroutine(routine);
+						Coroutine coroutine = StartRoutine(() => { return (IEnumerator)method.Invoke(this, parameters); });
 						if (coroutine != null)
 						{
 							coroutine.Name = methodName;
@@ -77,6 +77,25 @@ namespace CosmosFramework
 			}
 		}
 
+		public Coroutine StartRoutine(Func<IEnumerator> routine) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke()));
+		public Coroutine StartRoutine<T>(Func<T, IEnumerator> routine, T arg) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(arg)));
+		public Coroutine StartRoutine<T1, T2>(Func<T1, T2, IEnumerator> routine, T1 arg1, T2 arg2) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(arg1, arg2)));
+		public Coroutine StartRoutine<T1, T2, T3>(Func<T1, T2, T3, IEnumerator> routine, T1 arg1, T2 arg2, T3 arg3) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(arg1, arg2, arg3)));
+		public Coroutine StartRoutine<T1, T2, T3, T4>(Func<T1, T2, T3, T4, IEnumerator> routine, T1 arg1, T2 arg2, T3 arg3, T4 arg4) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(arg1, arg2, arg3, arg4)));
+		public Coroutine StartRoutine<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, IEnumerator> routine, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(arg1, arg2, arg3, arg4, arg5)));
+		public Coroutine StartRoutine(Func<object[], IEnumerator> routine, params object[] args) => StartRoutine(CoroutineManager.StartCoroutine(routine.Invoke(args)));
+
+		private Coroutine StartRoutine(Coroutine coroutine)
+		{
+			if (coroutine != null)
+			{
+				activeCoroutines.Add(coroutine);
+				coroutine.OnRoutineComplete.Add(OnCoroutineComplete);
+			}
+			return coroutine;
+		}
+
+		[Obsolete("StartCoroutine(IEnumerator routine) has been replaced by StartRoutine(Func<IEnumerator> routine) for easier naming convenstion.", false)]
 		/// <summary>
 		/// Starts a <see cref="CosmosFramework.Coroutine"/>. <inheritdoc cref="CosmosFramework.Coroutine"/>
 		/// </summary>
@@ -104,6 +123,11 @@ namespace CosmosFramework
 			Coroutine coroutine = activeCoroutines.Find(item => item.Name == methodName);
 			if (coroutine != null)
 				StopCoroutine(coroutine);
+		}
+
+		[System.Obsolete("This method is not working, use StopCoroutine(string) instead. This is the only way to stop a Coroutine atm.", false)]
+		public void StopRoutine(Func<IEnumerator> routine)
+		{
 		}
 
 		/// <summary>

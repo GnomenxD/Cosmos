@@ -1,9 +1,8 @@
 ﻿using CosmosFramework;
-using CosmosFramework.CoreModule;
 
 namespace Opgave
 {
-	public class GameWorld : Game
+	public class GameWorld : CosmosFramework.CoreModule.Game
 	{
 		public override void Initialize()
 		{
@@ -21,10 +20,10 @@ namespace Opgave
 		}
 
 		public class Item
-		{
-			public string name;
-			public int price;
+		public class Item
+=========
 		}
+
 
 		public override void Update()
 		{
@@ -32,4 +31,13 @@ namespace Opgave
 	}
 
 
+}		public override void Update()
+		{
+		}
+	}
+
+
+=========
+	}
+>>>>>>>>> Temporary merge branch 2
 }
