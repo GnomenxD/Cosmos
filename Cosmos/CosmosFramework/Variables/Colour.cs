@@ -190,6 +190,47 @@ namespace CosmosFramework
 		/// </summary>
 		public static Colour TransparentWhite { get; private set; } = new Colour(1f, 1f, 1f, 0f);
 
+		/// <summary>
+		/// Player White (R: 200, G: 200, B: 200)
+		/// <para>#C8C8C8</para>
+		/// </summary>
+		public static Colour PlayerWhite { get; private set; } = new Colour(200, 200, 200);
+		/// <summary>
+		/// Player Red (R: 214, G: 122, B: 140)
+		/// <para>#D67A8C</para>
+		/// </summary>
+		public static Colour PlayerRed { get; private set; } = new Colour(214, 122, 140);
+		/// <summary>
+		/// Player Green (R: 140, G: 214, B: 122)
+		/// <para>#8CD67A</para>
+		/// </summary>
+		public static Colour PlayerGreen { get; private set; } = new Colour(140, 214, 122);
+		/// <summary>
+		/// Player Blue (R: 122, G: 140, B: 214)
+		/// <para>#7A8CD6</para>
+		/// </summary>
+		public static Colour PlayerBlue { get; private set; } = new Colour(122, 140, 214);
+		/// <summary>
+		/// Player Yellow (R: 0, G: 0, B: 0)
+		/// <para>#</para>
+		/// </summary>
+		public static Colour PlayerYellow { get; private set; } = new Colour();
+		/// <summary>
+		/// Player Magenta (R: 0, G: 0, B: 0)
+		/// <para>#</para>
+		/// </summary>
+		public static Colour PlayerMagenta { get; private set; } = new Colour(196, 122, 214);
+		/// <summary>
+		/// Player Cyan (R: 122, G: 209, B: 214)
+		/// <para>#</para>
+		/// </summary>
+		public static Colour PlayerCyan { get; private set; } = new Colour(122, 209, 214);
+		/// <summary>
+		/// Player Orange (R: 214, G: 165, B: 122)
+		/// <para>#D6A57A</para>
+		/// </summary>
+		public static Colour PlayerOrange { get; private set; } = new Colour(214, 165, 122);
+
 
 		#endregion
 
