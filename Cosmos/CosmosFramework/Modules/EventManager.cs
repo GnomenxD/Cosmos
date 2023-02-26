@@ -1,5 +1,5 @@
-﻿
-using CosmosFramework.EventSystems;
+﻿using CosmosFramework.EventSystems;
+using CosmosFramework.EventSystems.Base;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +13,12 @@ namespace CosmosFramework.Modules
 		{
 			base.Initialize();
 			ObjectDelegater.CreateNewDelegation<IEventHandler>(SubscribeItem);
+			ObjectDelegater.CreateNewDelegation<ObserverBase>(CreateNewObserver);
+		}
+
+		private void CreateNewObserver(ObserverBase observer)
+		{
+			Debug.Log($"New observer.");
 		}
 
 		public override void BeginEventCall()

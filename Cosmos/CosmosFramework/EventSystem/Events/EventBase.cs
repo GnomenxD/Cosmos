@@ -1,5 +1,5 @@
 ﻿
-namespace CosmosFramework.EventSystems
+namespace CosmosFramework.EventSystems.Base
 {
 	public abstract class EventBase
 	{

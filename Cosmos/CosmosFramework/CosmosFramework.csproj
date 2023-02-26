@@ -13,6 +13,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Nullable>annotations</Nullable>
+    <RootNamespace>CosmosFramework</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />

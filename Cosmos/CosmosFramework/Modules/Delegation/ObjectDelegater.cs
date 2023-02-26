@@ -13,7 +13,7 @@ namespace CosmosFramework.Modules
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns><see langword="true"/> if the instantiation operation was a success and the <paramref name="obj"/> has been assigned to a <see cref="CosmosFramework.Modules.GameModule{T}"/>, or <see langword="false"/> if the <paramref name="obj"/> was not assigned to any <see cref="CosmosFramework.Modules.GameModule{T}"/>.</returns>
-		internal static bool OnInstantiate(CoreModule.Object obj)
+		internal static bool OnInstantiate(object obj)
 		{
 			//The plan is to have Game Modules "subscribe" to this delegater.
 			//Then whenever a new Object is instantiated it will go through the delegater.
