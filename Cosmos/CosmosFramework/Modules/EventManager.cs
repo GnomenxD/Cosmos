@@ -1,4 +1,5 @@
-﻿using CosmosFramework.EventSystems;
+﻿using Cosmos.Collections;
+using CosmosFramework.EventSystems;
 using CosmosFramework.EventSystems.Base;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,35 @@ namespace CosmosFramework.Modules
 	public sealed class EventManager : ObserverManager<IEventHandler, EventManager>
 	{
 		private readonly List<IPointerHandler> registreretPointerHandlers = new List<IPointerHandler>();
+		private readonly DirtyList<Observer> registeredObservers = new DirtyList<Observer>();
 
 		public override void Initialize()
 		{
 			base.Initialize();
 			ObjectDelegater.CreateNewDelegation<IEventHandler>(SubscribeItem);
-			ObjectDelegater.CreateNewDelegation<ObserverBase>(CreateNewObserver);
+			ObjectDelegater.CreateNewDelegation<Observer>(CreateNewObserver);
 		}
 
-		private void CreateNewObserver(ObserverBase observer)
+		private void CreateNewObserver(Observer observer)
 		{
-			Debug.Log($"New observer.");
+			registeredObservers.Add(observer);
 		}
 
 		public override void BeginEventCall()
 		{
+			foreach(Observer observer in registeredObservers)
+			{
+				if(observer.TryInvoke())
+				{
+					observer.Delta -= Time.DeltaTime;
+				}
+				else
+				{
+					registeredObservers.IsDirty = true;
+				}
+			}
+			registeredObservers.DisposeAll((i) => !i.Alive);
+
 			Pointer.IsOverObject = false;
 			foreach(IEventHandler handler in observerList)
 			{

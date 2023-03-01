@@ -104,7 +104,7 @@ namespace CosmosFramework
 
 		#region Static Methods
 
-		public static Coroutine Start(IEnumerator routine)
+		public static Coroutine Start(IEnumerator? routine)
 		{
 			return CoroutineManager.StartCoroutine(routine);
 		}

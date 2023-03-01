@@ -7,9 +7,13 @@ namespace CosmosFramework.Modules
 {
 	public sealed class CoroutineManager : ObserverManager<Coroutine, CoroutineManager>
 	{
-		public static Coroutine StartCoroutine(IEnumerator routine)
+		public static Coroutine StartCoroutine(IEnumerator? routine)
 		{
 			if(!ActiveAndEnabled)
+			{
+				return null;
+			}
+			if(routine == null)
 			{
 				return null;
 			}

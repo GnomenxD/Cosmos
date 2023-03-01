@@ -46,7 +46,7 @@ namespace Opgave
 
 		protected override void Update()
 		{
-			Debug.Log($"Ship: {this} | {Health}");
+			//Debug.Log($"Ship: {this} | {Health}");
 
 			if (!PlayerControlled)
 				return;
