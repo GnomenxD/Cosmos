@@ -10,42 +10,42 @@ namespace CosmosFramework.Netcode
 	{
 		private const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
 
-		private NetcodeObject netIdentity;
+		private NetcodeObject netcodeObject;
 		private uint behaviourIndex;
 		private object[] syncVarDirtyBits;
 		private Dictionary<byte, FieldInfo> syncVarFields;
 
-		public NetcodeObject NetIdentity => netIdentity ??= GetComponent<NetcodeObject>();
+		public NetcodeObject NetcodeObject => netcodeObject ??= GetComponent<NetcodeObject>();
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.IsConnected"></inheritdoc>/>
 		/// </summary>
-		public bool IsConnected => NetIdentity.IsConnected;
+		public bool IsConnected => NetcodeObject.IsConnected;
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.IsServer"/>
 		/// </summary>
-		public bool IsServer => NetIdentity.IsServer;
+		public bool IsServer => NetcodeObject.IsServer;
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.IsClient"/>
 		/// </summary>
-		public bool IsClient => NetIdentity.IsClient && NetIdentity;
+		public bool IsClient => NetcodeObject.IsClient && NetcodeObject;
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.IsLocal"/>
 		/// </summary>
-		public bool IsLocal => NetIdentity.IsLocal;
+		public bool IsLocal => NetcodeObject.IsLocal;
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.HasAuthority"/>
 		/// </summary>
-		public bool HasAuthority => NetIdentity.HasAuthority;
+		public bool HasAuthority => NetcodeObject.HasAuthority;
 
 		/// <summary>
 		/// <inheritdoc cref="Netcode.NetcodeObject.NetId"/>
 		/// </summary>
-		public uint NetId => NetIdentity.NetId;
+		public uint NetId => NetcodeObject.NetId;
 
 		internal uint NetBehaviourIndex { get => behaviourIndex; set => behaviourIndex = value; }
 
@@ -84,12 +84,12 @@ namespace CosmosFramework.Netcode
 
 		public void Rpc(string methodName, NetcodeClient? target, params object[] parameters)
 		{
-			if (NetIdentity == null)
+			if (NetcodeObject == null)
 			{
 				Debug.Log($"Attempting to send RPC without an NetcodeIdentity", LogFormat.Warning);
 				return;
 			}
-			NetIdentity.Rpc(methodName, NetBehaviourIndex, target, parameters);
+			NetcodeObject.Rpc(methodName, NetBehaviourIndex, target, parameters);
 		}
 
 		internal void ExecuteRpc(RemoteProcedureCall call)

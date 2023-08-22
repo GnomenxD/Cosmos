@@ -48,16 +48,18 @@ namespace CosmosFramework.Netcode
 			{
 				if (InputManager.GetButtonDown("c"))
 				{
-					StartClient();
+					InitClient();
 				}
 				else if (InputManager.GetButtonDown("z"))
 				{
-					StartServer();
+					InitServer();
 				}
 			}
 		}
 
-		protected void StartServer()
+		public void StartServer() => InitServer();
+
+		protected void InitServer()
 		{
 			if (!Application.IsRunning)
 				return;
@@ -75,7 +77,9 @@ namespace CosmosFramework.Netcode
 			ObjectDelegater.CreateNewDelegation<NetcodeObject>(OnNetcodeIdentityInstantiated);
 		}
 
-		protected void StartClient()
+		public void StartClient() => InitClient();
+
+		protected void InitClient()
 		{
 			if (!Application.IsRunning)
 				return;
