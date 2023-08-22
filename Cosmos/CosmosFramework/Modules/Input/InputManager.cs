@@ -112,42 +112,42 @@ namespace CosmosFramework
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), button));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateButton(string name, MouseButton button)
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), button));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateButton(string name, GamepadButton button)
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), button));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), button));
 		}
 
 		public static void CreateAxis(string name, Keys positive, Keys negative)
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), new Keys[] { positive }, new Keys[] { negative }));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), new Keys[] { positive }, new Keys[] { negative }));
 		}
 
 		public static void CreateAxis(string name, MouseButton positive, MouseButton negative)
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), new MouseButton[] { positive }, new MouseButton[] { negative }));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), new MouseButton[] { positive }, new MouseButton[] { negative }));
 		}
 
 		public static void CreateAxis(string name, GamepadButton positive, GamepadButton negative)
 		{
 			if (!ActiveAndEnabled)
 				return;
-			Instance.AddInputButton(new InputButton(name.ToLower(), new GamepadButton[] { positive }, new GamepadButton[] { negative }));
+			Singleton.AddInputButton(new InputButton(name.ToLower(), new GamepadButton[] { positive }, new GamepadButton[] { negative }));
 		}
 
 		private void AddInputButton(InputButton inputButton)

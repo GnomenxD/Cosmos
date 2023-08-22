@@ -28,8 +28,8 @@ namespace CosmosFramework
 
 		internal List<LogMessage> LogMessages => logMessages;
 
-		public static bool DisplayLogs { get => Instance.displayUi; set => Instance.displayUi = value; }
-		public static Vector2 DisplayPosition { get => Instance.displayPosition; set => Instance.displayPosition = value; }
+		public static bool DisplayLogs { get => Singleton.displayUi; set => Singleton.displayUi = value; }
+		public static Vector2 DisplayPosition { get => Singleton.displayPosition; set => Singleton.displayPosition = value; }
 
 		public override void Initialize()
 		{
@@ -155,7 +155,7 @@ namespace CosmosFramework
 					}
 				}
 			}
-			Instance.AddLog(log);
+			Singleton.AddLog(log);
 		}
 
 		[Conditional("EDITOR"), Conditional("DEBUG")]
@@ -169,7 +169,7 @@ namespace CosmosFramework
 			{
 				if (log.Option.HasFlag(LogOption.Collapse))
 				{
-					int index = Instance.logMessages.FindIndex(item => item.Compare(log, log.Option.HasFlag(LogOption.CompareInitialCallOnly)));
+					int index = Singleton.logMessages.FindIndex(item => item.Compare(log, log.Option.HasFlag(LogOption.CompareInitialCallOnly)));
 					if (index >= 0)
 					{
 						if (!log.Option.HasFlag(LogOption.IgnoreCallCount))

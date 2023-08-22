@@ -15,10 +15,10 @@ namespace CosmosFramework.Modules
 			}
 			Coroutine coroutine = CoroutinePool.Get();
 			coroutine.Initialise(routine);
-			Instance.SubscribeItem(coroutine);
+			Singleton.SubscribeItem(coroutine);
 			return coroutine;
 		}
-		public static void StartCoroutine(Coroutine coroutine) => Instance.SubscribeItem(coroutine);
+		public static void StartCoroutine(Coroutine coroutine) => Singleton.SubscribeItem(coroutine);
 		public static void StopCoroutine(Coroutine coroutine) => coroutine.Stop();
 
 		public override void BeginEventCall()

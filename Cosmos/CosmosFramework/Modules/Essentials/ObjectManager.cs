@@ -87,7 +87,7 @@ namespace CosmosFramework.Modules
 		/// <returns></returns>
 		internal static T FindObjectOfType<T>(bool includeInactive) where T : Object
 		{
-			return Instance.observerList.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && (item.Enabled || includeInactive) && !item.Destroyed) as T;
+			return Singleton.observerList.Find(item => (item.GetType() == typeof(T) || item.GetType().IsSubclassOf(typeof(T))) && (item.Enabled || includeInactive) && !item.Destroyed) as T;
 		}
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace CosmosFramework.Modules
 		internal static T[] FindObjectsOfType<T>(bool includeInactive) where T : Object
 		{
 			List<T> list = new List<T>();
-			List<Object> searched = Instance.observerList.FindAll(item =>
+			List<Object> searched = Singleton.observerList.FindAll(item =>
 				(item.GetType() == typeof(T) ||
 				item.GetType().IsSubclassOf(typeof(T))) &&
 				(item.Enabled || includeInactive) &&
@@ -136,7 +136,7 @@ namespace CosmosFramework.Modules
 		/// <returns></returns>
 		internal static Object[] FindObjectsOfAll(bool includeInactive)
 		{
-			return Instance.observerList.FindAll(item => (item.Enabled || includeInactive) && !item.Destroyed).ToArray();
+			return Singleton.observerList.FindAll(item => (item.Enabled || includeInactive) && !item.Destroyed).ToArray();
 		}
 		#endregion
 
@@ -154,11 +154,11 @@ namespace CosmosFramework.Modules
 		/// <returns>If no GameObject with name can be found, null is returned.</returns>
 		public static GameObject Find(string name, bool includeInactive)
 		{
-			foreach(GameObject go in Instance.gameObjects)
+			foreach(GameObject go in Singleton.gameObjects)
 			{
 				if(go.Destroyed)
 				{
-					Instance.gameObjects.IsDirty = true;
+					Singleton.gameObjects.IsDirty = true;
 					continue;
 				}
 
@@ -182,11 +182,11 @@ namespace CosmosFramework.Modules
 		/// </summary>
 		public static GameObject FindGameObjectWithTag(string tag, bool includeInactive)
 		{
-			foreach (GameObject go in Instance.gameObjects)
+			foreach (GameObject go in Singleton.gameObjects)
 			{
 				if (go.Destroyed)
 				{
-					Instance.gameObjects.IsDirty = true;
+					Singleton.gameObjects.IsDirty = true;
 					continue;
 				}
 
@@ -210,11 +210,11 @@ namespace CosmosFramework.Modules
 		public static GameObject[] FindGameObjectsWithTag(string tag, bool includeInactive)
 		{
 			List<GameObject> gameObjects = new List<GameObject>();
-			foreach (GameObject go in Instance.gameObjects)
+			foreach (GameObject go in Singleton.gameObjects)
 			{
 				if (go.Destroyed)
 				{
-					Instance.gameObjects.IsDirty = true;
+					Singleton.gameObjects.IsDirty = true;
 					continue;
 				}
 

@@ -1,7 +1,6 @@
 ﻿using CosmosFramework;
 using CosmosFramework.Modules;
 using CosmosFramework.Rendering;
-using CosmosFramework.Variables;
 
 namespace IsometicProject
 {
@@ -28,7 +27,7 @@ namespace IsometicProject
 
 		public static void CreateMap(int width, int height)
 		{
-			Instance.ConstructMap(new Tile[width, height]);	
+			Singleton.ConstructMap(new Tile[width, height]);	
 		}
 
 		private void ConstructMap(Tile[,] map)

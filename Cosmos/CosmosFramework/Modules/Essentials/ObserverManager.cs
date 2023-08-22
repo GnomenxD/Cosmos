@@ -20,7 +20,7 @@ namespace CosmosFramework.Modules
 		/// <summary>
 		/// Count of all objects in the observer list.
 		/// </summary>
-		public static int Count => Instance.observerList.Count;
+		public static int Count => Singleton.observerList.Count;
 
 		/// <summary>
 		/// <inheritdoc cref="CosmosFramework.CoreModule.ObserverManager{TItem, TManager}.SubscribeItem(TItem)"/>
@@ -28,12 +28,12 @@ namespace CosmosFramework.Modules
 		/// <param name="item"></param>
 		public static void Subscribe(TItem item)
 		{
-			if(Instance == null)
+			if(Singleton == null)
 			{
 				//Log error; Trying to add item to a Manager that has not been added as a Game System.
 				return;
 			}
-			Instance.SubscribeItem(item);
+			Singleton.SubscribeItem(item);
 		}
 
 		/// <summary>
@@ -70,12 +70,12 @@ namespace CosmosFramework.Modules
 		/// <param name="item"></param>
 		public static void Unsubscribe(TItem item)
 		{
-			if (Instance == null)
+			if (Singleton == null)
 			{
 				//Log error; Trying to remove item from a Manager that has not been added as a Game System.
 				return;
 			}
-			Instance.UnsubscribeItem(item);
+			Singleton.UnsubscribeItem(item);
 		}
 
 		/// <summary>

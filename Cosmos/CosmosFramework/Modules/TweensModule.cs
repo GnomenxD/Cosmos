@@ -9,7 +9,7 @@ namespace CosmosFramework.Modules
 
 		public static void Tween(TweenerBase tweener)
 		{
-			Instance.tweeners.Add(tweener);
+			Singleton.tweeners.Add(tweener);
 		}
 
 		void IUpdateModule.Update()
